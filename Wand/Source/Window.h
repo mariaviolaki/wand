@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#define GLFW_INCLUDE_NONE // to avoid header conflicts with glad
 #include "GLFW/glfw3.h"
 
 namespace wand
@@ -20,6 +21,8 @@ namespace wand
 		int mWidth;
 		int mHeight;
 
-		void Init();
+		bool InitGLFW() const;
+		bool InitWindow();
+		bool InitGLAD() const;
 	};
 }

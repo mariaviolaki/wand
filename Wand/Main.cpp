@@ -1,5 +1,7 @@
 #include "Window.h"
 
+#include "glad/glad.c"
+
 int main()
 {
 	wand::Window window;
