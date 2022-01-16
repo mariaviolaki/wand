@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "glad/glad.h"
+#include "Input.h"
 
 namespace wand
 {
@@ -10,7 +11,8 @@ namespace wand
 	{
 		if (!InitGLFW()) return;
 		if (!InitWindow()) return;
-		InitGLAD();
+		if (!InitGLAD()) return;
+		InputManager::SetupCallbacks(mWindow);
 	}
 
 	// Initialize GLFW to use its functions
@@ -35,6 +37,8 @@ namespace wand
 		}
 		// Use this window in the current context
 		glfwMakeContextCurrent(mWindow);
+		// Limit the window's frame rate
+		glfwSwapInterval(1);
 
 		return true;
 	}
