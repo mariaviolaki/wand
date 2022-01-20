@@ -93,12 +93,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Source\IndexBuffer.cpp" />
     <ClCompile Include="Source\Input.cpp" />
+    <ClCompile Include="Source\VertexArray.cpp" />
+    <ClCompile Include="Source\VertexBuffer.cpp" />
+    <ClCompile Include="Source\VertexLayout.cpp" />
     <ClCompile Include="Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\IndexBuffer.h" />
     <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\InputMacros.h" />
+    <ClInclude Include="Source\VertexArray.h" />
+    <ClInclude Include="Source\VertexBuffer.h" />
+    <ClInclude Include="Source\VertexLayout.h" />
     <ClInclude Include="Source\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
