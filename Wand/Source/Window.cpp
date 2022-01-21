@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "glad/glad.h"
-#include "Input.h"
+#include "Input/Input.h"
 
 namespace wand
 {
