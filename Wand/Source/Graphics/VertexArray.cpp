@@ -1,6 +1,6 @@
 #include "VertexArray.h"
 
-#include "glad/glad.h"
+#include "Graphics.h"
 
 namespace wand
 {
@@ -8,6 +8,7 @@ namespace wand
 	{
 		// Create a vertex array and assign it an id
 		glGenVertexArrays(1, &mId);
+		glBindVertexArray(mId);
 	}
 
 	VertexArray::~VertexArray()
@@ -15,13 +16,11 @@ namespace wand
 		glDeleteVertexArrays(1, &mId);
 	}
 
-	void VertexArray::Config(const VertexBuffer& buffer) const
+	void VertexArray::AddLayout(VertexLayout* layout)
 	{
-		glBindVertexArray(mId);
-		buffer.Bind();
+		mLayout.reset(layout);
 
 		// Get all the different attributes included in a single vertex buffer
-		VertexLayout* layout = buffer.GetLayout();
 		std::vector<VertexAttribute> attributes = layout->GetAttributes();
 
 		// Repeat for every vertex attribute (e.g.: position, color, etc.)
@@ -32,7 +31,7 @@ namespace wand
 			// Add a description about the vertex attribute
 			glVertexAttribPointer(i, 
 				attributes[i].count, 
-				attributes[i].type, 
+				attributes[i].type,
 				attributes[i].normalized,
 				layout->GetStride(), 
 				(const void*)attributes[i].offset);

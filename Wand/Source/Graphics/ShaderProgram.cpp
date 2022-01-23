@@ -1,7 +1,7 @@
 #include "ShaderProgram.h"
 
 #include <iostream>
-#include "glad/glad.h"
+#include "Graphics.h"
 #include "Utils.h"
 
 namespace wand
@@ -10,6 +10,7 @@ namespace wand
 		: SHADER_PATH("Source/Graphics/Shaders/")
 	{
 		mId = CreateProgram(SHADER_PATH + vertShader, SHADER_PATH + fragShader);
+		glUseProgram(mId);
 	}
 
 	ShaderProgram::~ShaderProgram()

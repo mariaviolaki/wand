@@ -1,19 +1,24 @@
 #pragma once
 
+#include <memory>
+#include <array>
+#include "Graphics.h"
+
 namespace wand
 {
 	class IndexBuffer
 	{
 	public:
-		IndexBuffer(const unsigned int* indices, unsigned int count);
+		IndexBuffer();
 		~IndexBuffer();
 
-		unsigned int GetCount() const;
 		void Bind() const;
 		void Unbind() const;
 
 	private:
 		unsigned int mId;
-		unsigned int mCount;
+		std::unique_ptr<std::array<unsigned int, MAX_INDICES>> mIndices;
+
+		void CreateMaxIndexData();
 	};
 }

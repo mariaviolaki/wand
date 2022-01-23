@@ -1,6 +1,7 @@
 #pragma once
 
-#include "VertexBuffer.h"
+#include <memory>
+#include "VertexLayout.h"
 
 namespace wand
 {
@@ -10,11 +11,13 @@ namespace wand
 		VertexArray();
 		~VertexArray();
 
-		void Config(const VertexBuffer& buffer) const;
+		// Should be called after binding a vertex buffer
+		void AddLayout(VertexLayout* layout);
 		void Bind() const;
 		void Unbind() const;
 
 	private:
 		unsigned int mId;
+		std::unique_ptr<VertexLayout> mLayout;
 	};
 }

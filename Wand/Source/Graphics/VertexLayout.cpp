@@ -6,8 +6,7 @@ namespace wand
 		: mStride(0)
 	{}
 
-	template<>
-	void VertexLayout::Add<float>(unsigned int count)
+	void VertexLayout::AddFloats(unsigned int count)
 	{
 		mAttributes.push_back({ count, GL_FLOAT, GL_FALSE, mStride });
 		mStride += count * sizeof(float);

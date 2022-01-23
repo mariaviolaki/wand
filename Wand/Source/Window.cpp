@@ -3,6 +3,7 @@
 #include <iostream>
 #include "glad/glad.h"
 #include "Input/Input.h"
+#include "Graphics/Renderer.h"
 
 namespace wand
 {
@@ -13,6 +14,7 @@ namespace wand
 		if (!InitWindow()) return;
 		if (!InitGLAD()) return;
 		InputManager::SetupCallbacks(mWindow);
+		RenderManager::Init();
 	}
 
 	// Initialize GLFW to use its functions
@@ -55,6 +57,8 @@ namespace wand
 
 	void Window::Update() const
 	{
+		// Render all graphics submitted during this frame
+		RenderManager::Render();
 		// Swap front and back window buffers
 		glfwSwapBuffers(mWindow);
 		// Process new events
