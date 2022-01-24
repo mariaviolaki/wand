@@ -1,19 +1,18 @@
-#include "Window.h"
+#include "WandPCH.h"
 #include "glad/glad.c"
-#include "Graphics/Renderer.h"
 
-#include <iostream>
-#include <chrono>
+#include "Core/App.h"
+#include "Graphics/Renderer.h"
 
 int main()
 {
-	wand::Window window;
+	wand::App app;
 	
 	glm::vec2 pos;
 	glm::vec2 dimens = { 0.02f, 0.02f };
 	glm::vec4 color = { 0.0f, 0.0f, 1.0f, 1.0f };
 
-	while (!window.IsClosed())
+	while (app.IsRunning())
 	{
 		//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 		//unsigned int count = 0;
@@ -28,7 +27,7 @@ int main()
 			}
 		}
 
-		window.Update();
+		app.Update();
 
 		//std::cout << "Rectangle count: " << count << std::endl;
 		//std::chrono::steady_clock::time_point stop = std::chrono::steady_clock::now();

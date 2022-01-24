@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-#include <array>
 #include "Graphics.h"
 
 namespace wand

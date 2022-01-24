@@ -1,3 +1,4 @@
+#include "WandPCH.h"
 #include "IndexBuffer.h"
 
 namespace wand

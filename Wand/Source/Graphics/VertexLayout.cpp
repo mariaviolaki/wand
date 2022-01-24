@@ -1,3 +1,4 @@
+#include "WandPCH.h"
 #include "VertexLayout.h"
 
 namespace wand

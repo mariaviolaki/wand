@@ -1,9 +1,7 @@
+#include "WandPCH.h"
 #include "Window.h"
 
-#include <iostream>
 #include "glad/glad.h"
-#include "Input/Input.h"
-#include "Graphics/Renderer.h"
 
 namespace wand
 {
@@ -12,9 +10,7 @@ namespace wand
 	{
 		if (!InitGLFW()) return;
 		if (!InitWindow()) return;
-		if (!InitGLAD()) return;
-		InputManager::SetupCallbacks(mWindow);
-		RenderManager::Init();
+		InitGLAD();
 	}
 
 	// Initialize GLFW to use its functions
@@ -57,8 +53,6 @@ namespace wand
 
 	void Window::Update() const
 	{
-		// Render all graphics submitted during this frame
-		RenderManager::Render();
 		// Swap front and back window buffers
 		glfwSwapBuffers(mWindow);
 		// Process new events
@@ -68,6 +62,11 @@ namespace wand
 	bool Window::IsClosed() const
 	{
 		return glfwWindowShouldClose(mWindow) == 1;
+	}
+
+	GLFWwindow* Window::GetGLFWWindow() const
+	{
+		return mWindow;
 	}
 
 	Window::~Window()

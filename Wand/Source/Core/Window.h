@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #define GLFW_INCLUDE_NONE // to avoid header conflicts with glad
 #include "GLFW/glfw3.h"
 
@@ -14,6 +13,7 @@ namespace wand
 
 		void Update() const;
 		bool IsClosed() const;
+		GLFWwindow* GetGLFWWindow() const;
 
 	private:
 		GLFWwindow* mWindow;

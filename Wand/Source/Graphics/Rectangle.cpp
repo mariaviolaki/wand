@@ -1,3 +1,4 @@
+#include "WandPCH.h"
 #include "Rectangle.h"
 
 namespace wand

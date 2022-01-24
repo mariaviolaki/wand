@@ -1,7 +1,6 @@
+#include "WandPCH.h"
 #include "Renderer.h"
 
-#include <memory>
-#include <vector>
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "VertexLayout.h"

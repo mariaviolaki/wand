@@ -1,8 +1,5 @@
+#include "WandPCH.h"
 #include "Utils.h"
-
-#include <iostream>
-#include <fstream>
-#include <sstream>
 
 namespace wand::Utils // compile with C++17 at least
 {

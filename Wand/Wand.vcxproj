@@ -62,6 +62,8 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\glm\;$(ProjectDir)Dependencies\glad\include\;$(ProjectDir)Source\;$(ProjectDir)Dependencies\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>WandPCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -81,6 +83,8 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\glm\;$(ProjectDir)Dependencies\glad\include\;$(ProjectDir)Source\;$(ProjectDir)Dependencies\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>WandPCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -93,6 +97,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Source\Core\App.cpp" />
     <ClCompile Include="Source\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="Source\Graphics\Rectangle.cpp" />
     <ClCompile Include="Source\Graphics\Renderer.cpp" />
@@ -102,9 +107,14 @@
     <ClCompile Include="Source\Graphics\VertexBuffer.cpp" />
     <ClCompile Include="Source\Graphics\VertexLayout.cpp" />
     <ClCompile Include="Source\Utils.cpp" />
-    <ClCompile Include="Source\Window.cpp" />
+    <ClCompile Include="Source\WandPCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\App.h" />
     <ClInclude Include="Source\Graphics\Graphics.h" />
     <ClInclude Include="Source\Graphics\IndexBuffer.h" />
     <ClInclude Include="Source\Graphics\Rectangle.h" />
@@ -116,7 +126,8 @@
     <ClInclude Include="Source\Graphics\VertexBuffer.h" />
     <ClInclude Include="Source\Graphics\VertexLayout.h" />
     <ClInclude Include="Source\Utils.h" />
-    <ClInclude Include="Source\Window.h" />
+    <ClInclude Include="Source\WandPCH.h" />
+    <ClInclude Include="Source\Core\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Graphics\Shaders\Standard.frag" />

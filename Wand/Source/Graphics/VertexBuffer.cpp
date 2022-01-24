@@ -1,3 +1,4 @@
+#include "WandPCH.h"
 #include "VertexBuffer.h"
 
 #include "Graphics.h"

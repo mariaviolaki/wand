@@ -1,6 +1,6 @@
+#include "WandPCH.h"
 #include "ShaderProgram.h"
 
-#include <iostream>
 #include "Graphics.h"
 #include "Utils.h"
 

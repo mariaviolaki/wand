@@ -1,3 +1,4 @@
+#include "WandPCH.h"
 #include "Input.h"
 
 namespace // Only accessible in this file

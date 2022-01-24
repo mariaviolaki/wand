@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include "Graphics.h"
 
 namespace wand
