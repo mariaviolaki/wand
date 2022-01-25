@@ -13,6 +13,10 @@ namespace wand
 		InitGLAD();
 	}
 
+	int Window::GetWidth() const { return mWidth; }
+
+	int Window::GetHeight() const { return mHeight;	}
+
 	// Initialize GLFW to use its functions
 	bool Window::InitGLFW() const
 	{

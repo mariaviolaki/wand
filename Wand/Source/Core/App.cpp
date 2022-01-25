@@ -15,6 +15,16 @@ namespace wand
 	App::~App()
 	{}
 
+	int App::GetWidth() const
+	{
+		return mWindow.get()->GetWidth();
+	}
+
+	int App::GetHeight() const
+	{
+		return mWindow.get()->GetWidth();
+	}
+
 	bool App::IsRunning() const
 	{
 		return !mWindow.get()->IsClosed();
@@ -31,6 +41,6 @@ namespace wand
 	void App::Start()
 	{
 		InputManager::SetupCallbacks(mWindow.get()->GetGLFWWindow());
-		RenderManager::Init();
+		RenderManager::Init(mWindow.get());
 	}
 }

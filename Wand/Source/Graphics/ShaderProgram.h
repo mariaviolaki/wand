@@ -1,5 +1,7 @@
 #pragma once
 
+#include "glm/glm.hpp"
+
 namespace wand
 {
 	class ShaderProgram
@@ -8,12 +10,16 @@ namespace wand
 		ShaderProgram(const std::string& vertShader, const std::string& fragShader);
 		~ShaderProgram();
 
+		void SetUniformMat4(const std::string& name, const glm::mat4& matrix);
+		int GetUniformLocation(const std::string& name);
+
 		void Bind() const;
 		void Unbind() const;
 
 	private:
 		const std::string SHADER_PATH;
 		unsigned int mId;
+		std::unordered_map<std::string, int> mUniformLocations;
 
 		unsigned int CreateProgram(const std::string& vertShaderPath, const std::string& fragShaderPath);
 		unsigned int CompileShader(unsigned int shaderType, const std::string& shaderPath) const;

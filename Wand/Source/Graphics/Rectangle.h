@@ -1,29 +1,18 @@
 #pragma once
 
+#include "Drawable.h"
 #include "Graphics.h"
-#include "VertexLayout.h"
 
 namespace wand
 {
-	class Rectangle
+	class Rectangle : public Drawable
 	{
 	public:
-		static unsigned int GetIndexCount();
-		static unsigned int GetSize();
-
-		Rectangle(glm::vec2 pos, glm::vec2 dimens, glm::vec4 color);
-
-		std::array<Vertex, 4>* GetVertexData() const;
+		Rectangle(glm::vec4 color);
+		std::array<Vertex, 4>* GetVertexData() override;
 
 	private:
-		static const unsigned int sIndexCount;
-		static const unsigned int sSize;
-
-		glm::vec2 mPos;
-		glm::vec2 mDimens;
 		glm::vec4 mColor;
-		std::unique_ptr<std::array<Vertex, 4>> mVertices;
-
-		void CreateVertexData();
+		std::shared_ptr<std::array<Vertex, 4>> mVertices;
 	};
 }

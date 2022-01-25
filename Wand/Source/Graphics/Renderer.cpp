@@ -5,9 +5,10 @@
 #include "VertexBuffer.h"
 #include "VertexLayout.h"
 #include "IndexBuffer.h"
-#include "Rectangle.h"
 #include "ShaderProgram.h"
 #include "Graphics.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 namespace // only accessible from this translation unit
 {
@@ -15,23 +16,23 @@ namespace // only accessible from this translation unit
 	std::unique_ptr<wand::VertexBuffer> vbo;
 	std::unique_ptr<wand::IndexBuffer> ibo;
 	std::unique_ptr<wand::ShaderProgram> program;
-	std::vector<std::unique_ptr<wand::Rectangle>> renderQueue;
+	std::vector<std::shared_ptr<wand::Drawable>> renderQueue;
 
-	// Add up to the maximum number of rectangles to the buffer
+	// Add up to the maximum number of drawables to the buffer
 	unsigned int FillVertexBuffer()
 	{
 		unsigned int count = 0;
-		// Add rectangles from the queue to the vertex buffer
-		for (const auto& rect : renderQueue)
+		// Add drawables from the queue to the vertex buffer
+		for (auto& drawable : renderQueue)
 		{
-			// Add the rectangle data to the large index buffer
+			// Add the drawables data to the large index buffer
 			glBufferSubData(GL_ARRAY_BUFFER,
-				count * wand::Rectangle::GetSize(),	// starting point in buffer
-				wand::Rectangle::GetSize(),			// size in buffer
-				rect.get()->GetVertexData());		// data to be rendered
+				count * wand::Drawable::GetSize(),	// starting point in buffer
+				wand::Drawable::GetSize(),			// size in buffer
+				drawable.get()->GetVertexData()->data());	// data to be rendered
 			count++;
 
-			if (count == wand::MAX_RECTS)
+			if (count == wand::MAX_DRAWABLES)
 				break;
 		}
 		return count;
@@ -42,7 +43,7 @@ namespace // only accessible from this translation unit
 
 namespace wand::RenderManager // compile with C++17 at least
 {
-	void Init()
+	void Init(Window* window)
 	{
 		vao = std::make_unique<VertexArray>();
 		// Allocate memory for 1 large vertex and index buffer
@@ -57,19 +58,22 @@ namespace wand::RenderManager // compile with C++17 at least
 
 		// Choose the shaders to be used for rendering
 		program = std::make_unique<ShaderProgram>("Standard.vert", "Standard.frag");
+		// Set the projection matrix in the shader according to the window size
+		program.get()->SetUniformMat4("u_Projection", 
+			glm::ortho(0.0f, (float) window->GetWidth(), 0.0f, (float) window->GetHeight(), -1.0f, 1.0f));
 	}
 
 	void Render()
 	{
 		do
 		{
-			// Render each rectangle in the vertex buffer
-			unsigned int rectsInBuffer = FillVertexBuffer();
+			// Render each drawable in the vertex buffer
+			unsigned int drawablesInBuffer = FillVertexBuffer();
 			glDrawElements(
-				GL_TRIANGLES, Rectangle::GetIndexCount() * rectsInBuffer, GL_UNSIGNED_INT, nullptr);
+				GL_TRIANGLES, Drawable::GetIndexCount() * drawablesInBuffer, GL_UNSIGNED_INT, nullptr);
 
-			// Remove from the queue the rectangles that were just rendered
-			renderQueue.erase(renderQueue.begin(), renderQueue.begin() + rectsInBuffer);
+			// Remove from the queue the drawables that were just rendered
+			renderQueue.erase(renderQueue.begin(), renderQueue.begin() + drawablesInBuffer);
 		}
 		while (!renderQueue.empty());
 	}
@@ -79,9 +83,9 @@ namespace wand::RenderManager // compile with C++17 at least
 
 namespace wand::Renderer // compile with C++17 at least
 {
-	void DrawRect(glm::vec2 pos, glm::vec2 dimens, glm::vec4 color)
+	// Get an already existing drawable and push it to the render queue
+	void Draw(std::shared_ptr<Drawable> drawable)
 	{
-		// Generate the rectangle to use for rendering and push it to the render queue
-		renderQueue.push_back(std::make_unique<Rectangle>(pos, dimens, color));
+		renderQueue.emplace_back(drawable);
 	}
 }

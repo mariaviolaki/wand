@@ -18,6 +18,27 @@ namespace wand
 		glDeleteProgram(mId);
 	}
 
+	void ShaderProgram::SetUniformMat4(const std::string& name, const glm::mat4& matrix)
+	{
+		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);
+	}
+
+	int ShaderProgram::GetUniformLocation(const std::string& name)
+	{
+		// Check is the location is already saved
+		if (mUniformLocations.find(name) != mUniformLocations.end())
+			return mUniformLocations[name];
+
+		// Find the uniform location in the shader program
+		int location = glGetUniformLocation(mId, name.c_str());
+		mUniformLocations[name] = location;
+
+		if (location == -1)
+			std::cout << "Uniform '" << name << "' not found or not set correctly.\n";
+
+		return location;
+	}
+
 	void ShaderProgram::Bind() const
 	{
 		glUseProgram(mId);

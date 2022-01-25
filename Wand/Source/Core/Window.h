@@ -11,6 +11,9 @@ namespace wand
 		Window(std::string title = "Wand Engine", int width = 960, int height = 540);
 		~Window();
 
+		int GetWidth() const;
+		int GetHeight() const;
+
 		void Update() const;
 		bool IsClosed() const;
 		GLFWwindow* GetGLFWWindow() const;
