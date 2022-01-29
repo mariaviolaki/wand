@@ -1,7 +1,8 @@
 #include "WandPCH.h"
 #include "VertexArray.h"
 
-#include "Graphics.h"
+#include "glad/glad.h"
+#include "Graphics/Graphics.h"
 
 namespace wand
 {

@@ -1,6 +1,8 @@
 #include "WandPCH.h"
 #include "VertexLayout.h"
 
+#include "glad/glad.h"
+
 namespace wand
 {
 	VertexLayout::VertexLayout()

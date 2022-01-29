@@ -10,6 +10,9 @@ namespace wand
 		ShaderProgram(const std::string& vertShader, const std::string& fragShader);
 		~ShaderProgram();
 
+		// Set the value of an integer array in the shader
+		void SetUniform1iv(const std::string& name, int count, const int* arr);
+		// Set the value of a 4x4 matrix in the shader
 		void SetUniformMat4(const std::string& name, const glm::mat4& matrix);
 		int GetUniformLocation(const std::string& name);
 

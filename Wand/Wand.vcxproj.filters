@@ -24,19 +24,19 @@
     <ClCompile Include="Source\Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\VertexBuffer.cpp">
+    <ClCompile Include="Source\Graphics\OpenGL\VertexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\IndexBuffer.cpp">
+    <ClCompile Include="Source\Graphics\OpenGL\IndexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\VertexArray.cpp">
+    <ClCompile Include="Source\Graphics\OpenGL\VertexArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\VertexLayout.cpp">
+    <ClCompile Include="Source\Graphics\OpenGL\VertexLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\ShaderProgram.cpp">
+    <ClCompile Include="Source\Graphics\OpenGL\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils.cpp">
@@ -57,6 +57,18 @@
     <ClCompile Include="Source\Graphics\Drawable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Graphics\OpenGL\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\stb\stb_image\stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Window.h">
@@ -68,19 +80,19 @@
     <ClInclude Include="Source\Input\InputMacros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\VertexBuffer.h">
+    <ClInclude Include="Source\Graphics\OpenGL\VertexBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\IndexBuffer.h">
+    <ClInclude Include="Source\Graphics\OpenGL\IndexBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\VertexArray.h">
+    <ClInclude Include="Source\Graphics\OpenGL\VertexArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\VertexLayout.h">
+    <ClInclude Include="Source\Graphics\OpenGL\VertexLayout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\ShaderProgram.h">
+    <ClInclude Include="Source\Graphics\OpenGL\ShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils.h">
@@ -104,9 +116,18 @@
     <ClInclude Include="Source\Graphics\Drawable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Graphics\OpenGL\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\Graphics\Shaders\Standard.vert" />
-    <None Include="Source\Graphics\Shaders\Standard.frag" />
+    <None Include="Source\Graphics\OpenGL\Shaders\Standard.vert" />
+    <None Include="Source\Graphics\OpenGL\Shaders\Standard.frag" />
   </ItemGroup>
 </Project>

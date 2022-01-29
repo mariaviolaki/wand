@@ -17,17 +17,17 @@ namespace wand
 
 	int App::GetWidth() const
 	{
-		return mWindow.get()->GetWidth();
+		return mWindow->GetWidth();
 	}
 
 	int App::GetHeight() const
 	{
-		return mWindow.get()->GetWidth();
+		return mWindow->GetWidth();
 	}
 
 	bool App::IsRunning() const
 	{
-		return !mWindow.get()->IsClosed();
+		return !mWindow->IsClosed();
 	}
 
 	void App::Update() const
@@ -35,12 +35,12 @@ namespace wand
 		// Render all graphics submitted during this frame
 		RenderManager::Render();
 		// Update the graphics in the window and process events
-		mWindow.get()->Update();
+		mWindow->Update();
 	}
 
 	void App::Start()
 	{
-		InputManager::SetupCallbacks(mWindow.get()->GetGLFWWindow());
+		InputManager::SetupCallbacks(mWindow->GetGLFWWindow());
 		RenderManager::Init(mWindow.get());
 	}
 }

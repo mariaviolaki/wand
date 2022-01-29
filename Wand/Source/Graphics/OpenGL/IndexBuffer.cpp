@@ -1,6 +1,8 @@
 #include "WandPCH.h"
 #include "IndexBuffer.h"
 
+#include "glad/glad.h"
+
 namespace wand
 {
 	IndexBuffer::IndexBuffer()

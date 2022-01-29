@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+#include <algorithm>
 
 #include <memory>
 #include <string>

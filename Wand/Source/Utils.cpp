@@ -18,4 +18,28 @@ namespace wand::Utils // compile with C++17 at least
 
 		return stream.str();
 	}
+
+	std::string ToUppercase(const std::string& str)
+	{
+		std::string newStr = str;
+		transform(newStr.begin(), newStr.end(), newStr.begin(), ::toupper);
+		return newStr;
+	}
+
+	std::string ToLowercase(const std::string& str)
+	{
+		std::string newStr = str;
+		transform(newStr.begin(), newStr.end(), newStr.begin(), ::tolower);
+		return newStr;
+	}
+
+	int FindInArray(int num, const int* arr, unsigned int count)
+	{
+		for (int i = 0; i < count; i++)
+		{
+			if (arr[i] == num)
+				return i;
+		}
+		return -1;
+	}
 }

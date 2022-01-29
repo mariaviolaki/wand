@@ -1,7 +1,5 @@
 #pragma once
 
-#include "VertexLayout.h"
-
 namespace wand
 {
 	class VertexBuffer

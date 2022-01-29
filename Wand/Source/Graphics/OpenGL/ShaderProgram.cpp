@@ -1,13 +1,13 @@
 #include "WandPCH.h"
 #include "ShaderProgram.h"
 
-#include "Graphics.h"
+#include "glad/glad.h"
 #include "Utils.h"
 
 namespace wand
 {
 	ShaderProgram::ShaderProgram(const std::string& vertShader, const std::string& fragShader)
-		: SHADER_PATH("Source/Graphics/Shaders/")
+		: SHADER_PATH("Source/Graphics/openGL/Shaders/")
 	{
 		mId = CreateProgram(SHADER_PATH + vertShader, SHADER_PATH + fragShader);
 		glUseProgram(mId);
@@ -16,6 +16,11 @@ namespace wand
 	ShaderProgram::~ShaderProgram()
 	{
 		glDeleteProgram(mId);
+	}
+
+	void ShaderProgram::SetUniform1iv(const std::string& name, int count, const int* arr)
+	{
+		glUniform1iv(GetUniformLocation(name), count, arr);
 	}
 
 	void ShaderProgram::SetUniformMat4(const std::string& name, const glm::mat4& matrix)

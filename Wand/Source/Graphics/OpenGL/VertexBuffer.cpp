@@ -1,7 +1,7 @@
 #include "WandPCH.h"
 #include "VertexBuffer.h"
 
-#include "Graphics.h"
+#include "glad/glad.h"
 
 namespace wand
 {

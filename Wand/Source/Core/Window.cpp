@@ -5,17 +5,41 @@
 
 namespace wand
 {
-	Window::Window(std::string title, int width, int height)
-		: mWindow(nullptr), mTitle(title), mWidth(width), mHeight(height)
+	Window::Window(std::string title, int width, int height, glm::vec4 color)
+		: mWindow(nullptr), mTitle(title), mWidth(width), mHeight(height), mColor(color)
 	{
 		if (!InitGLFW()) return;
 		if (!InitWindow()) return;
-		InitGLAD();
+		if (!InitGLAD()) return;
+		SetupWindow();
+	}
+
+	Window::~Window()
+	{
+		if (mWindow)
+		{
+			glfwDestroyWindow(mWindow);
+			glfwTerminate();
+		}
 	}
 
 	int Window::GetWidth() const { return mWidth; }
 
 	int Window::GetHeight() const { return mHeight;	}
+
+	GLFWwindow* Window::GetGLFWWindow() const { return mWindow; }
+
+	bool Window::IsClosed() const {	return glfwWindowShouldClose(mWindow) == 1;	}
+
+	void Window::Update() const
+	{
+		// Swap front and back window buffers
+		glfwSwapBuffers(mWindow);
+		// Process new events
+		glfwPollEvents();
+		// Clear the background with a given color
+		glClear(GL_COLOR_BUFFER_BIT);
+	}
 
 	// Initialize GLFW to use its functions
 	bool Window::InitGLFW() const
@@ -39,8 +63,6 @@ namespace wand
 		}
 		// Use this window in the current context
 		glfwMakeContextCurrent(mWindow);
-		// Limit the window's frame rate
-		glfwSwapInterval(1);
 
 		return true;
 	}
@@ -55,30 +77,14 @@ namespace wand
 		return false;
 	}
 
-	void Window::Update() const
+	void Window::SetupWindow() const
 	{
-		// Swap front and back window buffers
-		glfwSwapBuffers(mWindow);
-		// Process new events
-		glfwPollEvents();
-	}
-
-	bool Window::IsClosed() const
-	{
-		return glfwWindowShouldClose(mWindow) == 1;
-	}
-
-	GLFWwindow* Window::GetGLFWWindow() const
-	{
-		return mWindow;
-	}
-
-	Window::~Window()
-	{
-		if (mWindow)
-		{
-			glfwDestroyWindow(mWindow);
-			glfwTerminate();
-		}
+		// Limit the window's frame rate
+		glfwSwapInterval(1);
+		// Set the background color
+		glClearColor(mColor.r, mColor.g, mColor.b, mColor.a);
+		// Enable blending and properly rendering transparent pixels
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 }
