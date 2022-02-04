@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{4067D3F5-7399-440B-AF72-8EE00E7CA927}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Wand", "Wand\Wand.vcxproj", "{42289FAA-EE71-4120-9A28-5E72760FCF1B}"
 EndProject
 Global
@@ -15,6 +17,10 @@ Global
 		{42289FAA-EE71-4120-9A28-5E72760FCF1B}.Debug|x64.Build.0 = Debug|x64
 		{42289FAA-EE71-4120-9A28-5E72760FCF1B}.Release|x64.ActiveCfg = Release|x64
 		{42289FAA-EE71-4120-9A28-5E72760FCF1B}.Release|x64.Build.0 = Release|x64
+		{4067D3F5-7399-440B-AF72-8EE00E7CA927}.Debug|x64.ActiveCfg = Debug|x64
+		{4067D3F5-7399-440B-AF72-8EE00E7CA927}.Debug|x64.Build.0 = Debug|x64
+		{4067D3F5-7399-440B-AF72-8EE00E7CA927}.Release|x64.ActiveCfg = Release|x64
+		{4067D3F5-7399-440B-AF72-8EE00E7CA927}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

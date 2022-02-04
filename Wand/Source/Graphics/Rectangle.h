@@ -2,7 +2,7 @@
 
 #include "Drawable.h"
 #include "Graphics.h"
-#include "OpenGL/Texture.h"
+#include "Base/Texture.h"
 
 namespace wand
 {

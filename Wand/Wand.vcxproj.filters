@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="Wand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Window.cpp">
@@ -24,19 +24,19 @@
     <ClCompile Include="Source\Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\OpenGL\VertexBuffer.cpp">
+    <ClCompile Include="Source\Graphics\Base\VertexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\OpenGL\IndexBuffer.cpp">
+    <ClCompile Include="Source\Graphics\Base\IndexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\OpenGL\VertexArray.cpp">
+    <ClCompile Include="Source\Graphics\Base\VertexArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\OpenGL\VertexLayout.cpp">
+    <ClCompile Include="Source\Graphics\Base\VertexLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\OpenGL\ShaderProgram.cpp">
+    <ClCompile Include="Source\Graphics\Base\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils.cpp">
@@ -57,16 +57,22 @@
     <ClCompile Include="Source\Graphics\Drawable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\OpenGL\Texture.cpp">
+    <ClCompile Include="Source\Graphics\Base\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Graphics\Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Dependencies\stb\stb_image\stb_image.cpp">
+    <ClCompile Include="Source\Graphics\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Transform.cpp">
+    <ClCompile Include="Source\Graphics\Font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics\Base\FontManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\stb\stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,19 +86,19 @@
     <ClInclude Include="Source\Input\InputMacros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\OpenGL\VertexBuffer.h">
+    <ClInclude Include="Source\Graphics\Base\VertexBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\OpenGL\IndexBuffer.h">
+    <ClInclude Include="Source\Graphics\Base\IndexBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\OpenGL\VertexArray.h">
+    <ClInclude Include="Source\Graphics\Base\VertexArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\OpenGL\VertexLayout.h">
+    <ClInclude Include="Source\Graphics\Base\VertexLayout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\OpenGL\ShaderProgram.h">
+    <ClInclude Include="Source\Graphics\Base\ShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils.h">
@@ -116,7 +122,7 @@
     <ClInclude Include="Source\Graphics\Drawable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\OpenGL\Texture.h">
+    <ClInclude Include="Source\Graphics\Base\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Graphics\Sprite.h">
@@ -125,9 +131,21 @@
     <ClInclude Include="Source\Graphics\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Graphics\Font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics\Base\FontManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\stb\stb_image\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\Graphics\OpenGL\Shaders\Standard.vert" />
-    <None Include="Source\Graphics\OpenGL\Shaders\Standard.frag" />
+    <None Include="Source\Graphics\Base\Shaders\Standard.vert" />
+    <None Include="Source\Graphics\Base\Shaders\Standard.frag" />
   </ItemGroup>
 </Project>

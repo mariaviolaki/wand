@@ -19,17 +19,17 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -45,13 +45,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
+    <TargetName>wand</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
+    <TargetName>wand</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -59,17 +61,18 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\stb\;$(ProjectDir)Dependencies\glm\;$(ProjectDir)Dependencies\glad\include\;$(ProjectDir)Source\;$(ProjectDir)Dependencies\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\Dependencies\;$(ProjectDir)Source\</AdditionalIncludeDirectories>
       <LanguageStandard_C>Default</LanguageStandard_C>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>WandPCH.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\GLFW\lib-vc2022\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)glfw3.lib;freetype.lib;msdfgen.lib;msdf-atlas-gen.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\msdfgen\lib\$(Configuration)\;$(ProjectDir)Dependencies\GLFW\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -80,37 +83,40 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\stb\;$(ProjectDir)Dependencies\glm\;$(ProjectDir)Dependencies\glad\include\;$(ProjectDir)Source\;$(ProjectDir)Dependencies\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard_C>Default</LanguageStandard_C>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\Dependencies\;$(ProjectDir)Source\</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>WandPCH.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies\GLFW\lib-vc2022\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)$(ProjectDir)Dependencies\GLFW\lib\$(Configuration)\;$(ProjectDir)Dependencies\msdfgen\lib\$(Configuration)\;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;freetype.lib;msdfgen.lib;msdf-atlas-gen.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Dependencies\stb\stb_image\stb_image.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Dependencies\stb\stb_image.cpp" />
+    <ClCompile Include="Wand.cpp" />
     <ClCompile Include="Source\Core\App.cpp" />
+    <ClCompile Include="Source\Graphics\Base\FontManager.cpp" />
     <ClCompile Include="Source\Graphics\Drawable.cpp" />
-    <ClCompile Include="Source\Graphics\OpenGL\IndexBuffer.cpp" />
-    <ClCompile Include="Source\Graphics\OpenGL\Texture.cpp" />
+    <ClCompile Include="Source\Graphics\Base\IndexBuffer.cpp" />
+    <ClCompile Include="Source\Graphics\Base\Texture.cpp" />
+    <ClCompile Include="Source\Graphics\Font.cpp" />
     <ClCompile Include="Source\Graphics\Rectangle.cpp" />
     <ClCompile Include="Source\Graphics\Renderer.cpp" />
     <ClCompile Include="Source\Graphics\Sprite.cpp" />
     <ClCompile Include="Source\Graphics\Transform.cpp" />
     <ClCompile Include="Source\Input\Input.cpp" />
-    <ClCompile Include="Source\Graphics\OpenGL\ShaderProgram.cpp" />
-    <ClCompile Include="Source\Graphics\OpenGL\VertexArray.cpp" />
-    <ClCompile Include="Source\Graphics\OpenGL\VertexBuffer.cpp" />
-    <ClCompile Include="Source\Graphics\OpenGL\VertexLayout.cpp" />
+    <ClCompile Include="Source\Graphics\Base\ShaderProgram.cpp" />
+    <ClCompile Include="Source\Graphics\Base\VertexArray.cpp" />
+    <ClCompile Include="Source\Graphics\Base\VertexBuffer.cpp" />
+    <ClCompile Include="Source\Graphics\Base\VertexLayout.cpp" />
     <ClCompile Include="Source\Utils.cpp" />
     <ClCompile Include="Source\WandPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -119,28 +125,32 @@
     <ClCompile Include="Source\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dependencies\stb\stb_image\stb_image.h" />
     <ClInclude Include="Source\Core\App.h" />
+    <ClInclude Include="Source\Graphics\Base\FontManager.h" />
     <ClInclude Include="Source\Graphics\Drawable.h" />
+    <ClInclude Include="Source\Graphics\Font.h" />
     <ClInclude Include="Source\Graphics\Graphics.h" />
-    <ClInclude Include="Source\Graphics\OpenGL\IndexBuffer.h" />
-    <ClInclude Include="Source\Graphics\OpenGL\Texture.h" />
+    <ClInclude Include="Source\Graphics\Base\IndexBuffer.h" />
+    <ClInclude Include="Source\Graphics\Base\Texture.h" />
     <ClInclude Include="Source\Graphics\Rectangle.h" />
     <ClInclude Include="Source\Graphics\Renderer.h" />
     <ClInclude Include="Source\Graphics\Sprite.h" />
     <ClInclude Include="Source\Graphics\Transform.h" />
     <ClInclude Include="Source\Input\Input.h" />
     <ClInclude Include="Source\Input\InputMacros.h" />
-    <ClInclude Include="Source\Graphics\OpenGL\ShaderProgram.h" />
-    <ClInclude Include="Source\Graphics\OpenGL\VertexArray.h" />
-    <ClInclude Include="Source\Graphics\OpenGL\VertexBuffer.h" />
-    <ClInclude Include="Source\Graphics\OpenGL\VertexLayout.h" />
+    <ClInclude Include="Source\Graphics\Base\ShaderProgram.h" />
+    <ClInclude Include="Source\Graphics\Base\VertexArray.h" />
+    <ClInclude Include="Source\Graphics\Base\VertexBuffer.h" />
+    <ClInclude Include="Source\Graphics\Base\VertexLayout.h" />
     <ClInclude Include="Source\Utils.h" />
     <ClInclude Include="Source\WandPCH.h" />
     <ClInclude Include="Source\Core\Window.h" />
+    <ClInclude Include="Wand.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\Graphics\OpenGL\Shaders\Standard.frag" />
-    <None Include="Source\Graphics\OpenGL\Shaders\Standard.vert" />
+    <None Include="Source\Graphics\Base\Shaders\Standard.frag" />
+    <None Include="Source\Graphics\Base\Shaders\Standard.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

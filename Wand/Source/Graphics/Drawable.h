@@ -2,7 +2,7 @@
 
 #include "Graphics.h"
 #include "Transform.h"
-#include "Opengl/Texture.h"
+#include "Base/Texture.h"
 
 namespace wand
 {
