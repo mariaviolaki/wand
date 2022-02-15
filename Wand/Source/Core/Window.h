@@ -9,24 +9,26 @@ namespace wand
 	class Window
 	{
 	public:
+		static unsigned int GetWidth();
+		static unsigned int GetHeight();
+
 		// Constructor for a window with the default settings
 		Window(std::string title = "Wand Engine", 
 			int width = 960, int height = 540, 
 			glm::vec4 color = {0.1f, 0.1f, 0.1f, 0.1f});
 		~Window();
 
-		int GetWidth() const;
-		int GetHeight() const;
 		GLFWwindow* GetGLFWWindow() const;
 		bool IsClosed() const;
 
 		void Update() const;
 
 	private:
+		static unsigned int sWidth;
+		static unsigned int sHeight;
+
 		GLFWwindow* mWindow;
 		std::string mTitle;
-		int mWidth;
-		int mHeight;
 		glm::vec4 mColor;
 
 		bool InitGLFW() const;

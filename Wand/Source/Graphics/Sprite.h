@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Drawable.h"
+#include "Base/Texture.h"
 
 namespace wand
 {
@@ -9,10 +10,16 @@ namespace wand
 	public:
 		Sprite(const std::string& imagePath);
 
+		unsigned int GetTexId() const override;
 		void SetTextureSlot(int slot) override;
+		unsigned int GetItemCount() const override;
+		unsigned int GetBufferSize() const override;
+		const std::vector<Vertex>& GetVertexData() override;
 
 	private:
-		// The color will always be { 1, 1, 1, 1 }
-		void SetColor(glm::vec4 color) override {};
+		std::shared_ptr<Texture> mTexture;
+		std::vector<Vertex> mVertices;
+
+		void CreateVertex(const float posX, const float posY, const float texX, const float texY);
 	};
 }

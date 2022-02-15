@@ -62,8 +62,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\Dependencies\;$(ProjectDir)Source\</AdditionalIncludeDirectories>
-      <LanguageStandard_C>Default</LanguageStandard_C>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>WandPCH.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -101,13 +101,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Dependencies\stb\stb_image.cpp" />
+    <ClCompile Include="Source\Graphics\Base\Font.cpp" />
+    <ClCompile Include="Source\Graphics\FontManager.cpp" />
     <ClCompile Include="Wand.cpp" />
     <ClCompile Include="Source\Core\App.cpp" />
-    <ClCompile Include="Source\Graphics\Base\FontManager.cpp" />
     <ClCompile Include="Source\Graphics\Drawable.cpp" />
     <ClCompile Include="Source\Graphics\Base\IndexBuffer.cpp" />
     <ClCompile Include="Source\Graphics\Base\Texture.cpp" />
-    <ClCompile Include="Source\Graphics\Font.cpp" />
+    <ClCompile Include="Source\Graphics\Text.cpp" />
     <ClCompile Include="Source\Graphics\Rectangle.cpp" />
     <ClCompile Include="Source\Graphics\Renderer.cpp" />
     <ClCompile Include="Source\Graphics\Sprite.cpp" />
@@ -127,9 +128,10 @@
   <ItemGroup>
     <ClInclude Include="Dependencies\stb\stb_image\stb_image.h" />
     <ClInclude Include="Source\Core\App.h" />
-    <ClInclude Include="Source\Graphics\Base\FontManager.h" />
     <ClInclude Include="Source\Graphics\Drawable.h" />
-    <ClInclude Include="Source\Graphics\Font.h" />
+    <ClInclude Include="Source\Graphics\Base\Font.h" />
+    <ClInclude Include="Source\Graphics\FontManager.h" />
+    <ClInclude Include="Source\Graphics\Text.h" />
     <ClInclude Include="Source\Graphics\Graphics.h" />
     <ClInclude Include="Source\Graphics\Base\IndexBuffer.h" />
     <ClInclude Include="Source\Graphics\Base\Texture.h" />

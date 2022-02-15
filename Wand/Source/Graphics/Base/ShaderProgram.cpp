@@ -18,6 +18,11 @@ namespace wand
 		glDeleteProgram(mId);
 	}
 
+	void ShaderProgram::SetUniform1f(const std::string& name, float value)
+	{
+		glUniform1f(GetUniformLocation(name), value);
+	}
+
 	void ShaderProgram::SetUniform1iv(const std::string& name, int count, const int* arr)
 	{
 		glUniform1iv(GetUniformLocation(name), count, arr);

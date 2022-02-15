@@ -1,5 +1,8 @@
 #pragma once
 
+#include "msdfgen/msdfgen/msdfgen.h"
+#include "msdfgen/msdf-atlas-gen/msdf-atlas-gen.h"
+
 namespace wand
 {
 	enum class ColorFormat
@@ -12,6 +15,7 @@ namespace wand
 	public:
 		Texture();
 		Texture(const std::string& imagePath);
+		Texture(const msdf_atlas::BitmapAtlasStorage<unsigned char, 3>& fontAtlas);
 		~Texture();
 
 		unsigned int GetId() const;
@@ -33,9 +37,10 @@ namespace wand
 		ColorFormat mColorFormat;
 		unsigned char* mImageData;
 
+		void ConfigTexture(unsigned int minFilter) const;
 		void LoadWhiteTexture();
-		void LoadTexture();
-		void ConfigTexture() const;
+		void LoadSpriteTexture();
+		void LoadFontTexture(const msdf_atlas::BitmapAtlasStorage<unsigned char, 3>& fontAtlas);
 		void FindColorFormat();
 	};
 }

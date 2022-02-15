@@ -10,9 +10,6 @@ namespace wand
 		App();
 		~App();
 
-		int GetWidth() const;
-		int GetHeight() const;
-
 		bool IsRunning() const;
 		void Update() const;
 		

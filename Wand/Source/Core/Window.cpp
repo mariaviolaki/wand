@@ -5,9 +5,18 @@
 
 namespace wand
 {
+	unsigned int Window::sWidth = 0;
+	unsigned int Window::sHeight = 0;
+
+	unsigned int Window::GetWidth() { return sWidth; }
+	unsigned int Window::GetHeight() { return sHeight; }
+
 	Window::Window(std::string title, int width, int height, glm::vec4 color)
-		: mWindow(nullptr), mTitle(title), mWidth(width), mHeight(height), mColor(color)
+		: mWindow(nullptr), mTitle(title), mColor(color)
 	{
+		sWidth = width;
+		sHeight = height;
+
 		if (!InitGLFW()) return;
 		if (!InitWindow()) return;
 		if (!InitGLAD()) return;
@@ -22,10 +31,6 @@ namespace wand
 			glfwTerminate();
 		}
 	}
-
-	int Window::GetWidth() const { return mWidth; }
-
-	int Window::GetHeight() const { return mHeight;	}
 
 	GLFWwindow* Window::GetGLFWWindow() const { return mWindow; }
 
@@ -54,7 +59,7 @@ namespace wand
 	bool Window::InitWindow()
 	{			
 		// Create a new window with GLFW
-		mWindow = glfwCreateWindow(mWidth, mHeight, mTitle.c_str(), nullptr, nullptr);
+		mWindow = glfwCreateWindow(sWidth, sHeight, mTitle.c_str(), nullptr, nullptr);
 		if (!mWindow)
 		{
 			std::cout << "Failed to create GLFW window.\n";

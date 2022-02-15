@@ -1,30 +1,25 @@
 #include "WandPCH.h"
 #include "Transform.h"
 
-#include "glm/gtc/matrix_transform.hpp"
-
 namespace wand
 {
-	Transform::Transform()
-		: mTransform(glm::mat4(1.0f)), mWidth(10.0f), mHeight(10.0f)
+	Transform::Transform(glm::vec2 dimens)
+		: mPosition(0.0f, 0.0f, 1.0f), mScale(dimens)
 	{}
 
 	/******************** ACCESSOR METHODS ***********************/
 
-	glm::vec3 Transform::GetPosition() const { return glm::vec3({ mTransform[3] }); }
+	const glm::vec3& Transform::GetPosition() const { return mPosition; }
 
-	float Transform::GetWidth() const { return mWidth; }
+	float Transform::GetWidth() const { return mScale.x; }
 
-	float Transform::GetHeight() const { return mHeight; }
+	float Transform::GetHeight() const { return mScale.y; }
 
 	/******************** MUTATOR METHODS ************************/
 
-	void Transform::SetPosition(float x, float y)
-	{
-		mTransform = glm::translate(mTransform, glm::vec3(x, y, 0.0f));
-	}
+	void Transform::SetPosition(float x, float y) { mPosition = glm::vec3(x, y, 1.0f); }
 
-	void Transform::SetWidth(float width) { mWidth = width; }
+	void Transform::SetWidth(float width) { mScale.x = width; }
 
-	void Transform::SetHeight(float height) { mHeight = height; }
+	void Transform::SetHeight(float height) { mScale.y = height; }
 }

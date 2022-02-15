@@ -2,19 +2,16 @@
 
 #include "Graphics.h"
 #include "Transform.h"
-#include "Base/Texture.h"
 
 namespace wand
 {
 	class Drawable
 	{
 	protected:
-		Drawable(glm::vec4 color);
-		Drawable(const std::string& imagePath);
+		Drawable(glm::vec2 dimens = {100.0f, 100.0f});
 
 	public:
 		static unsigned int GetIndexCount();
-		static unsigned int GetSize();
 
 		// Transform operations
 		glm::vec3 GetPosition() const;
@@ -25,19 +22,16 @@ namespace wand
 		void SetHeight(float height);
 
 		// Drawable operations
-		unsigned int GetTexId() const;
-		glm::vec4 GetColor() const;
-		virtual void SetColor(glm::vec4 color);
-		virtual void SetTextureSlot(int slot);
-		std::array<Vertex, 4>* GetVertexData();
+		virtual glm::vec4 GetColor() const { return { 1.0f, 1.0f, 1.0f, 1.0f }; };
+		virtual unsigned int GetTexId() const { return 0; };
+		virtual void SetColor(glm::vec4 color) {};
+		virtual void SetTextureSlot(int slot) {};
+		virtual unsigned int GetItemCount() const = 0;
+		virtual unsigned int GetBufferSize() const = 0;
+		virtual const std::vector<Vertex>& GetVertexData() = 0;
 
 	private:
 		static const unsigned int sIndexCount;
-		static const unsigned int sSize;
-
-		glm::vec4 mColor;
 		std::shared_ptr<Transform> mTransform;
-		std::shared_ptr<Texture> mTexture;
-		std::shared_ptr<std::array<Vertex, 4>> mVertices;
 	};
 }

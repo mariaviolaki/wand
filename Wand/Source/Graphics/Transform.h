@@ -7,9 +7,9 @@ namespace wand
 	class Transform
 	{
 	public:
-		Transform();
+		Transform(glm::vec2 dimens = { 100.0f, 100.0f });
 
-		glm::vec3 GetPosition() const;
+		const glm::vec3& GetPosition() const;
 		float GetWidth() const;
 		float GetHeight() const;
 
@@ -18,8 +18,7 @@ namespace wand
 		void SetHeight(float height);
 
 	private:
-		glm::mat4 mTransform;
-		float mWidth;
-		float mHeight;
+		glm::vec3 mPosition;
+		glm::vec2 mScale;
 	};
 }

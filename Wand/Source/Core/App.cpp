@@ -3,6 +3,7 @@
 
 #include "Input/Input.h"
 #include "Graphics/Renderer.h"
+#include "Graphics/FontManager.h"
 
 namespace wand
 {
@@ -13,16 +14,9 @@ namespace wand
 	}
 
 	App::~App()
-	{}
-
-	int App::GetWidth() const
 	{
-		return mWindow->GetWidth();
-	}
-
-	int App::GetHeight() const
-	{
-		return mWindow->GetWidth();
+		// Delete the fonts stored during runtime
+		FontManager::Clear();
 	}
 
 	bool App::IsRunning() const
@@ -33,7 +27,7 @@ namespace wand
 	void App::Update() const
 	{
 		// Render all graphics submitted during this frame
-		RenderManager::Render();
+		Renderer::Render();
 		// Update the graphics in the window and process events
 		mWindow->Update();
 	}
@@ -41,6 +35,6 @@ namespace wand
 	void App::Start()
 	{
 		InputManager::SetupCallbacks(mWindow->GetGLFWWindow());
-		RenderManager::Init(mWindow.get());
+		Renderer::Init();
 	}
 }

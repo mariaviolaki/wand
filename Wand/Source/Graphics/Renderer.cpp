@@ -1,136 +1,138 @@
 #include "WandPCH.h"
 #include "Renderer.h"
 
-#include "Base/VertexArray.h"
-#include "Base/VertexBuffer.h"
-#include "Base/VertexLayout.h"
-#include "Base/IndexBuffer.h"
-#include "Base/ShaderProgram.h"
 #include "glad/glad.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "Base/VertexLayout.h"
+#include "Core/Window.h"
 #include "Graphics.h"
 #include "Sprite.h"
+#include "Text.h"
 #include "Utils.h"
 
-namespace // only accessible from this translation unit
+namespace wand
 {
-	std::unique_ptr<wand::VertexArray> vao;
-	std::unique_ptr<wand::VertexBuffer> vbo;
-	std::unique_ptr<wand::IndexBuffer> ibo;
-	std::unique_ptr<wand::ShaderProgram> program;
-	std::vector<wand::Drawable*> renderQueue;
-	std::array<int, wand::MAX_TEXTURES> savedTexSlots {-1};
+	/*************************************Static Variables**************************************/
+	std::unique_ptr<VertexArray> Renderer::sVAO = nullptr;
+	std::unique_ptr<VertexBuffer> Renderer::sVBO = nullptr;
+	std::unique_ptr<IndexBuffer> Renderer::sIBO = nullptr;
+	std::unique_ptr<ShaderProgram> Renderer::sProgram = nullptr;
+	std::vector<Drawable*> Renderer::sRenderQueue;
+	std::array<int, MAX_TEXTURES> Renderer::sSavedTexSlots {-1};
+
+	/*************************************Public Functions***************************************/
+
+	void Renderer::Init()
+	{
+		SetupBuffers();
+		SetupShaderProgram();
+	}
+
+	void Renderer::Render()
+	{
+		do
+		{
+			unsigned int drawablesInBuffer, itemsInBuffer;
+			// Render each drawable in the vertex buffer
+			FillVertexBuffer(drawablesInBuffer, itemsInBuffer);
+			glDrawElements(
+				GL_TRIANGLES, Drawable::GetIndexCount() * itemsInBuffer, GL_UNSIGNED_INT, nullptr);
+
+			// Remove from the queue the drawables that were just rendered
+			sRenderQueue.erase(sRenderQueue.begin(), sRenderQueue.begin() + drawablesInBuffer);
+			// Reset the texture slots so that they can be reused by new textures
+			sSavedTexSlots.fill(-1);
+		}
+		while (!sRenderQueue.empty());
+	}
+
+	// Get an already existing drawable and push it to the render queue
+	void Renderer::Draw(Drawable* drawable)
+	{
+		sRenderQueue.emplace_back(drawable);
+	}
+
+	/**********************************Private Functions****************************************/
 
 	// Initialize the vao, vbo, and ibo to be used for rendering
-	void InitBuffers()
+	void Renderer::SetupBuffers()
 	{
-		vao = std::make_unique<wand::VertexArray>();
+		sVAO = std::make_unique<VertexArray>();
 		// Allocate memory for 1 large vertex and index buffer
-		vbo = std::make_unique<wand::VertexBuffer>(nullptr, wand::MAX_VERTICES * sizeof(wand::Vertex));
-		ibo = std::make_unique<wand::IndexBuffer>();
-
+		sVBO = std::make_unique<VertexBuffer>(nullptr, MAX_VERTICES * sizeof(Vertex));
+		sIBO = std::make_unique<IndexBuffer>();
+		
 		// Create a layout for the vertex array according to the attributes in the Vertex struct
-		wand::VertexLayout* layout = new wand::VertexLayout();
-		layout->AddFloats(wand::Vertex().position.length()); // vec3(x, y, z) -> 3 floats
-		layout->AddFloats(wand::Vertex().color.length()); // vec4(r, g, b, a) -> 4 floats
-		layout->AddFloats(wand::Vertex().texCoords.length()); // vec2(x, y) -> 2 floats
+		VertexLayout* layout = new VertexLayout();
+		layout->AddFloats(Vertex().position.length()); // vec3(x, y, z) -> 3 floats
+		layout->AddFloats(Vertex().color.length()); // vec4(r, g, b, a) -> 4 floats
+		layout->AddFloats(Vertex().texCoords.length()); // vec2(x, y) -> 2 floats
 		layout->AddFloats(1); // texture slot number -> 1 float
-		vao->AddLayout(layout);
+		layout->AddFloats(1); // to be rendered as text or not -> 1 float
+		sVAO->AddLayout(layout);
 	}
 
 	// Initialize the shader program and its uniforms to be used for rendering
-	void InitShaderProgram(wand::Window* window)
+	void Renderer::SetupShaderProgram()
 	{
 		// Choose the shaders to be used for rendering
-		program = std::make_unique<wand::ShaderProgram>("Standard.vert", "Standard.frag");
-
+		sProgram = std::make_unique<ShaderProgram>("Standard.vert", "Standard.frag");
+		
+		// Set the same pixel range that is used when generating a font atlas
+		sProgram->SetUniform1f("uPixelRange", 2.0f);
 		// Set up the texture slots in the fragment shader
-		const int slotCount = wand::MAX_TEXTURES + 1; // include the 'no texture' slot
+		const int slotCount = MAX_TEXTURES + 1; // include the 'no texture' slot
 		int texSlots[slotCount];
 		for (int i = 0; i < slotCount; i++) texSlots[i] = i;
-		program->SetUniform1iv("uTexSlots", slotCount, texSlots);
+		sProgram->SetUniform1iv("uTexSlots", slotCount, texSlots);
 		// Set the projection matrix in the shader according to the window size
-		program->SetUniformMat4("uProjection",
-			glm::ortho(0.0f, (float)window->GetWidth(), 0.0f, (float)window->GetHeight(), -1.0f, 1.0f));
+		sProgram->SetUniformMat4("uProjection",
+			glm::ortho(0.0f, (float)Window::GetWidth(), 0.0f, (float)Window::GetHeight(), -1.0f, 1.0f));
 	}
 
 	// Save the sprite's texture id in a new texture slot
-	void SaveTextureSlot(wand::Drawable* sprite, unsigned int& slotIndex)
+	void Renderer::SaveTextureSlot(Drawable* sprite, unsigned int& slotIndex)
 	{
 		// Get the texture id of the sprite
 		unsigned int texId = sprite->GetTexId();
 		// Check if the texture already has a slot id
-		bool found = wand::Utils::FindInArray(texId, savedTexSlots.data(), savedTexSlots.size()) != -1;
+		bool found = Utils::FindInArray(texId, sSavedTexSlots.data(), sSavedTexSlots.size()) != -1;
 		// Save the slot for the current texture and increase the slot index
 		if (!found)
 		{
 			sprite->SetTextureSlot(slotIndex + 1); // slot 0 = no texture
-			savedTexSlots[slotIndex++] = texId;
+			sSavedTexSlots[slotIndex++] = texId;
 		}
 	}
 
 	// Add up to the maximum number of drawables to the buffer
-	unsigned int FillVertexBuffer()
+	void Renderer::FillVertexBuffer(unsigned int& drawablesInBuffer, unsigned int& itemsInBuffer)
 	{
-		unsigned int count = 0;
+		unsigned int drawableCount = 0; // number of drawables from the render queue
+		unsigned int itemCount = 0; // 1 drawable may include multiple items (text includes letters)
+		unsigned int bufferIndex = 0; // first available byte in the vertex buffer
 		unsigned int slotIndex = 0;
 		// Add drawables from the queue to the vertex buffer
-		for (auto& drawable : renderQueue)
+		for (auto& drawable : sRenderQueue)
 		{
-			// Check if the drawable is a sprite (instead of a rectangle)
-			if (dynamic_cast<wand::Sprite*>(drawable))
+			if (itemCount + drawable->GetItemCount() > MAX_DRAWABLE_ITEMS || slotIndex == MAX_TEXTURES)
+				break;
+
+			// Check if the drawable is a sprite or text object (instead of a rectangle)
+			if (dynamic_cast<Sprite*>(drawable) || dynamic_cast<Text*>(drawable))
 				SaveTextureSlot(drawable, slotIndex);
 
-			// Add the drawables data to the large index buffer
+			// Add the drawable's data to the large index buffer
 			glBufferSubData(GL_ARRAY_BUFFER,
-				count * wand::Drawable::GetSize(),	// starting point in buffer
-				wand::Drawable::GetSize(),			// size in buffer
-				drawable->GetVertexData()->data());	// data to be rendered
-			count++;
-
-			if (count == wand::MAX_DRAWABLES || slotIndex == wand::MAX_TEXTURES)
-				break;
+				bufferIndex,						// starting point in buffer
+				drawable->GetBufferSize(),			// size in buffer
+				&(drawable->GetVertexData()[0]));	// data to be rendered
+			drawableCount++;
+			itemCount += drawable->GetItemCount();
+			bufferIndex += drawable->GetBufferSize();
 		}
-		return count;
-	}
-}
-
-/**************************************************************************************/
-
-namespace wand::RenderManager // compile with C++17 at least
-{
-	void Init(Window* window)
-	{
-		InitBuffers();
-		InitShaderProgram(window);
-	}
-
-	void Render()
-	{
-		do
-		{
-			// Render each drawable in the vertex buffer
-			unsigned int drawablesInBuffer = FillVertexBuffer();
-			glDrawElements(
-				GL_TRIANGLES, Drawable::GetIndexCount() * drawablesInBuffer, GL_UNSIGNED_INT, nullptr);
-
-			// Remove from the queue the drawables that were just rendered
-			renderQueue.erase(renderQueue.begin(), renderQueue.begin() + drawablesInBuffer);
-			// Reset the texture slots so that they can be reused by new textures
-			savedTexSlots.fill(-1);
-		}
-		while (!renderQueue.empty());
-	}
-}
-
-/**************************************************************************************/
-
-namespace wand::Renderer // compile with C++17 at least
-{
-	// Get an already existing drawable and push it to the render queue
-	void Draw(Drawable* drawable)
-	{
-		renderQueue.emplace_back(drawable);
+		drawablesInBuffer = drawableCount;
+		itemsInBuffer = itemCount;
 	}
 }
