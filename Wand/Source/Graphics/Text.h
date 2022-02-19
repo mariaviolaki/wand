@@ -25,7 +25,6 @@ namespace wand
 		const std::vector<Vertex>& GetVertexData() override;
 
 	private:
-		unsigned int mAsciiMin;
 		unsigned int mLineHeight;
 		std::string mText;
 		glm::vec4 mColor;
@@ -34,8 +33,7 @@ namespace wand
 		std::vector<Vertex> mVertices;
 
 		void CreateVertex(const float posX, const float posY, const float texX, const float texY);
-		void UpdateGlyphPos(int& index, float& x, float& y, const float glyphWidth) const;
+		void UpdateGlyphPos(int& index, float& x, float& y, const float glyphAdvance) const;
 		unsigned int GetNextWordWidth(const int index) const;
-		float GetGlyphYPos(const msdf_atlas::GlyphGeometry& glyph, const float currentYPos) const;
 	};
 }

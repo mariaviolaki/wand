@@ -4,12 +4,13 @@ int main()
 {
 	wand::App app;
 
-	wand::FontManager::Add(new wand::Font("arialbd", "C:\\Windows\\Fonts\\arialbd.ttf", 50));
+	wand::FontManager::Add(new wand::Font("arial", "C:\\Windows\\Fonts\\arial.ttf", 50));
+
 	glm::vec4 rectColor = { 1.0f, 0.0f, 1.0f, 1.0f };
 	glm::vec4 textColor = { 0.0f, 1.0f, 1.0f, 0.6f };
 	float rectSize = 10.0f;
 	float spriteSize = 100.0f;
-
+	
 	while (app.IsRunning())
 	{
 		//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
@@ -29,7 +30,7 @@ int main()
 				wand::Renderer::Draw(r.get());
 			}
 		}
-
+		
 		// Render transparent and non-transparent sprites
 		for (int x = 0; x < wand::Window::GetWidth(); x += spriteSize + 50.0f)
 		{
@@ -45,18 +46,17 @@ int main()
 		}
 		
 		// Render semi-transparent text
-		std::shared_ptr<wand::Text> text = std::make_shared<wand::Text>("arialbd", 30, textColor);
+		std::shared_ptr<wand::Text> text = std::make_shared<wand::Text>("arial", 60, textColor);
 		text->SetPosition(0, wand::Window::GetHeight());
 
-		for (int i = 0; i < 12; i++)
+		for (int i = 0; i < 15; i++)
 		{
-			text->Add("WELCOME TO WAND ENGINE");
-			text->Add("Welcome to Wand Engine");
+			text->Add("The quick brown fox jumps over the lazy dog. 1234567890 ");
 		}
 		
 		drawables.emplace_back(text);
 		wand::Renderer::Draw(text.get());
-		
+
 		app.Update();
 
 		//std::chrono::steady_clock::time_point stop = std::chrono::steady_clock::now();

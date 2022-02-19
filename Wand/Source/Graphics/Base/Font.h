@@ -1,37 +1,49 @@
 #pragma once
 
-#include "msdfgen/msdfgen/msdfgen.h"
-#include "msdfgen/msdfgen/msdfgen-ext.h"
-#include "msdfgen/msdf-atlas-gen/msdf-atlas-gen.h"
+#include "ft2build.h"
+#include FT_FREETYPE_H
 
 namespace wand
 {
+    struct Glyph
+    {
+        float width;            // width in pixels
+        float height;           // height in pixels
+        float bearingX;         // distance from origin to left side
+        float bearingY;         // distance from origin to top side
+        float advanceX;         // distance from origin to next glyph's origin
+        float texCoordX;        // x coordinate in the texture
+    };
+
     class Font
     {
     public:
-        Font(const std::string& name, const std::string& path, unsigned int size = MSDF_ATLAS_DEFAULT_EM_SIZE);
+        Font(const std::string& name, const std::string& path, unsigned int size = 24);
         ~Font();
 
         const std::string GetName() const;
         const std::string GetPath() const;
         const unsigned int GetSize() const;
 
-        const msdf_atlas::BitmapAtlasStorage<unsigned char, 3>& GetAtlas() const;
-        const std::vector<msdf_atlas::GlyphGeometry>& GetGlyphs() const;
+        unsigned int GetAtlasWidth() const;
+        unsigned int GetAtlasHeight() const;
+        const FT_Face& GetFontFace() const;
+        const std::unordered_map<char, Glyph*>& GetGlyphs() const;
 
     private:
         std::string mName;
         std::string mPath;
         unsigned int mSize;
-        msdfgen::FreetypeHandle* mFreetypeHandle;
-        msdfgen::FontHandle* mFontHandle;
-        // Atlas texture data
-        msdf_atlas::BitmapAtlasStorage<unsigned char, 3> mAtlasData;
-        // Glyphs and their coordinates in the atlas
-        std::vector<msdf_atlas::GlyphGeometry> mGlyphs;
+        FT_Library mFreetype;
+        FT_Face mFace;
+        std::unordered_map<char, Glyph*> mCharacters;
+        unsigned int mAtlasWidth;
+        unsigned int mAtlasHeight;
 
-        bool InitFontHandles(const std::string fontPath);
-        void ReleaseFontHandles();
+        void InitFreeType();
+        void LoadFontData();
         void CreateAtlas();
+        void CreateGlyph(const float xPos, const int character, const FT_GlyphSlot& glyphSlot);
+        void ClearFreeType();
     };
 }

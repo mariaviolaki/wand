@@ -17,7 +17,7 @@ namespace wand
 		glGenTextures(1, &mId);
 		Bind(mTexSlot);
 
-		ConfigTexture(GL_LINEAR);
+		ConfigTexture();
 		LoadWhiteTexture();
 	}
 	// Constructor for images
@@ -29,21 +29,22 @@ namespace wand
 		glGenTextures(1, &mId);
 		Bind(mTexSlot);
 
-		ConfigTexture(GL_LINEAR);
+		ConfigTexture();
 		//FindColorFormat(); // not reliable
 		LoadSpriteTexture();
 	}
+
 	// Constructor for fonts
-	Texture::Texture(const msdf_atlas::BitmapAtlasStorage<unsigned char, 3>& fontAtlas)
-		: mImagePath(""), mImageData(nullptr), mTexSlot(1),
-		mWidth(1), mHeight(1), mBytesPerPixel(3), mColorFormat(ColorFormat::RGB)
+	Texture::Texture(const Font& font)
+		: mImagePath(""), mImageData(nullptr), mTexSlot(1),	mWidth(font.GetAtlasWidth()), 
+		mHeight(font.GetAtlasHeight()), mBytesPerPixel(1), mColorFormat(ColorFormat::RED)
 	{
 		// Allocate space and bind a 2D texture
 		glGenTextures(1, &mId);
 		Bind(mTexSlot);
 
-		ConfigTexture(GL_LINEAR_MIPMAP_LINEAR);
-		LoadFontTexture(fontAtlas);
+		ConfigTexture();
+		LoadFontTexture(font);
 	}
 
 	Texture::~Texture()
@@ -80,10 +81,10 @@ namespace wand
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	void Texture::ConfigTexture(unsigned int minFilter) const
+	void Texture::ConfigTexture() const
 	{
 		// Set how the texture will be processed when it needs to be scaled up or down
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter); // smaller
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // smaller
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // larger
 		// Set how (and if) the texture will be repeated if its coords exceed the [0 1] range
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // x axis
@@ -109,18 +110,29 @@ namespace wand
 			0, openglFormat, mWidth, mHeight, 0, openglFormat, GL_UNSIGNED_BYTE, mImageData);
 	}
 
-	void Texture::LoadFontTexture(const msdf_atlas::BitmapAtlasStorage<unsigned char, 3>& fontAtlas)
+	void Texture::LoadFontTexture(const Font& font)
 	{
-		int openglFormat = (mColorFormat == ColorFormat::RGB) ? GL_RGB : GL_RGBA;
+		// Use 1 color channer per pixel
+		int openglFormat = GL_RED;
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-		auto atlasBitmap = msdfgen::BitmapConstRef<unsigned char, 3>(fontAtlas);
-		mImageData = (unsigned char*) atlasBitmap.pixels;
-		mWidth = atlasBitmap.width;
-		mHeight = atlasBitmap.height;
-
+		// Reserve memory for the individual glyph bitmaps in the atlas
 		glTexImage2D(GL_TEXTURE_2D,
-			0, openglFormat, mWidth, mHeight, 0, openglFormat, GL_UNSIGNED_BYTE, mImageData);
-		glGenerateMipmap(GL_TEXTURE_2D);
+			0, GL_RED, font.GetAtlasWidth(), font.GetAtlasHeight(), 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+
+		int xPos = 0;
+		// Add all the glyph bitmaps into the same texture
+		FT_GlyphSlot glyph = font.GetFontFace()->glyph;
+		for (int c = 32; c < 128; c++)
+		{
+			if (FT_Load_Char(font.GetFontFace(), c, FT_LOAD_RENDER))
+				continue;
+
+			glTexSubImage2D(GL_TEXTURE_2D, 0, xPos, 0, 
+				glyph->bitmap.width, glyph->bitmap.rows, GL_RED, GL_UNSIGNED_BYTE, glyph->bitmap.buffer);
+
+			xPos += glyph->bitmap.width;
+		}
 	}
 
 	// Get the pixel data format according to the image extension

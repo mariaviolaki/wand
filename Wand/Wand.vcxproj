@@ -61,7 +61,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\Dependencies\;$(ProjectDir)Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\Dependencies\FreeType\;$(SolutionDir)Wand\Dependencies\;$(ProjectDir)Source\</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -83,7 +83,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\Dependencies\;$(ProjectDir)Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\Dependencies\FreeType\;$(SolutionDir)Wand\Dependencies\;$(ProjectDir)Source\</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -103,16 +103,16 @@
     <ClCompile Include="Dependencies\stb\stb_image.cpp" />
     <ClCompile Include="Source\Graphics\Base\Font.cpp" />
     <ClCompile Include="Source\Graphics\FontManager.cpp" />
-    <ClCompile Include="Wand.cpp" />
+    <ClCompile Include="Source\Graphics\Text.cpp" />
+    <ClCompile Include="Source\Wand.cpp" />
     <ClCompile Include="Source\Core\App.cpp" />
     <ClCompile Include="Source\Graphics\Drawable.cpp" />
     <ClCompile Include="Source\Graphics\Base\IndexBuffer.cpp" />
     <ClCompile Include="Source\Graphics\Base\Texture.cpp" />
-    <ClCompile Include="Source\Graphics\Text.cpp" />
     <ClCompile Include="Source\Graphics\Rectangle.cpp" />
     <ClCompile Include="Source\Graphics\Renderer.cpp" />
     <ClCompile Include="Source\Graphics\Sprite.cpp" />
-    <ClCompile Include="Source\Graphics\Transform.cpp" />
+    <ClCompile Include="Source\Graphics\Base\Transform.cpp" />
     <ClCompile Include="Source\Input\Input.cpp" />
     <ClCompile Include="Source\Graphics\Base\ShaderProgram.cpp" />
     <ClCompile Include="Source\Graphics\Base\VertexArray.cpp" />
@@ -131,14 +131,14 @@
     <ClInclude Include="Source\Graphics\Drawable.h" />
     <ClInclude Include="Source\Graphics\Base\Font.h" />
     <ClInclude Include="Source\Graphics\FontManager.h" />
-    <ClInclude Include="Source\Graphics\Text.h" />
     <ClInclude Include="Source\Graphics\Graphics.h" />
     <ClInclude Include="Source\Graphics\Base\IndexBuffer.h" />
     <ClInclude Include="Source\Graphics\Base\Texture.h" />
     <ClInclude Include="Source\Graphics\Rectangle.h" />
     <ClInclude Include="Source\Graphics\Renderer.h" />
     <ClInclude Include="Source\Graphics\Sprite.h" />
-    <ClInclude Include="Source\Graphics\Transform.h" />
+    <ClInclude Include="Source\Graphics\Text.h" />
+    <ClInclude Include="Source\Graphics\Base\Transform.h" />
     <ClInclude Include="Source\Input\Input.h" />
     <ClInclude Include="Source\Input\InputMacros.h" />
     <ClInclude Include="Source\Graphics\Base\ShaderProgram.h" />
@@ -148,7 +148,7 @@
     <ClInclude Include="Source\Utils.h" />
     <ClInclude Include="Source\WandPCH.h" />
     <ClInclude Include="Source\Core\Window.h" />
-    <ClInclude Include="Wand.h" />
+    <ClInclude Include="Source\Wand.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Graphics\Base\Shaders\Standard.frag" />

@@ -79,8 +79,6 @@ namespace wand
 		// Choose the shaders to be used for rendering
 		sProgram = std::make_unique<ShaderProgram>("Standard.vert", "Standard.frag");
 		
-		// Set the same pixel range that is used when generating a font atlas
-		sProgram->SetUniform1f("uPixelRange", 2.0f);
 		// Set up the texture slots in the fragment shader
 		const int slotCount = MAX_TEXTURES + 1; // include the 'no texture' slot
 		int texSlots[slotCount];

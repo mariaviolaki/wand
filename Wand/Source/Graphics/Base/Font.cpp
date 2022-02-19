@@ -3,93 +3,106 @@
 
 namespace wand
 {
-	/***************************Constructors/Destructor***********************************/
 	Font::Font(const std::string& name, const std::string& path, unsigned int size)
-		: mName(name), mPath(path), mSize(size), mFreetypeHandle(nullptr), mFontHandle(nullptr)
+		: mName(name), mPath(path), mSize(size), mFreetype(nullptr), mFace(nullptr),
+		mAtlasWidth(0), mAtlasHeight(0)
 	{
-		if (!InitFontHandles(path))
-			std::cout << "FontAtlas: Unable to load font file.\n";
-		CreateAtlas();
+		InitFreeType();
+		LoadFontData();
 	}
-	
+
 	Font::~Font()
 	{
-		ReleaseFontHandles();
+		// Repeat for each glyph in the font
+		for (int c = 32; c < 128; c++)
+		{
+			delete mCharacters.at(c);	// delete glyph datar
+		}
+		ClearFreeType();
 	}
 
-	const std::string Font::GetName() const { return mName;	}
-
+	const std::string Font::GetName() const { return mName; }
 	const std::string Font::GetPath() const { return mPath; }
-
 	const unsigned int Font::GetSize() const { return mSize; }
 
-	/******************************Font Operations************************************/
-	const msdf_atlas::BitmapAtlasStorage<msdfgen::byte, 3>& Font::GetAtlas() const
+	unsigned int Font::GetAtlasWidth() const { return mAtlasWidth; }
+	unsigned int Font::GetAtlasHeight() const { return mAtlasHeight; }
+	const FT_Face& Font::GetFontFace() const { return mFace; }
+	const std::unordered_map<char, Glyph*>& Font::GetGlyphs() const	{ return mCharacters; }
+
+	// Initialize FreeType resources
+	void Font::InitFreeType()
 	{
-		return mAtlasData;
+		// Initialize FreeType library
+		if (FT_Init_FreeType(&mFreetype))
+			std::cout << "FreeType: Failed to initialize FreeType library.\n";
+		// Load the given font
+		if (FT_New_Face(mFreetype, mPath.c_str(), 0, &mFace))
+			std::cout << "FreeType: Failed to load font.\n";
+		FT_Set_Pixel_Sizes(mFace, 0, mSize);
 	}
 
-	const std::vector<msdf_atlas::GlyphGeometry>& Font::GetGlyphs() const
+	// Load the glyph data from the font and create an atlas
+	void Font::LoadFontData()
 	{
-		return mGlyphs;
+		CreateAtlas();
+
+		FT_GlyphSlot glyphSlot = mFace->glyph;
+		float xPos = 0.0f;
+		for (int c = 32; c < 128; c++)
+		{
+			// Load a specific ASCII character from the font
+			if (FT_Load_Char(mFace, c, FT_LOAD_RENDER))
+			{
+				std::cout << "FreeType: Failed to load character " << c << std::endl;
+				continue;
+			}
+
+			// Create a new glyph and add it to the unordered map
+			CreateGlyph(xPos, c, glyphSlot);
+			// Move the x position for the next glyph in the atlas
+			xPos += glyphSlot->bitmap.width;
+		}
 	}
 
-	bool Font::InitFontHandles(const std::string fontPath)
-	{
-		// Initialize the freetype handle and load a font from a given path
-		if (mFreetypeHandle = msdfgen::initializeFreetype())
-			mFontHandle = msdfgen::loadFont(mFreetypeHandle, fontPath.c_str());
-		return mFontHandle;
-	}
-
-	void Font::ReleaseFontHandles()
-	{
-		// Release font resources
-		if (mFontHandle) msdfgen::destroyFont(mFontHandle);
-		if (mFreetypeHandle) msdfgen::deinitializeFreetype(mFreetypeHandle);
-	}
-
-	// Create a font atlas bitmap using multi-channel distance fields
+	// Store the dimensions of a texture atlas that contains all the ASCII glyphs in the font
 	void Font::CreateAtlas()
 	{
-		// Storage for glyph geometry and their coordinates in the atlas
-		std::vector<msdf_atlas::GlyphGeometry> glyphs;
-		// Helper class that loads a set of glyphs from a font and gets font metrics
-		msdf_atlas::FontGeometry fontGeometry(&glyphs);
-		// Load a set of character glyphs
-		fontGeometry.loadCharset(mFontHandle, 1.0, msdf_atlas::Charset::ASCII);
-		// Apply MSDF edge coloring
-		const double maxCornerAngle = 3.0;
-		for (msdf_atlas::GlyphGeometry& glyph : glyphs)
-			glyph.edgeColoring(&msdfgen::edgeColoringInkTrap, maxCornerAngle, 0);
-		// Compute the layout of the atlas
-		msdf_atlas::TightAtlasPacker packer;
-		// Find the best value
-		packer.setDimensionsConstraint(msdf_atlas::TightAtlasPacker::DimensionsConstraint::POWER_OF_TWO_RECTANGLE);
-		// Set font size
-		packer.setMinimumScale(mSize);
-		//packer.setPadding(0);
-		packer.setPixelRange(2.0);
-		packer.setMiterLimit(1.0);
-		// Compute atlas layout - pack glyphs
-		packer.pack(glyphs.data(), glyphs.size());
-		// Get final atlas dimensions
-		int width = 0, height = 0;
-		packer.getDimensions(width, height);
-		// Create a generator for the atlas bitmap
-		msdf_atlas::ImmediateAtlasGenerator<float, 3,
-			(msdf_atlas::GeneratorFunction<float, 3>) &msdf_atlas::msdfGenerator,
-			msdf_atlas::BitmapAtlasStorage<unsigned char, 3>
-		> generator(width, height);
-		// Set the generator's attributes
-		msdf_atlas::GeneratorAttributes attributes;
-		generator.setAttributes(attributes);
-		generator.setThreadCount(4);
-		// Generate atlas bitmap
-		generator.generate(glyphs.data(), glyphs.size());
-		// Save the atlas bitmap in the atlasStorage
-		mAtlasData = generator.atlasStorage();
-		// Save positioning data for typesetting text in the glyphs array
-		mGlyphs = glyphs;
+		FT_GlyphSlot glyphSlot = mFace->glyph;
+		for (int c = 32; c < 128; c++)
+		{
+			// Load a specific ASCII character from the font
+			if (FT_Load_Char(mFace, c, FT_LOAD_RENDER))
+			{
+				std::cout << "FreeType: Failed to load character " << c << std::endl;
+				continue;
+			}
+
+			// Add the glyph's width to the atlas width
+			mAtlasWidth += glyphSlot->bitmap.width;
+			// Store the height of the tallest glyph
+			mAtlasHeight = std::max((int)mAtlasHeight, (int)glyphSlot->bitmap.rows);
+		}
+	}
+
+	// Create a new glyph and add it to the unordered map
+	void Font::CreateGlyph(const float xPos, const int character, const FT_GlyphSlot& glyphSlot)
+	{
+		// Allocate memory for the glyph
+		Glyph* glyph = new Glyph;
+		glyph->width = glyphSlot->bitmap.width;
+		glyph->height = glyphSlot->bitmap.rows;
+		glyph->bearingX = glyphSlot->bitmap_left;
+		glyph->bearingY = glyphSlot->bitmap_top;
+		glyph->advanceX = glyphSlot->advance.x / 64;
+		glyph->texCoordX = xPos;
+		mCharacters.insert(std::pair<char, Glyph*>(character, glyph));
+	}
+
+	// Clear FreeType resources
+	void Font::ClearFreeType()
+	{
+		FT_Done_Face(mFace);
+		FT_Done_FreeType(mFreetype);
 	}
 }
