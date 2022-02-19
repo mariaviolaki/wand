@@ -104,6 +104,7 @@
     <ClCompile Include="Source\Graphics\Base\Font.cpp" />
     <ClCompile Include="Source\Graphics\FontManager.cpp" />
     <ClCompile Include="Source\Graphics\Text.cpp" />
+    <ClCompile Include="Source\UI\UIComponent.cpp" />
     <ClCompile Include="Source\Wand.cpp" />
     <ClCompile Include="Source\Core\App.cpp" />
     <ClCompile Include="Source\Graphics\Drawable.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Source\Graphics\Base\VertexArray.h" />
     <ClInclude Include="Source\Graphics\Base\VertexBuffer.h" />
     <ClInclude Include="Source\Graphics\Base\VertexLayout.h" />
+    <ClInclude Include="Source\UI\UIComponent.h" />
     <ClInclude Include="Source\Utils.h" />
     <ClInclude Include="Source\WandPCH.h" />
     <ClInclude Include="Source\Core\Window.h" />

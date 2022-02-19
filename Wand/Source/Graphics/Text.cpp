@@ -32,9 +32,9 @@ namespace wand
 
 	glm::vec4 Text::GetColor() const { return mColor; }
 	void Text::SetColor(glm::vec4 color) { mColor = color; }
-    
+
     unsigned int Text::GetTexId() const { return mTexture->GetId(); }
-    void Text::SetTextureSlot(int slot) { mTexture->Bind(slot); }
+	void Text::SetTextureSlot(int slot) { mTexture->Bind(slot); }
 	unsigned int Text::GetItemCount() const	{ return mText.size(); }
 	// Get the size in bytes for each glyph in the text (= 4 vertices * num of letters)
 	unsigned int Text::GetBufferSize() const { return 4 * sizeof(Vertex) * mText.size(); }
@@ -68,7 +68,7 @@ namespace wand
 				glyphWidth = spaceWidth;
 
 			// Get the bounds of the glyph in the atlas
-			float lBound = glyph->texCoordX;
+			float lBound = glyph->atlasCoordX;
 			float bBound = glyphHeight;
 			float rBound = lBound + glyphWidth;
 			float tBound = 0;

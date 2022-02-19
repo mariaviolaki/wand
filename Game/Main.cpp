@@ -46,14 +46,14 @@ int main()
 		}
 		
 		// Render semi-transparent text
-		std::shared_ptr<wand::Text> text = std::make_shared<wand::Text>("arial", 60, textColor);
+		std::shared_ptr<wand::Text> text = std::make_shared<wand::Text>("arial", 20, textColor);
 		text->SetPosition(0, wand::Window::GetHeight());
 
-		for (int i = 0; i < 15; i++)
+		for (int i = 0; i < 50; i++)
 		{
 			text->Add("The quick brown fox jumps over the lazy dog. 1234567890 ");
 		}
-		
+
 		drawables.emplace_back(text);
 		wand::Renderer::Draw(text.get());
 

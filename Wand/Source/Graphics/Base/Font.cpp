@@ -15,9 +15,8 @@ namespace wand
 	{
 		// Repeat for each glyph in the font
 		for (int c = 32; c < 128; c++)
-		{
-			delete mCharacters.at(c);	// delete glyph datar
-		}
+			delete mCharacters.at(c);	// delete glyph data
+
 		ClearFreeType();
 	}
 
@@ -45,8 +44,6 @@ namespace wand
 	// Load the glyph data from the font and create an atlas
 	void Font::LoadFontData()
 	{
-		CreateAtlas();
-
 		FT_GlyphSlot glyphSlot = mFace->glyph;
 		float xPos = 0.0f;
 		for (int c = 32; c < 128; c++)
@@ -62,21 +59,6 @@ namespace wand
 			CreateGlyph(xPos, c, glyphSlot);
 			// Move the x position for the next glyph in the atlas
 			xPos += glyphSlot->bitmap.width;
-		}
-	}
-
-	// Store the dimensions of a texture atlas that contains all the ASCII glyphs in the font
-	void Font::CreateAtlas()
-	{
-		FT_GlyphSlot glyphSlot = mFace->glyph;
-		for (int c = 32; c < 128; c++)
-		{
-			// Load a specific ASCII character from the font
-			if (FT_Load_Char(mFace, c, FT_LOAD_RENDER))
-			{
-				std::cout << "FreeType: Failed to load character " << c << std::endl;
-				continue;
-			}
 
 			// Add the glyph's width to the atlas width
 			mAtlasWidth += glyphSlot->bitmap.width;
@@ -95,7 +77,7 @@ namespace wand
 		glyph->bearingX = glyphSlot->bitmap_left;
 		glyph->bearingY = glyphSlot->bitmap_top;
 		glyph->advanceX = glyphSlot->advance.x / 64;
-		glyph->texCoordX = xPos;
+		glyph->atlasCoordX = xPos;
 		mCharacters.insert(std::pair<char, Glyph*>(character, glyph));
 	}
 

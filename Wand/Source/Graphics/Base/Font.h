@@ -7,12 +7,12 @@ namespace wand
 {
     struct Glyph
     {
-        float width;            // width in pixels
-        float height;           // height in pixels
-        float bearingX;         // distance from origin to left side
-        float bearingY;         // distance from origin to top side
-        float advanceX;         // distance from origin to next glyph's origin
-        float texCoordX;        // x coordinate in the texture
+        float width;        // width in pixels
+        float height;       // height in pixels
+        float bearingX;     // distance from origin to left side
+        float bearingY;     // distance from origin to top side
+        float advanceX;     // distance from origin to next glyph's origin
+        float atlasCoordX;  // x coordinate in the atlas
     };
 
     class Font
@@ -42,7 +42,6 @@ namespace wand
 
         void InitFreeType();
         void LoadFontData();
-        void CreateAtlas();
         void CreateGlyph(const float xPos, const int character, const FT_GlyphSlot& glyphSlot);
         void ClearFreeType();
     };
