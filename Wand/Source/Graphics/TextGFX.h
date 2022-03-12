@@ -6,10 +6,10 @@
 
 namespace wand
 {
-	class Text : public Drawable
+	class TextGFX : public Drawable
 	{
 	public:
-		Text(const std::string& fontName, unsigned int fontSize, const glm::vec4& color);
+		TextGFX(const std::string& fontName, unsigned int fontSize, const glm::vec4& color);
 
 		void Add(const std::string& newText);
 		void Clear();
@@ -25,10 +25,10 @@ namespace wand
 		const std::vector<Vertex>& GetVertexData() override;
 
 	private:
-		unsigned int mLineHeight;
 		std::string mText;
 		glm::vec4 mColor;
 		Font* mFont;
+		unsigned int mLineHeight;
 		std::shared_ptr<Texture> mTexture;
 		std::vector<Vertex> mVertices;
 

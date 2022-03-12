@@ -8,10 +8,24 @@ namespace wand
 	class Drawable
 	{
 	protected:
-		Drawable(glm::vec2 dimens = {100.0f, 100.0f});
+		Drawable();
 
 	public:
 		static unsigned int GetIndexCount();
+
+		// Drawable operations
+		bool IsVisible() const;
+		void Show();
+		void Hide();
+
+		virtual unsigned int GetItemCount() const = 0;
+		virtual unsigned int GetBufferSize() const = 0;
+		virtual const std::vector<Vertex>& GetVertexData() = 0;
+
+		virtual unsigned int GetTexId() const { return 0; };
+		virtual void SetTextureSlot(int slot) {};
+		virtual glm::vec4 GetColor() const { return { 1.0f, 1.0f, 1.0f, 1.0f }; };
+		virtual void SetColor(glm::vec4 color) {};
 
 		// Transform operations
 		glm::vec3 GetPosition() const;
@@ -21,17 +35,9 @@ namespace wand
 		void SetWidth(float width);
 		void SetHeight(float height);
 
-		// Drawable operations
-		virtual glm::vec4 GetColor() const { return { 1.0f, 1.0f, 1.0f, 1.0f }; };
-		virtual unsigned int GetTexId() const { return 0; };
-		virtual void SetColor(glm::vec4 color) {};
-		virtual void SetTextureSlot(int slot) {};
-		virtual unsigned int GetItemCount() const = 0;
-		virtual unsigned int GetBufferSize() const = 0;
-		virtual const std::vector<Vertex>& GetVertexData() = 0;
-
 	private:
 		static const unsigned int sIndexCount;
+		bool mIsVisible;
 		std::shared_ptr<Transform> mTransform;
 	};
 }

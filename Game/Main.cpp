@@ -1,5 +1,10 @@
 #include "Wand.h"
 
+void fun()
+{
+	std::cout << "wand\n";
+}
+
 int main()
 {
 	wand::App app;
@@ -8,7 +13,7 @@ int main()
 
 	glm::vec4 rectColor = { 1.0f, 0.0f, 1.0f, 1.0f };
 	glm::vec4 textColor = { 0.0f, 1.0f, 1.0f, 0.6f };
-	float rectSize = 10.0f;
+	float rectSize = 50.0f;
 	float spriteSize = 100.0f;
 	
 	while (app.IsRunning())
@@ -16,7 +21,7 @@ int main()
 		//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 		
 		std::vector<std::shared_ptr<wand::Drawable>> drawables;
-		
+
 		// Render solid-color rectangles
 		for (float x = 0.0f; x <= wand::Window::GetWidth(); x += rectSize + 10.0f)
 		{
@@ -27,10 +32,12 @@ int main()
 				r->SetWidth(rectSize);
 				r->SetHeight(rectSize);
 				drawables.emplace_back(r);
-				wand::Renderer::Draw(r.get());
+				r->OnClick(fun);
+				r->Show();
 			}
 		}
-		
+
+		/*
 		// Render transparent and non-transparent sprites
 		for (int x = 0; x < wand::Window::GetWidth(); x += spriteSize + 50.0f)
 		{
@@ -41,22 +48,26 @@ int main()
 				std::shared_ptr<wand::Sprite> s = std::make_shared<wand::Sprite>(path);
 				s->SetPosition(x, y);
 				drawables.emplace_back(s);
-				wand::Renderer::Draw(s.get());
+				s->OnClick(fun);
+				s->Show();
 			}
 		}
 		
 		// Render semi-transparent text
-		std::shared_ptr<wand::Text> text = std::make_shared<wand::Text>("arial", 20, textColor);
-		text->SetPosition(0, wand::Window::GetHeight());
-
-		for (int i = 0; i < 50; i++)
+		std::shared_ptr<wand::Text> text = std::make_shared<wand::Text>("arial", 50, textColor);
+		text->SetPosition(0, 0);
+		text->SetWidth(wand::Window::GetWidth());
+		text->SetHeight(wand::Window::GetHeight());
+		for (int i = 0; i < 10; i++)
 		{
 			text->Add("The quick brown fox jumps over the lazy dog. 1234567890 ");
 		}
 
 		drawables.emplace_back(text);
-		wand::Renderer::Draw(text.get());
-
+		text->Hide();
+		text->OnClick(fun);
+		text->Show();
+		*/
 		app.Update();
 
 		//std::chrono::steady_clock::time_point stop = std::chrono::steady_clock::now();

@@ -7,8 +7,8 @@
 #include "Base/VertexLayout.h"
 #include "Core/Window.h"
 #include "Graphics.h"
-#include "Sprite.h"
-#include "Text.h"
+#include "SpriteGFX.h"
+#include "TextGFX.h"
 #include "Utils.h"
 
 namespace wand
@@ -48,9 +48,17 @@ namespace wand
 	}
 
 	// Get an already existing drawable and push it to the render queue
-	void Renderer::Draw(Drawable* drawable)
+	void Renderer::Submit(Drawable* drawable)
 	{
 		sRenderQueue.emplace_back(drawable);
+	}
+
+	void Renderer::Remove(const Drawable* drawable)
+	{
+		// Remove from the queue the drawable with the given id
+		sRenderQueue.erase(std::remove_if(sRenderQueue.begin(), sRenderQueue.end(),
+			[drawable](Drawable* vecDrawable) { return vecDrawable == drawable; }),
+			sRenderQueue.end());
 	}
 
 	/**********************************Private Functions****************************************/
@@ -118,7 +126,7 @@ namespace wand
 				break;
 
 			// Check if the drawable is a sprite or text object (instead of a rectangle)
-			if (dynamic_cast<Sprite*>(drawable) || dynamic_cast<Text*>(drawable))
+			if (dynamic_cast<SpriteGFX*>(drawable) || dynamic_cast<TextGFX*>(drawable))
 				SaveTextureSlot(drawable, slotIndex);
 
 			// Add the drawable's data to the large index buffer

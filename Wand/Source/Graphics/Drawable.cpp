@@ -1,5 +1,6 @@
 #include "WandPCH.h"
 #include "Drawable.h"
+#include "Renderer.h"
 
 namespace wand
 {
@@ -11,9 +12,29 @@ namespace wand
 	unsigned int Drawable::GetIndexCount() { return sIndexCount; }
 
 	/******************** DRAWABLE METHODS **********************/
-	Drawable::Drawable(glm::vec2 dimens)
-		: mTransform(std::make_shared<Transform>(dimens))
+	Drawable::Drawable()
+		: mIsVisible(false), mTransform(std::make_shared<Transform>())
 	{}
+	
+	bool Drawable::IsVisible() const { return mIsVisible; }
+
+	void Drawable::Show()
+	{
+		if (mIsVisible == false)
+		{
+			mIsVisible = true;
+			Renderer::Submit(this);
+		}
+	}
+
+	void Drawable::Hide()
+	{
+		if (mIsVisible == true)
+		{
+			mIsVisible = false;
+			Renderer::Remove(this);
+		}
+	}
 
 	glm::vec3 Drawable::GetPosition() const	{ return mTransform->GetPosition(); }
 	float Drawable::GetWidth() const { return mTransform->GetWidth(); }

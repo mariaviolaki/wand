@@ -34,7 +34,7 @@ namespace wand
 
 	void App::Start()
 	{
-		InputManager::SetupCallbacks(mWindow->GetGLFWWindow());
+		Input::SetupCallbacks(mWindow->GetGLFWWindow());
 		Renderer::Init();
 	}
 }

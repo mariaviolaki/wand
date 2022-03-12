@@ -1,71 +1,71 @@
 #include "WandPCH.h"
 #include "Input.h"
 
-namespace // Only accessible in this file
+namespace wand
 {
-	bool capsLockOn = false;
-	const int MAX_KEYS = 400;
-	const int MAX_MOUSE_BUTTONS = 10;
-	bool keys[MAX_KEYS];
-	bool mouseButtons[MAX_MOUSE_BUTTONS];
-	double mouseXPos = 0.0;
-	double mouseYPos = 0.0;
-	double xScrollOffset = 0.0;
-	double yScrollOffset = 0.0;
+	const int Input::MAX_KEYS = 400;
+	const int Input::MAX_MOUSE_BUTTONS = 10;
+	bool Input::capsLockOn = false;
+	ButtonStatus Input::keys[MAX_KEYS];
+	ButtonStatus Input::mouseButtons[MAX_MOUSE_BUTTONS];
+	double Input::mouseXPos = 0.0;
+	double Input::mouseYPos = 0.0;
+	double Input::xScrollOffset = 0.0;
+	double Input::yScrollOffset = 0.0;
 
-	// Set the initial state of input
-	void InitInput()
+	/************************ PUBLIC FUNCTIONS *****************************/
+
+	bool Input::IsCapsLockOn()
 	{
-		// Set all keys to be released (false)
-		for (int i = 0; i < MAX_KEYS; i++)
-		{
-			keys[i] = false;
-		}
-
-		// Set all mouse buttons to be released (false)
-		for (int i = 0; i < MAX_MOUSE_BUTTONS; i++)
-		{
-			mouseButtons[i] = false;
-		}
+		return capsLockOn;
 	}
 
-	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	ButtonStatus Input::GetKeyStatus(int key)
 	{
-		if (action == GLFW_PRESS || action == GLFW_REPEAT)
-			keys[key] = true;
-		else // GLFW_RELEASE
-			keys[key] = false;
-
-		// Set the state of Caps Lock based on a bitwise [AND] operation
-		capsLockOn = mods & GLFW_MOD_CAPS_LOCK;
+		ButtonStatus status = keys[key];
+		if (keys[key] == ButtonStatus::PRESSED)
+			keys[key] = ButtonStatus::REPEATED;
+		return status;
 	}
 
-	void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+	ButtonStatus Input::GetMouseButtonStatus(int button)
 	{
-		if (action == GLFW_PRESS || action == GLFW_REPEAT)
-			mouseButtons[button] = true;
-		else // GLFW_RELEASE
-			mouseButtons[button] = false;
+		ButtonStatus status = mouseButtons[button];
+		if (mouseButtons[button] == ButtonStatus::PRESSED)
+			mouseButtons[button] = ButtonStatus::REPEATED;
+		return status;
 	}
 
-	static void CursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
+	void Input::GetMousePos(double& x, double& y)
 	{
-		mouseXPos = xpos;
-		mouseYPos = ypos;
+		x = mouseXPos;
+		y = mouseYPos;
 	}
 
-	void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+	double Input::GetXScrollOffset()
 	{
-		xScrollOffset = xoffset;
-		yScrollOffset = yoffset;
+		double offset = xScrollOffset;
+		xScrollOffset = 0; // reset to 0
+		return offset;
 	}
-}
 
-/**************************************************************************************/
+	double Input::GetYScrollOffset()
+	{
+		double offset = yScrollOffset;
+		yScrollOffset = 0; // reset to 0
+		return offset;
+	}
 
-namespace wand::InputManager // compile with C++17 at least
-{
-	void SetupCallbacks(GLFWwindow* win)
+	bool Input::IsMouseInArea(const float& x, const float& y, const float& w, const float& h)
+	{
+		double currentX, currentY;
+		GetMousePos(currentX, currentY);
+
+		return currentX >= x && currentX <= x + w
+			&& currentY >= y && currentY <= y + h;
+	}
+
+	void Input::SetupCallbacks(GLFWwindow* win)
 	{
 		InitInput();
 		// Allow checking the state of Caps Lock
@@ -75,44 +75,53 @@ namespace wand::InputManager // compile with C++17 at least
 		glfwSetCursorPosCallback(win, CursorPositionCallback);
 		glfwSetScrollCallback(win, ScrollCallback);
 	}
-}
 
-/**************************************************************************************/
+	/************************ PRIVATE FUNCTIONS *****************************/
 
-namespace wand::Input // compile with C++17 at least
-{
-	bool IsCapsLockOn()
+	// Set the initial state of input
+	void Input::InitInput()
 	{
-		return capsLockOn;
+		// Set all keys to be released
+		for (int i = 0; i < MAX_KEYS; i++)
+		{
+			keys[i] = ButtonStatus::RELEASED;
+		}
+
+		// Set all mouse buttons to be released
+		for (int i = 0; i < MAX_MOUSE_BUTTONS; i++)
+		{
+			mouseButtons[i] = ButtonStatus::RELEASED;
+		}
 	}
 
-	bool IsKeyPressed(int key)
+	void Input::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		return keys[key];
+		if (action == GLFW_PRESS)
+			keys[key] = ButtonStatus::PRESSED;
+		else if (action == GLFW_RELEASE)
+			keys[key] = ButtonStatus::RELEASED;
+
+		// Set the state of Caps Lock based on a bitwise [AND] operation
+		capsLockOn = mods & GLFW_MOD_CAPS_LOCK;
 	}
 
-	bool IsMouseButtonPressed(int button)
+	void Input::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	{
-		return mouseButtons[button];
+		if (action == GLFW_PRESS)
+			mouseButtons[button] = ButtonStatus::PRESSED;
+		else if (action == GLFW_RELEASE)
+			mouseButtons[button] = ButtonStatus::RELEASED;
 	}
 
-	void GetMousePos(double& x, double& y)
+	void Input::CursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
 	{
-		x = mouseXPos;
-		y = mouseYPos;
+		mouseXPos = xpos;
+		mouseYPos = ypos;
 	}
 
-	double GetXScrollOffset()
+	void Input::ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 	{
-		double offset = xScrollOffset;
-		xScrollOffset = 0; // reset to 0
-		return offset;
-	}
-
-	double GetYScrollOffset()
-	{
-		double offset = yScrollOffset;
-		yScrollOffset = 0; // reset to 0
-		return offset;
+		xScrollOffset = xoffset;
+		yScrollOffset = yoffset;
 	}
 }

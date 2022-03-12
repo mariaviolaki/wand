@@ -5,17 +5,15 @@ namespace wand
 	class UIComponent
 	{
 	protected:
-		UIComponent(bool isEnabled = false, bool isVisible = false);
-
+		UIComponent(bool isEnabled = false);
+		
 	public:
-		void IsEnabled(bool isEnabled);
-		void IsVisible(bool isVisible);
-
 		bool IsEnabled() const;
-		bool IsVisible() const;
+		void Enable();
+		void Disable();
+		virtual void OnClick(const std::function<void()>& fun) = 0;
 
 	private:
 		bool mIsEnabled;
-		bool mIsVisible;
 	};
 }

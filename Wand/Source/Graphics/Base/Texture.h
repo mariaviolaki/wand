@@ -38,7 +38,7 @@ namespace wand
 
 		void ConfigTexture() const;
 		void LoadWhiteTexture();
-		void LoadSpriteTexture();
+		void LoadSpriteGFXTexture();
 		void LoadFontTexture(const Font& font);
 		void FindColorFormat();
 	};

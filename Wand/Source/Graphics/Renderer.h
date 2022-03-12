@@ -15,7 +15,8 @@ namespace wand
 		static void Init();
 		static void Render();
 
-		static void Draw(Drawable* drawable);
+		static void Submit(Drawable* drawable);
+		static void Remove(const Drawable* drawable);
 
 	private:
 		// Variables

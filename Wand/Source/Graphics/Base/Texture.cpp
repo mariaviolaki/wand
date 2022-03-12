@@ -31,7 +31,7 @@ namespace wand
 
 		ConfigTexture();
 		//FindColorFormat(); // not reliable
-		LoadSpriteTexture();
+		LoadSpriteGFXTexture();
 	}
 
 	// Constructor for fonts
@@ -97,7 +97,7 @@ namespace wand
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, whiteTexture);
 	}
 
-	void Texture::LoadSpriteTexture()
+	void Texture::LoadSpriteGFXTexture()
 	{
 		int openglFormat = (mColorFormat == ColorFormat::RGB) ? GL_RGB : GL_RGBA;
 

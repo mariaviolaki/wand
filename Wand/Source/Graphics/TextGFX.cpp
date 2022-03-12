@@ -1,12 +1,12 @@
 #include "WandPCH.h"
-#include "Text.h"
+#include "TextGFX.h"
 #include "FontManager.h"
 #include "Core/Window.h"
 
 namespace wand
 {
-	Text::Text(const std::string& fontName, unsigned int fontSize, const glm::vec4& color)
-		: Drawable({ Window::GetWidth(), Window::GetHeight() }), mFont(FontManager::Get(fontName, fontSize)),
+	TextGFX::TextGFX(const std::string& fontName, unsigned int fontSize, const glm::vec4& color)
+		: Drawable(), mFont(FontManager::Get(fontName, fontSize)),
 		mColor(color), mText(""), mTexture(nullptr), mVertices()
 	{
 		// Create a texture using the pixel data generated for a font atlas
@@ -16,8 +16,8 @@ namespace wand
 	}
 
 	// Submit and concatenate a string with the existing text
-	void Text::Add(const std::string& newText)
-	{ 
+	void TextGFX::Add(const std::string& newText)
+	{
 		if (mText.size() + newText.size() <= MAX_TEXT_LENGTH)
 			mText += newText;
 		else
@@ -25,29 +25,29 @@ namespace wand
 	}
 
 	// Replace the stored text with an empty string
-	void Text::Clear() { mText = ""; }
+	void TextGFX::Clear() { mText = ""; }
 
 	// Get the maximum number of characters in a text object
-	unsigned int Text::GetMaxLength() const	{ return MAX_TEXT_LENGTH; }
+	unsigned int TextGFX::GetMaxLength() const	{ return MAX_TEXT_LENGTH; }
 
-	glm::vec4 Text::GetColor() const { return mColor; }
-	void Text::SetColor(glm::vec4 color) { mColor = color; }
+	glm::vec4 TextGFX::GetColor() const { return mColor; }
+	void TextGFX::SetColor(glm::vec4 color) { mColor = color; }
 
-    unsigned int Text::GetTexId() const { return mTexture->GetId(); }
-	void Text::SetTextureSlot(int slot) { mTexture->Bind(slot); }
-	unsigned int Text::GetItemCount() const	{ return mText.size(); }
+    unsigned int TextGFX::GetTexId() const { return mTexture->GetId(); }
+	void TextGFX::SetTextureSlot(int slot) { mTexture->Bind(slot); }
+	unsigned int TextGFX::GetItemCount() const	{ return mText.size(); }
 	// Get the size in bytes for each glyph in the text (= 4 vertices * num of letters)
-	unsigned int Text::GetBufferSize() const { return 4 * sizeof(Vertex) * mText.size(); }
+	unsigned int TextGFX::GetBufferSize() const { return 4 * sizeof(Vertex) * mText.size(); }
 
 	// Set the vertex data before submitting to the renderer
-	const std::vector<Vertex>& Text::GetVertexData()
+	const std::vector<Vertex>& TextGFX::GetVertexData()
 	{
 		mVertices.clear();
 		// Get font atlas dimensions
 		float atlasWidth = mFont->GetAtlasWidth();
 		float atlasHeight = mFont->GetAtlasHeight();
 		// Get text position
-		glm::vec3 pos = GetPosition();
+		glm::vec3 pos = { GetPosition().x, GetHeight(), GetPosition().z };
 		pos.y -= mLineHeight;
 		
 		// Set the SPACE width to be equal to the width of a dot '.'
@@ -93,7 +93,7 @@ namespace wand
 		return mVertices;
 	}
 
-	void Text::CreateVertex(const float posX, const float posY, const float texX, const float texY)
+	void TextGFX::CreateVertex(const float posX, const float posY, const float texX, const float texY)
 	{
 		float isText = 1.0f;
 
@@ -106,7 +106,7 @@ namespace wand
 		mVertices.emplace_back(v);
 	}
 
-	void Text::UpdateGlyphPos(int& index, float& x, float& y, const float glyphAdvance) const
+	void TextGFX::UpdateGlyphPos(int& index, float& x, float& y, const float glyphAdvance) const
 	{
 		x += glyphAdvance;
 		// If the next character is a space
@@ -125,7 +125,7 @@ namespace wand
 		}
 	}
 
-	unsigned int Text::GetNextWordWidth(const int glyphIndex) const
+	unsigned int TextGFX::GetNextWordWidth(const int glyphIndex) const
 	{
 		int nextSpaceIndex = -1;
 		// Find the index in the text of the next space

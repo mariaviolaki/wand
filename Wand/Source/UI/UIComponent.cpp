@@ -3,15 +3,13 @@
 
 namespace wand
 {
-	UIComponent::UIComponent(bool isEnabled, bool isVisible)
-		: mIsEnabled(isEnabled), mIsVisible(isVisible)
+	UIComponent::UIComponent(bool isEnabled)
+		: mIsEnabled(isEnabled)
 	{}
-
-	void UIComponent::IsEnabled(bool isEnabled) { mIsEnabled = isEnabled; }
-
-	void UIComponent::IsVisible(bool isVisible) { mIsVisible = isVisible; }
 
 	bool UIComponent::IsEnabled() const { return mIsEnabled; }
 
-	bool UIComponent::IsVisible() const { return mIsVisible; }
+	void UIComponent::Enable() { mIsEnabled = true; }
+
+	void UIComponent::Disable() { mIsEnabled = false; }
 }
