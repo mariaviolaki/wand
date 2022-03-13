@@ -1,9 +1,6 @@
 #include "Wand.h"
 
-void fun()
-{
-	std::cout << "wand\n";
-}
+void fun() { std::cout << "wand\n"; }
 
 int main()
 {
@@ -22,15 +19,30 @@ int main()
 		
 		std::vector<std::shared_ptr<wand::Drawable>> drawables;
 
+		// Create a layout - container for the rectangles
+		std::shared_ptr<wand::Layout> layout = std::make_shared<wand::Layout>();
+		layout->SetPosition(100, 100);
+		layout->SetWidth(200);
+		layout->SetHeight(200);
+		// Create a rectangle with the same transform data as the layout
+		std::shared_ptr<wand::Rectangle> rect = std::make_shared<wand::Rectangle>();
+		rect->SetPosition(layout->GetPosition().x, layout->GetPosition().y);
+		rect->SetWidth(layout->	GetWidth());
+		rect->SetHeight(layout->GetHeight());
+		rect->Show();
+
 		// Render solid-color rectangles
-		for (float x = 0.0f; x <= wand::Window::GetWidth(); x += rectSize + 10.0f)
+		for (float x = 0.0f; x <= layout->GetWidth(); x += rectSize + 10.0f)
 		{
-			for (float y = 0.0f; y <= wand::Window::GetHeight(); y += rectSize + 10.0f)
+			for (float y = 0.0f; y <= layout->GetHeight(); y += rectSize + 10.0f)
 			{
 				std::shared_ptr<wand::Rectangle> r = std::make_shared<wand::Rectangle>(rectColor);
-				r->SetPosition(x, y);
+				r->SetParentLayout(layout);
+				//r->SetPosition(x, y);
 				r->SetWidth(rectSize);
 				r->SetHeight(rectSize);
+				//r->SetLayoutPosition(x, y);
+				r->SetLayoutPosition(wand::LayoutPosition::CENTERX, wand::LayoutPosition::CENTERY);
 				drawables.emplace_back(r);
 				r->OnClick(fun);
 				r->Show();

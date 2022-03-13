@@ -28,6 +28,7 @@ namespace wand
 		virtual void SetColor(glm::vec4 color) {};
 
 		// Transform operations
+		std::shared_ptr<Transform> GetTransform() const;
 		glm::vec3 GetPosition() const;
 		float GetWidth() const;
 		float GetHeight() const;

@@ -9,7 +9,5 @@ namespace wand
 	{
 	public:
 		Sprite(const std::string& imagePath);
-
-		void OnClick(const std::function<void()>& fun) override;
 	};
 }

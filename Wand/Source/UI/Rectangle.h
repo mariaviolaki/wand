@@ -9,7 +9,5 @@ namespace wand
 	{
 	public:
 		Rectangle(glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f });
-
-		void OnClick(const std::function<void()>& fun) override;
 	};
 }

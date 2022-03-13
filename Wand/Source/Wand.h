@@ -7,4 +7,5 @@
 #include "UI/Rectangle.h"
 #include "UI/Sprite.h"
 #include "UI/Text.h"
+#include "UI/Layout.h"
 #include "Graphics/FontManager.h"

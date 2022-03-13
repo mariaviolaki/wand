@@ -36,6 +36,8 @@ namespace wand
 		}
 	}
 
+	std::shared_ptr<Transform> Drawable::GetTransform() const { return mTransform; }
+
 	glm::vec3 Drawable::GetPosition() const	{ return mTransform->GetPosition(); }
 	float Drawable::GetWidth() const { return mTransform->GetWidth(); }
 	float Drawable::GetHeight() const { return mTransform->GetHeight(); }

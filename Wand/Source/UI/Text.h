@@ -9,7 +9,5 @@ namespace wand
 	{
 	public:
 		Text(const std::string& fontName, unsigned int fontSize, const glm::vec4& color);
-
-		void OnClick(const std::function<void()>& fun) override;
 	};
 }
