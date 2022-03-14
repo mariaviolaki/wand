@@ -9,11 +9,13 @@ namespace wand
 	public:
 		Transform(glm::vec2 dimens = { 100.0f, 100.0f });
 
-		const glm::vec3& GetPosition() const;
+		const glm::vec2& GetPosition() const;
+		float GetDepth() const;
 		float GetWidth() const;
 		float GetHeight() const;
 
 		void SetPosition(float x, float y);
+		void SetDepth(float depth);
 		void SetWidth(float width);
 		void SetHeight(float height);
 

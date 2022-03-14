@@ -4,6 +4,6 @@
 namespace wand
 {
 	Sprite::Sprite(const std::string& imagePath)
-		: SpriteGFX(imagePath), UIComponent(GetTransform(), false)
+		: SpriteGFX(imagePath), UIComponent(GetGFXTransform(), false)
 	{}
 }

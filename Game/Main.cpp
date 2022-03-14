@@ -1,6 +1,7 @@
 #include "Wand.h"
 
-void fun() { std::cout << "wand\n"; }
+void fun1() { std::cout << "wand 1\n"; }
+void fun2() { std::cout << "wand 2\n"; }
 
 int main()
 {
@@ -27,16 +28,20 @@ int main()
 		// Create a rectangle with the same transform data as the layout
 		std::shared_ptr<wand::Rectangle> rect = std::make_shared<wand::Rectangle>();
 		rect->SetPosition(layout->GetPosition().x, layout->GetPosition().y);
-		rect->SetWidth(layout->	GetWidth());
+		rect->SetWidth(layout->GetWidth());
 		rect->SetHeight(layout->GetHeight());
+		rect->SetDepth(-1);
+		rect->Enable();
+		rect->OnClick(fun1);
 		rect->Show();
-
+		
 		// Render solid-color rectangles
 		for (float x = 0.0f; x <= layout->GetWidth(); x += rectSize + 10.0f)
 		{
 			for (float y = 0.0f; y <= layout->GetHeight(); y += rectSize + 10.0f)
 			{
 				std::shared_ptr<wand::Rectangle> r = std::make_shared<wand::Rectangle>(rectColor);
+				r->SetDepth(1);
 				r->SetParentLayout(layout);
 				//r->SetPosition(x, y);
 				r->SetWidth(rectSize);
@@ -44,7 +49,8 @@ int main()
 				//r->SetLayoutPosition(x, y);
 				r->SetLayoutPosition(wand::LayoutPosition::CENTERX, wand::LayoutPosition::CENTERY);
 				drawables.emplace_back(r);
-				r->OnClick(fun);
+				r->Enable();
+				r->OnClick(fun2);
 				r->Show();
 			}
 		}

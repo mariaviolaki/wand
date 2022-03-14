@@ -36,13 +36,15 @@ namespace wand
 		}
 	}
 
-	std::shared_ptr<Transform> Drawable::GetTransform() const { return mTransform; }
+	std::shared_ptr<Transform> Drawable::GetGFXTransform() const { return mTransform; }
 
-	glm::vec3 Drawable::GetPosition() const	{ return mTransform->GetPosition(); }
+	glm::vec2 Drawable::GetPosition() const	{ return mTransform->GetPosition(); }
+	float Drawable::GetDepth() const { return mTransform->GetDepth(); }
 	float Drawable::GetWidth() const { return mTransform->GetWidth(); }
 	float Drawable::GetHeight() const { return mTransform->GetHeight(); }
 
 	void Drawable::SetPosition(float x, float y) { mTransform->SetPosition(x, y); }
+	void Drawable::SetDepth(float depth) { mTransform->SetDepth(depth); }
 	void Drawable::SetWidth(float width) { mTransform->SetWidth(width); }
 	void Drawable::SetHeight(float height) { mTransform->SetHeight(height); }
 }

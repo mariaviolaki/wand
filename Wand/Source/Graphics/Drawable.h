@@ -28,11 +28,13 @@ namespace wand
 		virtual void SetColor(glm::vec4 color) {};
 
 		// Transform operations
-		std::shared_ptr<Transform> GetTransform() const;
-		glm::vec3 GetPosition() const;
+		std::shared_ptr<Transform> GetGFXTransform() const;
+		glm::vec2 GetPosition() const;
+		float GetDepth() const;
 		float GetWidth() const;
 		float GetHeight() const;
 		void SetPosition(float x, float y);
+		void SetDepth(float depth);
 		void SetWidth(float width);
 		void SetHeight(float height);
 

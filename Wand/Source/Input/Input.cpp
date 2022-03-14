@@ -1,5 +1,6 @@
 #include "WandPCH.h"
 #include "Input.h"
+#include "Core/Window.h"
 
 namespace wand
 {
@@ -24,16 +25,13 @@ namespace wand
 	{
 		ButtonStatus status = keys[key];
 		if (keys[key] == ButtonStatus::PRESSED)
-			keys[key] = ButtonStatus::REPEATED;
+			keys[key] = ButtonStatus::PROCESSED;
 		return status;
 	}
 
 	ButtonStatus Input::GetMouseButtonStatus(int button)
 	{
-		ButtonStatus status = mouseButtons[button];
-		if (mouseButtons[button] == ButtonStatus::PRESSED)
-			mouseButtons[button] = ButtonStatus::REPEATED;
-		return status;
+		return mouseButtons[button];
 	}
 
 	void Input::GetMousePos(double& x, double& y)
@@ -56,13 +54,19 @@ namespace wand
 		return offset;
 	}
 
-	bool Input::IsMouseInArea(const float& x, const float& y, const float& w, const float& h)
+	bool Input::IsMouseInArea(const float x, const float y, const float w, const float h)
 	{
 		double currentX, currentY;
 		GetMousePos(currentX, currentY);
 
 		return currentX >= x && currentX <= x + w
 			&& currentY >= y && currentY <= y + h;
+	}
+
+	void Input::ProcessClick(int button)
+	{
+		// Mark button as processed to prevent triggering additional functions
+		mouseButtons[button] = ButtonStatus::PROCESSED;
 	}
 
 	void Input::SetupCallbacks(GLFWwindow* win)
@@ -116,7 +120,8 @@ namespace wand
 	void Input::CursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
 	{
 		mouseXPos = xpos;
-		mouseYPos = ypos;
+		// Invert the Y axis to use the bottom edge as origin
+		mouseYPos = Window::GetHeight() - ypos;
 	}
 
 	void Input::ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)

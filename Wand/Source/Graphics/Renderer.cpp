@@ -94,7 +94,7 @@ namespace wand
 		sProgram->SetUniform1iv("uTexSlots", slotCount, texSlots);
 		// Set the projection matrix in the shader according to the window size
 		sProgram->SetUniformMat4("uProjection",
-			glm::ortho(0.0f, (float)Window::GetWidth(), 0.0f, (float)Window::GetHeight(), -1.0f, 1.0f));
+			glm::ortho(0.0f, (float)Window::GetWidth(), 0.0f, (float)Window::GetHeight(), -1000.0f, 1000.0f));
 	}
 
 	// Save the sprite's texture id in a new texture slot

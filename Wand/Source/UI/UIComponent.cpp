@@ -1,6 +1,7 @@
 #include "WandPCH.h"
 #include "UIComponent.h"
 #include "Input/Input.h"
+#include "UIManager.h"
 
 namespace wand
 {
@@ -18,15 +19,20 @@ namespace wand
 	{
 		if (mIsEnabled)
 		{
-			glm::vec3 pos = mTransform->GetPosition();
+			glm::vec2 pos = mTransform->GetPosition();
 			// Call function if the user clicked inside the borders
 			if (Input::IsMouseInArea(pos.x, pos.y, mTransform->GetWidth(), mTransform->GetHeight())
 				&& Input::GetMouseButtonStatus(MOUSE_BUTTON_LEFT) == ButtonStatus::PRESSED)
 			{
-				fun();
+				mFunction = fun;
+				UIManager::Add(this);
 			}
 		}
 	}
+
+	const Transform& UIComponent::GetUITransform() const { return *mTransform.get(); }
+
+	std::function<void()> UIComponent::GetFunction() const { return mFunction; }
 	
 	// Set a layout so that the component's position is relative to it
 	void UIComponent::SetParentLayout(std::shared_ptr<Layout> layout)
@@ -40,7 +46,7 @@ namespace wand
 		if (mLayout == nullptr)
 			return;
 
-		glm::vec3 layoutPos = mLayout->GetPosition();
+		glm::vec2 layoutPos = mLayout->GetPosition();
 		mTransform->SetPosition(layoutPos.x + x, layoutPos.y + y);
 	}
 	
@@ -51,7 +57,7 @@ namespace wand
 			return;
 
 		float x, y;
-		glm::vec3 layoutPos = mLayout->GetPosition();
+		glm::vec2 layoutPos = mLayout->GetPosition();
 
 		// Set position on the x axis
 		if (horizontal == LayoutPosition::LEFT)

@@ -42,8 +42,8 @@ namespace wand
 		glfwSwapBuffers(mWindow);
 		// Process new events
 		glfwPollEvents();
-		// Clear the background with a given color
-		glClear(GL_COLOR_BUFFER_BIT);
+		// Clear the background with a given color as well as the depth buffer
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	// Initialize GLFW to use its functions
@@ -91,5 +91,8 @@ namespace wand
 		// Enable blending and properly rendering transparent pixels
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		// Render drawables based on their depth (z coord)
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 	}
 }

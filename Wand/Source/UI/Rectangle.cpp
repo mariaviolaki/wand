@@ -4,6 +4,6 @@
 namespace wand
 {
 	Rectangle::Rectangle(glm::vec4 color)
-		: RectangleGFX(color), UIComponent(GetTransform(), false)
+		: RectangleGFX(color), UIComponent(GetGFXTransform(), false)
 	{}
 }

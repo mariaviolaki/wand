@@ -38,7 +38,7 @@ namespace wand
 		float isText = 0.0f;
 
 		Vertex v;
-		v.position = { posX, posY, GetPosition().z };
+		v.position = { posX, posY, GetDepth() };
 		v.color = color;
 		v.texCoords = { texX, texY };
 		v.texSlot = (float)mTexture->GetTexSlot();

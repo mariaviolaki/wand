@@ -5,7 +5,7 @@
 
 namespace wand
 {
-	enum class ButtonStatus { RELEASED = -1, REPEATED = 0, PRESSED = 1 };
+	enum class ButtonStatus { RELEASED = -1, PROCESSED = 0, PRESSED = 1 };
 
 	class Input
 	{
@@ -19,7 +19,8 @@ namespace wand
 		static void GetMousePos(double& x, double& y);
 		static double GetXScrollOffset();
 		static double GetYScrollOffset();
-		static bool IsMouseInArea(const float& x, const float& y, const float& w, const float& h);
+		static bool IsMouseInArea(const float x, const float y, const float w, const float h);
+		static void ProcessClick(int button);
 
 		/********************* Intended for the engine ************************/
 		static void SetupCallbacks(GLFWwindow* win);

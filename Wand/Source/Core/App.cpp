@@ -4,6 +4,7 @@
 #include "Input/Input.h"
 #include "Graphics/Renderer.h"
 #include "Graphics/FontManager.h"
+#include "UI/UIManager.h"
 
 namespace wand
 {
@@ -30,6 +31,8 @@ namespace wand
 		Renderer::Render();
 		// Update the graphics in the window and process events
 		mWindow->Update();
+		// Process the OnClick functions of the UI components
+		UIManager::ProcessClickFunction();
 	}
 
 	void App::Start()

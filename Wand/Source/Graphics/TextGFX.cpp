@@ -47,7 +47,7 @@ namespace wand
 		float atlasWidth = mFont->GetAtlasWidth();
 		float atlasHeight = mFont->GetAtlasHeight();
 		// Get text position
-		glm::vec3 pos = { GetPosition().x, GetHeight(), GetPosition().z };
+		glm::vec3 pos = { GetPosition().x, GetHeight(), GetDepth() };
 		pos.y -= mLineHeight;
 		
 		// Set the SPACE width to be equal to the width of a dot '.'
@@ -98,7 +98,7 @@ namespace wand
 		float isText = 1.0f;
 
 		Vertex v;
-		v.position = { posX, posY, GetPosition().z};
+		v.position = { posX, posY, GetDepth() };
 		v.color = mColor;
 		v.texCoords = { texX, texY };
 		v.texSlot = (float)mTexture->GetTexSlot();
