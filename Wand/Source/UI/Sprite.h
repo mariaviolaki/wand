@@ -5,9 +5,13 @@
 
 namespace wand
 {
-	class Sprite : public SpriteGFX, public UIComponent
+	class Sprite : public UIComponent
 	{
 	public:
 		Sprite(const std::string& imagePath);
+		Drawable* GetDrawable() const override;
+
+	private:
+		std::shared_ptr<SpriteGFX> drawable;
 	};
 }

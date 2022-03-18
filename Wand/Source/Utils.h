@@ -1,7 +1,14 @@
 #pragma once
 
+//#include "UI/te"
+
 namespace wand::Utils
 {
+	template<typename T>
+	void Serialize(T obj, const std::string& path);
+	//template<>
+	//void Serialize<float>(unsigned int count);
+
 	// Get a file path and return its contents as a string
 	std::string ReadFile(const std::string& path);
 

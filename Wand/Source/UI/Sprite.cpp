@@ -4,6 +4,10 @@
 namespace wand
 {
 	Sprite::Sprite(const std::string& imagePath)
-		: SpriteGFX(imagePath), UIComponent(GetGFXTransform(), false)
-	{}
+		: drawable(std::make_shared<SpriteGFX>(imagePath)), UIComponent(false)
+	{
+		SetTransform(drawable->GetTransform());
+	}
+
+	Drawable* Sprite::GetDrawable() const { return drawable.get(); }
 }

@@ -14,6 +14,7 @@ namespace wand
 		static unsigned int GetIndexCount();
 
 		// Drawable operations
+		std::shared_ptr<Transform> GetTransform() const;
 		bool IsVisible() const;
 		void Show();
 		void Hide();
@@ -27,20 +28,8 @@ namespace wand
 		virtual glm::vec4 GetColor() const { return { 1.0f, 1.0f, 1.0f, 1.0f }; };
 		virtual void SetColor(glm::vec4 color) {};
 
-		// Transform operations
-		std::shared_ptr<Transform> GetGFXTransform() const;
-		glm::vec2 GetPosition() const;
-		float GetDepth() const;
-		float GetWidth() const;
-		float GetHeight() const;
-		void SetPosition(float x, float y);
-		void SetDepth(float depth);
-		void SetWidth(float width);
-		void SetHeight(float height);
-
 	private:
 		static const unsigned int sIndexCount;
-		bool mIsVisible;
 		std::shared_ptr<Transform> mTransform;
 	};
 }

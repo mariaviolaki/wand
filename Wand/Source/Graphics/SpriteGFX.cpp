@@ -20,14 +20,16 @@ namespace wand
 	// Set the vertex data before submitting to the renderer
 	const std::vector<Vertex>& SpriteGFX::GetVertexData()
 	{
+		Transform* t = GetTransform().get();
+
 		// Bottom left corner
-		CreateVertex(GetPosition().x, GetPosition().y, 0.0f, 0.0f);
+		CreateVertex(t->GetPosition().x, t->GetPosition().y, 0.0f, 0.0f);
 		// Bottom right corner
-		CreateVertex(GetPosition().x + GetWidth(), GetPosition().y, 1.0f, 0.0f);
+		CreateVertex(t->GetPosition().x + t->GetWidth(), t->GetPosition().y, 1.0f, 0.0f);
 		// Top right corner
-		CreateVertex(GetPosition().x + GetWidth(), GetPosition().y + GetHeight(), 1.0f, 1.0f);
+		CreateVertex(t->GetPosition().x + t->GetWidth(), t->GetPosition().y + t->GetHeight(), 1.0f, 1.0f);
 		// Top left corner
-		CreateVertex(GetPosition().x, GetPosition().y + GetHeight(), 0.0f, 1.0f);
+		CreateVertex(t->GetPosition().x, t->GetPosition().y + t->GetHeight(), 0.0f, 1.0f);
 
 		return mVertices;
 	}
@@ -38,7 +40,7 @@ namespace wand
 		float isText = 0.0f;
 
 		Vertex v;
-		v.position = { posX, posY, GetDepth() };
+		v.position = { posX, posY, 1.0f };
 		v.color = color;
 		v.texCoords = { texX, texY };
 		v.texSlot = (float)mTexture->GetTexSlot();

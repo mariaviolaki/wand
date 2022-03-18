@@ -61,7 +61,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\Dependencies\FreeType\;$(SolutionDir)Wand\Dependencies\;$(ProjectDir)Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\External\FreeType\;$(SolutionDir)Wand\External\;$(ProjectDir)Source\</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -83,7 +83,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\Dependencies\FreeType\;$(SolutionDir)Wand\Dependencies\;$(ProjectDir)Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\External\FreeType\;$(SolutionDir)Wand\External\;$(ProjectDir)Source\</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -100,7 +100,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Dependencies\stb\stb_image.cpp" />
+    <ClCompile Include="External\stb\stb_image.cpp" />
+    <ClCompile Include="Source\Core\EntityManager.cpp" />
     <ClCompile Include="Source\Graphics\Base\Font.cpp" />
     <ClCompile Include="Source\Graphics\FontManager.cpp" />
     <ClCompile Include="Source\Graphics\TextGFX.cpp" />
@@ -134,6 +135,7 @@
   <ItemGroup>
     <ClInclude Include="Dependencies\stb\stb_image\stb_image.h" />
     <ClInclude Include="Source\Core\App.h" />
+    <ClInclude Include="Source\Core\EntityManager.h" />
     <ClInclude Include="Source\Graphics\Drawable.h" />
     <ClInclude Include="Source\Graphics\Base\Font.h" />
     <ClInclude Include="Source\Graphics\FontManager.h" />

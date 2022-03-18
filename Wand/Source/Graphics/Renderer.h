@@ -5,6 +5,7 @@
 #include "Base/IndexBuffer.h"
 #include "Base/ShaderProgram.h"
 #include "Drawable.h"
+#include "UI/UIComponent.h"
 
 
 namespace wand
@@ -12,25 +13,25 @@ namespace wand
 	class Renderer
 	{
 	public:
-		static void Init();
-		static void Render();
+		Renderer();
 
-		static void Submit(Drawable* drawable);
-		static void Remove(const Drawable* drawable);
+		void Render();
+		void Submit(std::vector<std::unique_ptr<UIComponent>>& components);
 
 	private:
 		// Variables
-		static std::unique_ptr<VertexArray> sVAO;
-		static std::unique_ptr<VertexBuffer> sVBO;
-		static std::unique_ptr<IndexBuffer> sIBO;
-		static std::unique_ptr<ShaderProgram> sProgram;
-		static std::vector<Drawable*> sRenderQueue;
-		static std::array<int, MAX_TEXTURES> sSavedTexSlots;
+		std::unique_ptr<VertexArray> mVAO;
+		std::unique_ptr<VertexBuffer> mVBO;
+		std::unique_ptr<IndexBuffer> mIBO;
+		std::unique_ptr<ShaderProgram> mShaderProgram;
+		std::array<int, MAX_TEXTURES> mSavedTexSlots;
+		std::vector<Drawable*> mRenderQueue;
 
 		// Functions
-		static void SetupBuffers();
-		static void SetupShaderProgram();
-		static void SaveTextureSlot(Drawable* sprite, unsigned int& slotIndex);
-		static void FillVertexBuffer(unsigned int& drawablesInBuffer, unsigned int& itemsInBuffer);
+		void Init();
+		void SetupBuffers();
+		void SetupShaderProgram();
+		void SaveTextureSlot(Drawable* sprite, unsigned int& slotIndex);
+		void FillVertexBuffer(unsigned int& drawablesInBuffer, unsigned int& itemsInBuffer);
 	};
 }

@@ -47,7 +47,8 @@ namespace wand
 		float atlasWidth = mFont->GetAtlasWidth();
 		float atlasHeight = mFont->GetAtlasHeight();
 		// Get text position
-		glm::vec3 pos = { GetPosition().x, GetHeight(), GetDepth() };
+		Transform* t = GetTransform().get();
+		glm::vec3 pos = { t->GetPosition().x, t->GetHeight(), t->GetDepth() };
 		pos.y -= mLineHeight;
 		
 		// Set the SPACE width to be equal to the width of a dot '.'
@@ -98,7 +99,7 @@ namespace wand
 		float isText = 1.0f;
 
 		Vertex v;
-		v.position = { posX, posY, GetDepth() };
+		v.position = { posX, posY, 1.0f };
 		v.color = mColor;
 		v.texCoords = { texX, texY };
 		v.texSlot = (float)mTexture->GetTexSlot();
@@ -115,10 +116,10 @@ namespace wand
 			// Get the width of the next word
 			unsigned int nextWordWidth = GetNextWordWidth(index + 2);
 			// If the next word doesn't fit inside the textbox
-			if (x + nextWordWidth >= GetWidth())
+			if (x + nextWordWidth >= GetTransform()->GetWidth())
 			{
 				// Start rendering words on the next line
-				x = GetPosition().x;
+				x = GetTransform()->GetPosition().x;
 				y -= mLineHeight;
 				index++;
 			}

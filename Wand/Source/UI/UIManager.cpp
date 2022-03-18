@@ -21,7 +21,7 @@ namespace wand
 			[](const UIComponent* a, const UIComponent* b)
 			{
 				// Sort in descending order
-				return a->GetUITransform().GetDepth() > b->GetUITransform().GetDepth();
+				return a->GetTransform().GetDepth() < b->GetTransform().GetDepth();
 			});
 
 		// Run the function of the component in front of the others

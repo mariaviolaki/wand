@@ -59,7 +59,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\Dependencies\FreeType\;$(SolutionDir)Wand\Dependencies\;$(SolutionDir)Wand\Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\External\FreeType\;$(SolutionDir)Wand\External\;$(SolutionDir)Wand\Source\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -68,7 +68,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>%(AdditionalDependencies);opengl32.lib;glfw3.lib;freetype.lib;wand.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(OutDir)Wand\;$(SolutionDir)Wand\Dependencies\GLFW\lib\$(Configuration)\;$(SolutionDir)Wand\Dependencies\FreeType\lib\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(OutDir)Wand\;$(SolutionDir)Wand\External\GLFW\lib\$(Configuration)\;$(SolutionDir)Wand\External\FreeType\lib\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -79,7 +79,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\Dependencies\FreeType\;$(SolutionDir)Wand\Dependencies\;$(SolutionDir)Wand\Source\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\External\FreeType\;$(SolutionDir)Wand\External\;$(SolutionDir)Wand\Source\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -90,7 +90,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>%(AdditionalDependencies);opengl32.lib;glfw3.lib;freetype.lib;wand.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(OutDir)Wand\;$(SolutionDir)Wand\Dependencies\GLFW\lib\$(Configuration)\;$(SolutionDir)Wand\Dependencies\FreeType\lib\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(OutDir)Wand\;$(SolutionDir)Wand\External\GLFW\lib\$(Configuration)\;$(SolutionDir)Wand\External\FreeType\lib\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
