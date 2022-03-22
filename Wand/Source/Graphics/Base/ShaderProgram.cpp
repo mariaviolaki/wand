@@ -2,7 +2,7 @@
 #include "ShaderProgram.h"
 
 #include "glad/glad.h"
-#include "Utils.h"
+#include "Utils/Utils.h"
 
 namespace wand
 {

@@ -1,8 +1,6 @@
 #pragma once
 
-#include "UI/Rectangle.h"
-#include "UI/Sprite.h"
-#include "UI/Text.h"
+#include "UI/UIComponent.h"
 
 namespace wand
 {

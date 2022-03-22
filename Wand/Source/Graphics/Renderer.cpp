@@ -9,7 +9,7 @@
 #include "Graphics.h"
 #include "SpriteGFX.h"
 #include "TextGFX.h"
-#include "Utils.h"
+#include "Utils/Utils.h"
 
 namespace wand
 {

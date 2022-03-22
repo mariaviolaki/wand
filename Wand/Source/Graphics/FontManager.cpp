@@ -34,6 +34,8 @@ namespace wand
 			sFonts.emplace_back(newFont);
 			return newFont;
 		}
+
+		std::cout << "Font '" << fontName << "' not found.\n";
 		return nullptr;
 	}
 
