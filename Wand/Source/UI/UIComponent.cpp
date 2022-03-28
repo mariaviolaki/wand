@@ -23,22 +23,6 @@ namespace wand
 
 	void UIComponent::Disable() { mIsEnabled = false; }
 
-	void UIComponent::OnClick(const std::function<void()>& fun)
-	{
-		if (mIsEnabled)
-		{
-			auto transform = GetDrawable()->GetTransform();
-			glm::vec2 pos = transform->GetPosition();
-			// Call function if the user clicked inside the borders
-			if (Input::IsMouseInArea(pos.x, pos.y, transform->GetWidth(), transform->GetHeight())
-				&& Input::GetMouseButtonStatus(MOUSE_BUTTON_LEFT) == ButtonStatus::PRESSED)
-			{
-				mFunction = fun;
-				UIManager::Add(this);
-			}
-		}
-	}
-
 	Transform& UIComponent::GetTransform() const { return *mTransform.get(); }
 
 	std::function<void()> UIComponent::GetFunction() const { return mFunction; }
@@ -83,5 +67,21 @@ namespace wand
 			y = layoutPos.y + (mLayout->GetHeight() / 2) - (transform->GetHeight() / 2);
 
 		transform->SetPosition(x, y);
+	}
+
+	void UIComponent::OnClick(const std::function<void()>& fun)
+	{
+		if (mIsEnabled)
+		{
+			auto transform = GetDrawable()->GetTransform();
+			glm::vec2 pos = transform->GetPosition();
+			// Call function if the user clicked inside the borders
+			if (Input::IsMouseInArea(pos.x, pos.y, transform->GetWidth(), transform->GetHeight())
+				&& Input::GetMouseButtonStatus(MOUSE_BUTTON_LEFT) == ButtonStatus::PRESSED)
+			{
+				mFunction = fun;
+				UIManager::Add(this);
+			}
+		}
 	}
 }

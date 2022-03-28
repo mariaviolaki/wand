@@ -1,49 +1,35 @@
 #include "Wand.h"
 
-void fun1() { std::cout << "wand 1\n"; }
-void fun2() { std::cout << "wand 2\n"; }
+void playSound(wand::AudioSource& audio) { audio.Play(1, 0, 1); }
 void loadData(wand::App& app);
 
 int main()
 {
 	wand::App app;
 
-	loadData(app);
+	//loadData(app);
+	
+	wand::Rectangle& r1 = (wand::Rectangle&)app.AddEntity(new wand::Rectangle({ 1.0f, 0.0f, 0.0f, 1.0f }));
+	r1.GetTransform().SetDepth(5);
+	r1.GetTransform().SetPosition(100, 100);
+	r1.GetTransform().SetWidth(100);
+	r1.GetTransform().SetHeight(100);
+	r1.Enable();
+	r1.Show();
+
+	auto audio = wand::AudioSource(app.GetAudioManager(), "Audio/tick.ogg", false);
 
 	while (app.IsRunning())
 	{
 		//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 
-		app.LoadStates("test.txt");
+		r1.OnClick([&audio]() { playSound(audio); });
 
-		std::string str1 = "wand";
-		int num = 5;
-		double decnum = 5.5;
-		bool boolean = true;
-		std::string str2 = "engine";
-
-		std::shared_ptr<wand::State> state1 = std::make_shared<wand::State>("state1");
-		state1->Add(new wand::Pair("str1", str1));
-		state1->Add(new wand::Pair("num", num));
-		state1->Add(new wand::Pair("decnum", decnum));
-		state1->Add(new wand::Pair("boolean", boolean));
-		state1->Add(new wand::Pair("str2", str2));
-		app.SaveState(state1, "test.txt");
-
-		std::shared_ptr<wand::State> state2 = std::make_shared<wand::State>("state2");
-		state2->Add(new wand::Pair("str1", str1));
-		state2->Add(new wand::Pair("num", num));
-		state2->Add(new wand::Pair("decnum", decnum));
-		state2->Add(new wand::Pair("boolean", boolean));
-		state2->Add(new wand::Pair("str2", str2));
-		app.SaveState(state2, "test.txt");
-		
 		app.Update();
 
 		//std::chrono::steady_clock::time_point stop = std::chrono::steady_clock::now();
 		//std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() << " ms\n";
 	}
-
 	return 0;
 }
 
@@ -69,7 +55,6 @@ void loadData(wand::App& app)
 	rect.GetTransform().SetHeight(layout->GetHeight());
 	rect.GetTransform().SetDepth(4);
 	rect.Enable();
-	rect.OnClick(fun1);
 	rect.Show();
 	
 	// Render solid-color rectangles
@@ -86,7 +71,6 @@ void loadData(wand::App& app)
 			r.SetLayoutPosition(x, y);
 			//r.SetLayoutPosition(wand::LayoutPosition::CENTERX, wand::LayoutPosition::CENTERY);
 			r.Enable();
-			r.OnClick(fun2);
 			r.Show();
 		}
 	}
@@ -101,7 +85,6 @@ void loadData(wand::App& app)
 			wand::Sprite& s = (wand::Sprite&)app.AddEntity(new wand::Sprite(path));
 			s.GetTransform().SetPosition(x, y);
 			s.GetTransform().SetDepth(3);
-			s.OnClick(fun1);
 			s.Show();
 		}
 	}
@@ -116,6 +99,5 @@ void loadData(wand::App& app)
 	{
 		t1.Add("The quick brown fox jumps over the lazy dog. ");
 	}
-	t1.OnClick(fun1);
 	t1.Show();
 }

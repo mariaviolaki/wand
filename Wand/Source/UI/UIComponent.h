@@ -21,12 +21,12 @@ namespace wand
 		void Enable();
 		void Disable();
 
-		void OnClick(const std::function<void()>& fun);
 		Transform& GetTransform() const;
 		std::function<void()> GetFunction() const;
 		void SetParentLayout(std::shared_ptr<Layout> layout);
 		void SetLayoutPosition(float x, float y);
-		void SetLayoutPosition(LayoutPosition horizontal, LayoutPosition vertical);		
+		void SetLayoutPosition(LayoutPosition horizontal, LayoutPosition vertical);
+		void OnClick(const std::function<void()>& fun);
 
 	private:
 		std::shared_ptr<Transform> mTransform;

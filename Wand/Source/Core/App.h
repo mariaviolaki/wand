@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Window.h"
+#include "State.h"
 #include "EntityManager.h"
 #include "Graphics/Renderer.h"
 #include "UI/UIComponent.h"
-#include "State.h"
+#include "Audio/AudioManager.h"
 
 namespace wand
 {
@@ -17,6 +18,7 @@ namespace wand
 		void Update() const;
 		bool IsRunning() const;
 
+		AudioManager* GetAudioManager() const;
 		UIComponent& AddEntity(UIComponent* entity) const;
 		// Save a given state to memory and write it to a file
 		void SaveState(std::shared_ptr<State> state, const std::string& filename);
@@ -27,8 +29,7 @@ namespace wand
 		std::unique_ptr<Window> mWindow;
 		std::unique_ptr<EntityManager> mEntityManager;
 		std::unique_ptr<Renderer> mRenderer;
+		std::unique_ptr<AudioManager> mAudioManager;
 		std::unordered_map<std::string, std::shared_ptr<State>> mStates;
-
-		void Init();
 	};
 }

@@ -101,6 +101,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="External\stb\stb_image.cpp" />
+    <ClCompile Include="Source\Audio\AudioManager.cpp" />
+    <ClCompile Include="Source\Audio\AudioSource.cpp" />
     <ClCompile Include="Source\Core\EntityManager.cpp" />
     <ClCompile Include="Source\Core\State.cpp" />
     <ClCompile Include="Source\Graphics\Base\Font.cpp" />
@@ -137,6 +139,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\stb\stb_image\stb_image.h" />
+    <ClInclude Include="Source\Audio\AudioManager.h" />
+    <ClInclude Include="Source\Audio\AudioSource.h" />
     <ClInclude Include="Source\Core\App.h" />
     <ClInclude Include="Source\Core\EntityManager.h" />
     <ClInclude Include="Source\Core\State.h" />

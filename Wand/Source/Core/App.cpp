@@ -1,6 +1,5 @@
 #include "WandPCH.h"
 #include "App.h"
-
 #include "Input/Input.h"
 #include "Graphics/FontManager.h"
 #include "UI/UIManager.h"
@@ -10,9 +9,9 @@ namespace wand
 {
 	App::App()
 		: mWindow(std::make_unique<Window>()), mEntityManager(std::make_unique<EntityManager>()),
-		mRenderer(std::make_unique<Renderer>())
+		mRenderer(std::make_unique<Renderer>()), mAudioManager(std::make_unique<AudioManager>())
 	{
-		Init();
+		Input::SetupCallbacks(mWindow->GetGLFWWindow());
 	}
 
 	App::~App()
@@ -32,6 +31,8 @@ namespace wand
 	}
 
 	bool App::IsRunning() const { return !mWindow->IsClosed(); }
+
+	AudioManager* App::GetAudioManager() const { return mAudioManager.get(); }
 
 	UIComponent& App::AddEntity(UIComponent* entity) const
 	{
@@ -67,10 +68,5 @@ namespace wand
 			mStates.clear();
 			mStates = newStates;
 		}
-	}
-
-	void App::Init()
-	{
-		Input::SetupCallbacks(mWindow->GetGLFWWindow());
 	}
 }
