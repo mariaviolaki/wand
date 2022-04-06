@@ -1,5 +1,6 @@
 #include "WandPCH.h"
 #include "AudioManager.h"
+#include "SoLoud/soloud_thread.h"
 
 namespace wand
 {
@@ -19,12 +20,14 @@ namespace wand
 
 	int AudioManager::PlayAudio(SoLoud::Wav& sound, float volume, float panning, float speed) const
 	{
-		// Play the sound
-		int handle = mSoLoud->play(sound);
+		// Start the sound in paused state
+		int handle = mSoLoud->play(sound, volume, panning, true);
 		// Configure the sound
-		mSoLoud->setVolume(handle, volume);				// 1.0f is normal
-		mSoLoud->setPan(handle, panning);				// -1.0f is left, 1.0f is right
-		mSoLoud->setRelativePlaySpeed(handle, speed);	// 1.0f is normal
+		mSoLoud->setRelativePlaySpeed(handle, speed);
+		// Unpause the sound
+		mSoLoud->setPause(handle, 0);
+		// Wait until the sound is finished
+		SoLoud::Thread::sleep(100);
 		return handle;
 	}
 

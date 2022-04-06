@@ -4,7 +4,7 @@
 namespace wand
 {
 	Rectangle::Rectangle(glm::vec4 color)
-		: UIComponent(false), drawable(std::make_shared<RectangleGFX>(color))
+		: UIEntity(false), drawable(std::make_shared<RectangleGFX>(color))
 	{
 		SetTransform(drawable->GetTransform());
 	}

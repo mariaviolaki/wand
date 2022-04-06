@@ -6,10 +6,10 @@
 
 namespace wand
 {
-	class UIComponent
+	class UIEntity
 	{
 	protected:
-		UIComponent(bool isEnabled = true);
+		UIEntity(bool isEnabled = true);
 		void SetTransform(std::shared_ptr<Transform> transform);
 		
 	public:
@@ -20,18 +20,21 @@ namespace wand
 		bool IsEnabled() const;
 		void Enable();
 		void Disable();
+		std::string GetLabel() const;
+		void SetLabel(const std::string& label);
 
+		std::function<void()> GetLeftClickFunction() const;
+		void OnLeftClick(const std::function<void()>& fun);
 		Transform& GetTransform() const;
-		std::function<void()> GetFunction() const;
 		void SetParentLayout(std::shared_ptr<Layout> layout);
 		void SetLayoutPosition(float x, float y);
 		void SetLayoutPosition(LayoutPosition horizontal, LayoutPosition vertical);
-		void OnClick(const std::function<void()>& fun);
 
 	private:
 		std::shared_ptr<Transform> mTransform;
 		std::shared_ptr<Layout> mLayout;
-		std::function<void()> mFunction;
+		std::function<void()> mLeftClickFunction;
+		std::string mLabel;
 		bool mIsVisible;
 		bool mIsEnabled;
 	};

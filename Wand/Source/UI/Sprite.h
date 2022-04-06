@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Graphics/SpriteGFX.h"
-#include "UIComponent.h"
+#include "UIEntity.h"
 
 namespace wand
 {
-	class Sprite : public UIComponent
+	class Sprite : public UIEntity
 	{
 	public:
 		Sprite(const std::string& imagePath);

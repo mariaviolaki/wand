@@ -6,10 +6,10 @@ namespace wand
 	EntityManager::EntityManager()
 	{}
 
-	void EntityManager::Add(UIComponent* component)
+	void EntityManager::Add(UIEntity* entity)
 	{
-		mEntities.push_back(std::unique_ptr<UIComponent>(component));
+		mEntities.push_back(std::unique_ptr<UIEntity>(entity));
 	}
 
-	std::vector<std::unique_ptr<UIComponent>>& EntityManager::GetEntities() { return mEntities; }
+	std::vector<std::unique_ptr<UIEntity>>& EntityManager::GetEntities() { return mEntities; }
 }

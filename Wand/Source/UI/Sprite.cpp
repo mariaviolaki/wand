@@ -4,7 +4,7 @@
 namespace wand
 {
 	Sprite::Sprite(const std::string& imagePath)
-		: drawable(std::make_shared<SpriteGFX>(imagePath)), UIComponent(false)
+		: drawable(std::make_shared<SpriteGFX>(imagePath)), UIEntity(false)
 	{
 		SetTransform(drawable->GetTransform());
 	}

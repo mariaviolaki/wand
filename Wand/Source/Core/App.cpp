@@ -1,17 +1,24 @@
 #include "WandPCH.h"
 #include "App.h"
-#include "Input/Input.h"
 #include "Graphics/FontManager.h"
-#include "UI/UIManager.h"
 #include "Utils/Serializer.h"
 
 namespace wand
 {
 	App::App()
 		: mWindow(std::make_unique<Window>()), mEntityManager(std::make_unique<EntityManager>()),
-		mRenderer(std::make_unique<Renderer>()), mAudioManager(std::make_unique<AudioManager>())
+		mEventManager(std::make_unique<EventManager>()), mInput(std::make_unique<Input>()),
+		mInputManager(std::make_unique<InputManager>()), mAudioManager(std::make_unique<AudioManager>()),
+		mRenderer(std::make_unique<Renderer>())
 	{
-		Input::SetupCallbacks(mWindow->GetGLFWWindow());
+		WindowData windowData {"Wand Engine", 960, 540, { 0.1f, 0.1f, 0.1f, 0.1f }, [this](Event* event) 
+		{
+			this->OnEvent(event);
+		}};
+		mWindow->Init(windowData);
+		mEventManager->Init(mInput.get());
+		mInputManager->Init(mWindow->GetGLFWWindow());
+		mRenderer->Init();
 	}
 
 	App::~App()
@@ -24,17 +31,22 @@ namespace wand
 	{
 		// Update the graphics in the window and process events
 		mWindow->Update();
-		// Process the OnClick functions of the UI components
-		UIManager::ProcessClickFunction();
+		// Set the active entities to be processed in this frame
+		mEventManager->Update(mEntityManager->GetEntities());
 		// Render all graphics visible in this frame
 		mRenderer->Submit(mEntityManager->GetEntities());
 	}
 
 	bool App::IsRunning() const { return !mWindow->IsClosed(); }
 
+	void App::OnEvent(Event* event)
+	{
+		mEventManager->HandleEvent(event);
+	}
+
 	AudioManager* App::GetAudioManager() const { return mAudioManager.get(); }
 
-	UIComponent& App::AddEntity(UIComponent* entity) const
+	UIEntity& App::AddEntity(UIEntity* entity) const
 	{
 		mEntityManager->Add(entity);
 		return *entity;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UI/UIComponent.h"
+#include "UI/UIEntity.h"
 
 namespace wand
 {
@@ -9,10 +9,10 @@ namespace wand
 	public:
 		EntityManager();
 
-		void Add(UIComponent* component);
-		std::vector<std::unique_ptr<UIComponent>>& GetEntities();
+		void Add(UIEntity* entity);
+		std::vector<std::unique_ptr<UIEntity>>& GetEntities();
 
 	private:
-		std::vector<std::unique_ptr<UIComponent>> mEntities;
+		std::vector<std::unique_ptr<UIEntity>> mEntities;
 	};
 }

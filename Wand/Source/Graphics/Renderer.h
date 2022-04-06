@@ -5,8 +5,7 @@
 #include "Base/IndexBuffer.h"
 #include "Base/ShaderProgram.h"
 #include "Drawable.h"
-#include "UI/UIComponent.h"
-
+#include "UI/UIEntity.h"
 
 namespace wand
 {
@@ -15,8 +14,8 @@ namespace wand
 	public:
 		Renderer();
 
-		void Render();
-		void Submit(std::vector<std::unique_ptr<UIComponent>>& components);
+		void Init();
+		void Submit(std::vector<std::unique_ptr<UIEntity>>& entities);
 
 	private:
 		// Variables
@@ -27,11 +26,11 @@ namespace wand
 		std::array<int, MAX_TEXTURES> mSavedTexSlots;
 		std::vector<Drawable*> mRenderQueue;
 
-		// Functions
-		void Init();
+		// Private Methods
 		void SetupBuffers();
 		void SetupShaderProgram();
 		void SaveTextureSlot(Drawable* sprite, unsigned int& slotIndex);
 		void FillVertexBuffer(unsigned int& drawablesInBuffer, unsigned int& itemsInBuffer);
+		void Render();
 	};
 }

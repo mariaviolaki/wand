@@ -1,6 +1,5 @@
 #include "WandPCH.h"
 #include "Window.h"
-
 #include "glad/glad.h"
 
 namespace wand
@@ -11,17 +10,9 @@ namespace wand
 	unsigned int Window::GetWidth() { return sWidth; }
 	unsigned int Window::GetHeight() { return sHeight; }
 
-	Window::Window(std::string title, int width, int height, glm::vec4 color)
-		: mWindow(nullptr), mTitle(title), mColor(color)
-	{
-		sWidth = width;
-		sHeight = height;
-
-		if (!InitGLFW()) return;
-		if (!InitWindow()) return;
-		if (!InitGLAD()) return;
-		SetupWindow();
-	}
+	Window::Window()
+		: mWindow(nullptr), mData()
+	{}
 
 	Window::~Window()
 	{
@@ -30,6 +21,18 @@ namespace wand
 			glfwDestroyWindow(mWindow);
 			glfwTerminate();
 		}
+	}
+
+	void Window::Init(WindowData windowData)
+	{
+		mData = windowData;
+		sWidth = windowData.width;
+		sHeight = windowData.height;
+
+		if (!InitGLFW()) return;
+		if (!InitWindow()) return;
+		if (!InitGLAD()) return;
+		SetupWindow();
 	}
 
 	GLFWwindow* Window::GetGLFWWindow() const { return mWindow; }
@@ -59,7 +62,7 @@ namespace wand
 	bool Window::InitWindow()
 	{			
 		// Create a new window with GLFW
-		mWindow = glfwCreateWindow(sWidth, sHeight, mTitle.c_str(), nullptr, nullptr);
+		mWindow = glfwCreateWindow(sWidth, sHeight, mData.title.c_str(), nullptr, nullptr);
 		if (!mWindow)
 		{
 			std::cout << "Failed to create GLFW window.\n";
@@ -87,9 +90,11 @@ namespace wand
 		// Limit the window's frame rate
 		glfwSwapInterval(1);
 		// Set the background color
-		glClearColor(mColor.r, mColor.g, mColor.b, mColor.a);
+		glClearColor(mData.color.r, mData.color.g, mData.color.b, mData.color.a);
 		// Enable blending and properly rendering transparent pixels
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		// Associate the window data with the GLFW window
+		glfwSetWindowUserPointer(mWindow, (void*)&mData);
 	}
 }

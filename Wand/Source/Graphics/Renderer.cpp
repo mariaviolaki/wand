@@ -16,26 +16,24 @@ namespace wand
 	Renderer::Renderer()
 		: mVAO(nullptr), mVBO(nullptr), mIBO(nullptr), mShaderProgram(nullptr),
 		mSavedTexSlots(), mRenderQueue()
-	{
-		Init();
-	}
+	{}
 
 	// Get an already existing drawable and push it to the render queue
-	void Renderer::Submit(std::vector<std::unique_ptr<UIComponent>>& components)
+	void Renderer::Submit(std::vector<std::unique_ptr<UIEntity>>& entities)
 	{
-		for (const auto& component : components)
+		for (const auto& entity : entities)
 		{
-			if (component->IsVisible())
-				mRenderQueue.emplace_back(component->GetDrawable());
+			if (entity->IsVisible())
+				mRenderQueue.emplace_back(entity->GetDrawable());
 		}
 
-		// Sort components based on their depth by providing a comparison function
+		// Sort entities based on their depth by providing a comparison function
 		std::sort(mRenderQueue.begin(), mRenderQueue.end(),
-			[](const Drawable* a, const Drawable* b)
-			{
-				// Sort in descending order
-				return a->GetTransform()->GetDepth() < b->GetTransform()->GetDepth();
-			});
+		[](const Drawable* a, const Drawable* b)
+		{
+			// Sort in descending order
+			return a->GetTransform()->GetDepth() < b->GetTransform()->GetDepth();
+		});
 
 		Render();
 	}

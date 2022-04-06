@@ -1,29 +1,32 @@
 #include "Wand.h"
 
-void playSound(wand::AudioSource& audio) { audio.Play(1, 0, 1); }
+void playSound(wand::App& app, wand::Rectangle& r)
+{
+	std::cout << r.GetLabel() << " selected.\n";
+	auto audio = wand::AudioSource(app.GetAudioManager(), "Audio/tick.ogg", false);
+	audio.Play(1, 0, 1); 
+}
 void loadData(wand::App& app);
 
 int main()
 {
 	wand::App app;
 
-	//loadData(app);
-	
+	loadData(app);
+
 	wand::Rectangle& r1 = (wand::Rectangle&)app.AddEntity(new wand::Rectangle({ 1.0f, 0.0f, 0.0f, 1.0f }));
-	r1.GetTransform().SetDepth(5);
+	r1.GetTransform().SetDepth(6);
 	r1.GetTransform().SetPosition(100, 100);
 	r1.GetTransform().SetWidth(100);
 	r1.GetTransform().SetHeight(100);
+	r1.OnLeftClick([&app, &r1]() { playSound(app, r1); });
+	r1.SetLabel("red square");
 	r1.Enable();
 	r1.Show();
-
-	auto audio = wand::AudioSource(app.GetAudioManager(), "Audio/tick.ogg", false);
 
 	while (app.IsRunning())
 	{
 		//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
-
-		r1.OnClick([&audio]() { playSound(audio); });
 
 		app.Update();
 
@@ -54,6 +57,8 @@ void loadData(wand::App& app)
 	rect.GetTransform().SetWidth(layout->GetWidth());
 	rect.GetTransform().SetHeight(layout->GetHeight());
 	rect.GetTransform().SetDepth(4);
+	rect.OnLeftClick([&app, &rect]() { playSound(app, rect); });
+	rect.SetLabel("transparent white square");
 	rect.Enable();
 	rect.Show();
 	
@@ -69,6 +74,8 @@ void loadData(wand::App& app)
 			r.GetTransform().SetWidth(rectSize);
 			r.GetTransform().SetHeight(rectSize);
 			r.SetLayoutPosition(x, y);
+			r.SetLabel("pink square");
+			r.OnLeftClick([&app, &r]() { playSound(app, r); });
 			//r.SetLayoutPosition(wand::LayoutPosition::CENTERX, wand::LayoutPosition::CENTERY);
 			r.Enable();
 			r.Show();
