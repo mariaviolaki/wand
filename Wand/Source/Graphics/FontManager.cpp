@@ -3,27 +3,33 @@
 
 namespace wand
 {
-	std::vector<Font*> FontManager::sFonts;
+	FontManager::FontManager()
+		: mFonts()
+	{}
 
-	void FontManager::Add(Font* font)
+	void FontManager::Add(std::string filepath, std::string name, unsigned int size)
 	{
-		sFonts.emplace_back(font);
+		// If the audio file exists, add an audio source to the map
+		if (std::filesystem::exists(filepath))
+			mFonts.emplace_back(std::unique_ptr<Font>(new Font(filepath, name, size)));
+		else
+			std::cout << "Font not found in location: " << filepath << std::endl;
 	}
 
 	Font* FontManager::Get(const std::string& fontName, unsigned int fontSize)
 	{
 		std::string savedName = "";
 		std::string savedPath = "";
-		for (int i = 0; i < sFonts.size(); i++)
+		for (int i = 0; i < mFonts.size(); i++)
 		{
-			if (sFonts[i]->GetName() == fontName)
+			if (mFonts[i]->GetName() == fontName)
 			{
 				// If there is a font with this name and size, return it
-				if (sFonts[i]->GetSize() == fontSize)
-					return sFonts[i];
+				if (mFonts[i]->GetSize() == fontSize)
+					return mFonts[i].get();
 				// Save the name and path if the two fonts have the same name
 				savedName = fontName;
-				savedPath = sFonts[i]->GetPath();
+				savedPath = mFonts[i]->GetPath();
 			}
 		}
 
@@ -31,18 +37,11 @@ namespace wand
 		{
 			// Create and return a new font with an existing name but with a different size
 			Font* newFont = new Font(savedName, savedPath, fontSize);
-			sFonts.emplace_back(newFont);
+			mFonts.emplace_back(std::unique_ptr<Font>(newFont));
 			return newFont;
 		}
 
 		std::cout << "Font '" << fontName << "' not found.\n";
 		return nullptr;
-	}
-
-	void FontManager::Clear()
-	{
-		// Delete all fonts saved on the heap
-		for (int i = 0; i < sFonts.size(); i++)
-			delete sFonts[i];
 	}
 }

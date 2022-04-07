@@ -1,10 +1,13 @@
 #include "Wand.h"
+//#include <thread>
+//#include <chrono>
 
 void playSound(wand::App& app, wand::Rectangle& r)
 {
 	std::cout << r.GetLabel() << " selected.\n";
-	auto audio = wand::AudioSource(app.GetAudioManager(), "Audio/tick.ogg", false);
-	audio.Play(1, 0, 1); 
+	app.GetAudioManager()->Play("tick");
+	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	//app.GetAudioManager()->Stop("tick");
 }
 void loadData(wand::App& app);
 
@@ -14,7 +17,8 @@ int main()
 
 	loadData(app);
 
-	wand::Rectangle& r1 = (wand::Rectangle&)app.AddEntity(new wand::Rectangle({ 1.0f, 0.0f, 0.0f, 1.0f }));
+	wand::Rectangle& r1 = app.GetEntityManager()->AddRectangle({ 1.0f, 0.0f, 0.0f, 1.0f });
+
 	r1.GetTransform().SetDepth(6);
 	r1.GetTransform().SetPosition(100, 100);
 	r1.GetTransform().SetWidth(100);
@@ -38,7 +42,8 @@ int main()
 
 void loadData(wand::App& app)
 {
-	wand::FontManager::Add(new wand::Font("arial", "C:\\Windows\\Fonts\\arial.ttf", 50));
+	app.GetFontManager()->Add("C:\\Windows\\Fonts\\arial.ttf", "arial", 50);
+	app.GetAudioManager()->Add("Audio/tick.ogg", "tick");
 
 	glm::vec4 rectColor = { 1.0f, 0.0f, 1.0f, 1.0f };
 	glm::vec4 textColor = { 0.0f, 1.0f, 1.0f, 0.6f };
@@ -52,7 +57,7 @@ void loadData(wand::App& app)
 	layout->SetHeight(200);
 
 	// Create a rectangle with the same transform data as the layout
-	wand::Rectangle& rect = (wand::Rectangle&)app.AddEntity(new wand::Rectangle({1.0f, 1.0f, 1.0f, 0.5f}));
+	wand::Rectangle& rect = app.GetEntityManager()->AddRectangle({ 1.0f, 1.0f, 1.0f, 0.5f });
 	rect.GetTransform().SetPosition(layout->GetPosition().x, layout->GetPosition().y);
 	rect.GetTransform().SetWidth(layout->GetWidth());
 	rect.GetTransform().SetHeight(layout->GetHeight());
@@ -67,7 +72,7 @@ void loadData(wand::App& app)
 	{
 		for (float y = 0.0f; y <= layout->GetHeight(); y += rectSize + 10.0f)
 		{
-			wand::Rectangle& r = (wand::Rectangle&)app.AddEntity(new wand::Rectangle(rectColor));
+			wand::Rectangle& r = app.GetEntityManager()->AddRectangle(rectColor);
 			r.GetTransform().SetDepth(5);
 			r.SetParentLayout(layout);
 			//r.SetPosition(x, y);
@@ -89,7 +94,7 @@ void loadData(wand::App& app)
 		{
 			float rem = y % 2;
 			std::string path = "Images\\wand." + std::string((rem == 0) ? "png" : "jpg");
-			wand::Sprite& s = (wand::Sprite&)app.AddEntity(new wand::Sprite(path));
+			wand::Sprite& s = app.GetEntityManager()->AddSprite(path);
 			s.GetTransform().SetPosition(x, y);
 			s.GetTransform().SetDepth(3);
 			s.Show();
@@ -97,7 +102,7 @@ void loadData(wand::App& app)
 	}
 	
 	// Render semi-transparent text
-	wand::Text& t1 = (wand::Text&)app.AddEntity(new wand::Text("arial", 50, textColor));
+	wand::Text& t1 = app.GetEntityManager()->AddText("arial", 50, textColor);
 	t1.GetTransform().SetPosition(0, 0);
 	t1.GetTransform().SetDepth(1);
 	t1.GetTransform().SetWidth(wand::Window::GetWidth());

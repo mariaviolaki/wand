@@ -3,23 +3,19 @@
 
 namespace wand
 {
-	AudioSource::AudioSource(AudioManager* audioManager, const std::string& filepath, bool looping)
-		: mSound(std::make_shared<SoLoud::Wav>()), mAudioManager(audioManager), mHandle(0)
+	AudioSource::AudioSource(const std::string& filepath, bool isLooping)
+		: mAudio(std::make_unique<SoLoud::Wav>()), mHandle(-1), mIsLooping(isLooping)
 	{
 		// Load a wav/flac/mp3/ogg file
-		mSound->load(filepath.c_str());
-		mSound->setLooping(looping);
+		mAudio->load(filepath.c_str());
+		mAudio->setLooping(isLooping);
 	}
 
-	void AudioSource::Play(float volume, float panning, float speed)
-	{
-		if (!this) return; // don's play a non-existing audio source
-		mHandle = mAudioManager->PlayAudio(*mSound.get(), volume, panning, speed);
-	}
+	SoLoud::Wav& AudioSource::GetAudio() const { return *mAudio.get(); }
 
-	void AudioSource::Stop()
-	{
-		if (!this) return; // don's stop playing a non-existing audio source
-		mAudioManager->StopAudio(mHandle);
-	}
+	bool AudioSource::GetLooping() const { return mIsLooping; }
+	void AudioSource::SetLooping(bool isLooping) { mIsLooping = isLooping; }
+
+	int AudioSource::GetHandle() const { return mHandle; }
+	void AudioSource::SetHandle(int handle) { mHandle = handle; }
 }

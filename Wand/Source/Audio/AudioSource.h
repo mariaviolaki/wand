@@ -1,6 +1,5 @@
 #pragma once
 
-#include "AudioManager.h"
 #include "soloud/soloud_wav.h"
 
 namespace wand
@@ -8,13 +7,16 @@ namespace wand
 	class AudioSource
 	{
 	public:
-		AudioSource(AudioManager* audioManager, const std::string& filepath, bool looping = true);
-		void Play(float volume = 1.0f, float panning = 0.0f, float speed = 1.0f);
-		void Stop();
+		AudioSource(const std::string& filepath, bool looping = false);
+		SoLoud::Wav& GetAudio() const;
+		bool GetLooping() const;
+		void SetLooping(bool isLooping);
+		int GetHandle() const;
+		void SetHandle(int handle);
 
 	private:
-		std::shared_ptr<SoLoud::Wav> mSound;
-		AudioManager* mAudioManager;
+		std::unique_ptr<SoLoud::Wav> mAudio;
+		bool mIsLooping;
 		int mHandle;
 	};
 }

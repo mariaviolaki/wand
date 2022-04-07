@@ -1,18 +1,18 @@
 #include "WandPCH.h"
 #include "TextGFX.h"
-#include "FontManager.h"
 #include "Core/Window.h"
 
 namespace wand
 {
 	TextGFX::TextGFX(const std::string& fontName, unsigned int fontSize, const glm::vec4& color)
-		: Drawable(), mFont(FontManager::Get(fontName, fontSize)),
+		: Drawable(), mFontManager(nullptr), mFont(nullptr), mFontName(fontName), mFontSize(fontSize),
 		mColor(color), mText(""), mTexture(nullptr), mVertices()
+	{}
+
+	void TextGFX::SetFontManager(FontManager* fontManager)
 	{
-		// Create a texture using the pixel data generated for a font atlas
-		mTexture = std::make_shared<Texture>(*mFont);
-		// Set the line height for the given font
-		mLineHeight = mFont->GetSize();
+		mFontManager = fontManager;
+		Init();
 	}
 
 	// Submit and concatenate a string with the existing text
@@ -49,7 +49,7 @@ namespace wand
 		// Get text position
 		Transform* t = GetTransform().get();
 		glm::vec3 pos = { t->GetPosition().x, t->GetHeight(), t->GetDepth() };
-		pos.y -= mLineHeight;
+		pos.y -= mFontSize;
 		
 		// Set the SPACE width to be equal to the width of a dot '.'
 		float spaceWidth = mFont->GetGlyphs().at('.')->width;		
@@ -94,6 +94,14 @@ namespace wand
 		return mVertices;
 	}
 
+	void TextGFX::Init()
+	{
+		// Get the correct font from the font manager
+		mFont = mFontManager->Get(mFontName, mFontSize);
+		// Create a texture using the pixel data generated for a font atlas
+		mTexture = std::make_shared<Texture>(*mFont);
+	}
+
 	void TextGFX::CreateVertex(const float posX, const float posY, const float texX, const float texY)
 	{
 		float isText = 1.0f;
@@ -120,7 +128,7 @@ namespace wand
 			{
 				// Start rendering words on the next line
 				x = GetTransform()->GetPosition().x;
-				y -= mLineHeight;
+				y -= mFontSize;
 				index++;
 			}
 		}

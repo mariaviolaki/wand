@@ -1,7 +1,7 @@
 #pragma once
 
+#include "AudioSource.h"
 #include "soloud/soloud.h"
-#include "soloud/soloud_wav.h"
 
 namespace wand
 {
@@ -11,12 +11,15 @@ namespace wand
 		AudioManager();
 		~AudioManager();
 
-		// Play an audio source and return its handle
-		int PlayAudio(SoLoud::Wav& sound, float volume, float panning, float speed) const;
-		// Stop playing an audio source
-		void StopAudio(int handle) const;
+		// Add an audio file to the map
+		void Add(std::string filepath, std::string name);
+		// Play an audio file from the map
+		void Play(const std::string& name, float volume = 1.0f, float panning = 0.0f, float speed = 1.0f);
+		// Stop an audio file from the map
+		void Stop(const std::string& name);
 		
 	private:
 		std::unique_ptr<SoLoud::Soloud> mSoLoud;
+		std::unordered_map<std::string, std::unique_ptr<AudioSource>> mAudioSources;
 	};
 }

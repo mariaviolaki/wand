@@ -2,30 +2,29 @@
 #include "App.h"
 #include "Graphics/FontManager.h"
 #include "Utils/Serializer.h"
+#include "UI/Text.h"
 
 namespace wand
 {
 	App::App()
-		: mWindow(std::make_unique<Window>()), mEntityManager(std::make_unique<EntityManager>()),
-		mEventManager(std::make_unique<EventManager>()), mInput(std::make_unique<Input>()),
-		mInputManager(std::make_unique<InputManager>()), mAudioManager(std::make_unique<AudioManager>()),
-		mRenderer(std::make_unique<Renderer>())
+		: mWindow(std::make_unique<Window>()), mFontManager(std::make_unique<FontManager>()),
+		mEntityManager(std::make_unique<EntityManager>()), mEventManager(std::make_unique<EventManager>()),
+		mInput(std::make_unique<Input>()), mInputManager(std::make_unique<InputManager>()),
+		mAudioManager(std::make_unique<AudioManager>()), mRenderer(std::make_unique<Renderer>())
 	{
 		WindowData windowData {"Wand Engine", 960, 540, { 0.1f, 0.1f, 0.1f, 0.1f }, [this](Event* event) 
 		{
 			this->OnEvent(event);
 		}};
 		mWindow->Init(windowData);
+		mEntityManager->Init(mFontManager.get());
 		mEventManager->Init(mInput.get());
 		mInputManager->Init(mWindow->GetGLFWWindow());
 		mRenderer->Init();
 	}
 
 	App::~App()
-	{
-		// Delete the fonts stored during runtime
-		FontManager::Clear();
-	}
+	{}
 
 	void App::Update() const
 	{
@@ -44,13 +43,9 @@ namespace wand
 		mEventManager->HandleEvent(event);
 	}
 
+	EntityManager* App::GetEntityManager() const { return mEntityManager.get(); }
+	FontManager* App::GetFontManager() const { return mFontManager.get(); }
 	AudioManager* App::GetAudioManager() const { return mAudioManager.get(); }
-
-	UIEntity& App::AddEntity(UIEntity* entity) const
-	{
-		mEntityManager->Add(entity);
-		return *entity;
-	}
 
 	void App::SaveState(std::shared_ptr<State> state, const std::string& filename)
 	{

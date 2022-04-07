@@ -3,8 +3,8 @@
 
 namespace wand
 {
-	Font::Font(const std::string& name, const std::string& path, unsigned int size)
-		: mName(name), mPath(path), mSize(size), mFreetype(nullptr), mFace(nullptr),
+	Font::Font(const std::string& path, const std::string& name, unsigned int size)
+		: mPath(path), mName(name), mSize(size), mFreetype(nullptr), mFace(nullptr),
 		mAtlasWidth(0), mAtlasHeight(0)
 	{
 		InitFreeType();

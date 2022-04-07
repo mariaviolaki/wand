@@ -9,6 +9,7 @@
 #include "Events/EventManager.h"
 #include "Graphics/Renderer.h"
 #include "Audio/AudioManager.h"
+#include "Graphics/FontManager.h"
 
 namespace wand
 {
@@ -23,8 +24,10 @@ namespace wand
 
 		void OnEvent(Event* event);
 
+		EntityManager* GetEntityManager() const;
+		FontManager* GetFontManager() const;
 		AudioManager* GetAudioManager() const;
-		UIEntity& AddEntity(UIEntity* entity) const;
+
 		// Save a given state to memory and write it to a file
 		void SaveState(std::shared_ptr<State> state, const std::string& filename);
 		// Overwrite the states in memory with the ones loaded from a file
@@ -32,6 +35,7 @@ namespace wand
 		
 	private:
 		std::unique_ptr<Window> mWindow;
+		std::unique_ptr<FontManager> mFontManager;
 		std::unique_ptr<EntityManager> mEntityManager;
 		std::unique_ptr<EventManager> mEventManager;
 		std::unique_ptr<Input> mInput;

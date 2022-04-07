@@ -18,7 +18,7 @@ namespace wand
     class Font
     {
     public:
-        Font(const std::string& name, const std::string& path, unsigned int size = 24);
+        Font(const std::string& path, const std::string& name, unsigned int size = 24);
         ~Font();
 
         const std::string GetName() const;
@@ -31,8 +31,8 @@ namespace wand
         const std::unordered_map<char, Glyph*>& GetGlyphs() const;
 
     private:
-        std::string mName;
         std::string mPath;
+        std::string mName;
         unsigned int mSize;
         FT_Library mFreetype;
         FT_Face mFace;

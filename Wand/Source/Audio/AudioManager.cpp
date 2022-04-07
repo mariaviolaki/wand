@@ -1,6 +1,6 @@
 #include "WandPCH.h"
 #include "AudioManager.h"
-#include "SoLoud/soloud_thread.h"
+#include "soloud/soloud_wav.h"
 
 namespace wand
 {
@@ -13,26 +13,48 @@ namespace wand
 
 	AudioManager::~AudioManager()
 	{
+		mAudioSources.clear();
 		// Cleanup SoLoud's resources
 		mSoLoud->stopAll();
 		mSoLoud->deinit();
 	}
 
-	int AudioManager::PlayAudio(SoLoud::Wav& sound, float volume, float panning, float speed) const
+	void AudioManager::Add(std::string filepath, std::string name)
 	{
+		// If the audio file exists, add an audio source to the map
+		if (std::filesystem::exists(filepath))
+			mAudioSources.emplace(std::make_pair(name, std::unique_ptr<AudioSource>(new AudioSource(filepath))));
+		else
+			std::cout << "Audio file not found in location: " << filepath << std::endl;
+	}
+
+	void AudioManager::Play(const std::string& name, float volume, float panning, float speed)
+	{
+		// Get the correct audio source from the map
+		AudioSource* audioSource = mAudioSources[name].get();
+		if (!audioSource)
+			return;
+
 		// Start the sound in paused state
-		int handle = mSoLoud->play(sound, volume, panning, true);
+		int handle = mSoLoud->play(audioSource->GetAudio(), volume, panning, true);
 		// Configure the sound
 		mSoLoud->setRelativePlaySpeed(handle, speed);
 		// Unpause the sound
 		mSoLoud->setPause(handle, 0);
-		// Wait until the sound is finished
-		SoLoud::Thread::sleep(100);
-		return handle;
+		// Save the handle to stop the playback later
+		audioSource->SetHandle(handle);
 	}
 
-	void AudioManager::StopAudio(int handle) const
+	void AudioManager::Stop(const std::string& name)
 	{
-		mSoLoud->stop(handle);
+		// Get the correct audio source from the map
+		AudioSource* audioSource = mAudioSources[name].get();
+		if (!audioSource || audioSource->GetHandle() == -1)
+			return;
+
+		// Stop the playback using the saved handle
+		mSoLoud->stop(audioSource->GetHandle());
+		// Reset the handle
+		audioSource->SetHandle(-1);
 	}
 }

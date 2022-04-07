@@ -7,13 +7,12 @@ namespace wand
 	class FontManager
 	{
 	public:
-		static void Add(Font* font);
-		static Font* Get(const std::string& fontName, unsigned int fontSize);
-		static void Clear();
+		FontManager();
+
+		void Add(std::string filepath, std::string name, unsigned int size);
+		Font* Get(const std::string& fontName, unsigned int fontSize);
 
 	private:
-		static std::vector<Font*> sFonts;
-
-		FontManager() {};
+		std::vector<std::unique_ptr<Font>> mFonts;
 	};
 }
