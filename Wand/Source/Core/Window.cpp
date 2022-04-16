@@ -4,14 +4,9 @@
 
 namespace wand
 {
-	unsigned int Window::sWidth = 0;
-	unsigned int Window::sHeight = 0;
-
-	unsigned int Window::GetWidth() { return sWidth; }
-	unsigned int Window::GetHeight() { return sHeight; }
-
 	Window::Window()
-		: mWindow(nullptr), mData()
+		: mWindow(nullptr), mName("Wand Engine"), mBackgroundColor({ 0.1f, 0.1f, 0.1f, 0.1f }),
+		mStartDimens({ 960, 540 }), mAspectRatio({ 16.0f, 9.0f }), mData({ 960, 540, nullptr })
 	{}
 
 	Window::~Window()
@@ -23,30 +18,46 @@ namespace wand
 		}
 	}
 
-	void Window::Init(WindowData windowData)
+	void Window::Init(std::function<void(Event* event)> eventCallback)
 	{
-		mData = windowData;
-		sWidth = windowData.width;
-		sHeight = windowData.height;
+		mData.EventCallback = eventCallback;
 
 		if (!InitGLFW()) return;
 		if (!InitWindow()) return;
 		if (!InitGLAD()) return;
 		SetupWindow();
+		SetupCallbacks();
 	}
 
-	GLFWwindow* Window::GetGLFWWindow() const { return mWindow; }
+	glm::vec2 Window::GetAspectRatio() const { return mAspectRatio; }
+	float Window::GetStartWidth() const { return mStartDimens.x; }
+	float Window::GetStartHeight() const { return mStartDimens.y; }
+	float Window::GetWidth() const { return mData.width; }
+	float Window::GetHeight() const { return mData.height; }
+	std::string Window::GetName() const { return mName; }
 
+	void Window::SetAspectRatio(unsigned int numer, unsigned int denom) { mAspectRatio = glm::vec2(numer, denom); }
+	void Window::SetStartWidth(unsigned int width) { mStartDimens.x = width; }
+	void Window::SetStartHeight(unsigned int height) { mStartDimens.y = height; }
+	void Window::SetWidth(unsigned int width) { mData.width = width; }
+	void Window::SetHeight(unsigned int height) { mData.height = height; }
+	void Window::SetName(std::string name) { mName = name; }
+
+	GLFWwindow* Window::GetGLFWWindow() const { return mWindow; }
 	bool Window::IsClosed() const {	return glfwWindowShouldClose(mWindow) == 1;	}
+
+	void Window::Clear() const
+	{
+		// Clear the background with a given color as well as the depth buffer
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		// Process new events
+		glfwPollEvents();
+	}
 
 	void Window::Update() const
 	{
 		// Swap front and back window buffers
 		glfwSwapBuffers(mWindow);
-		// Clear the background with a given color as well as the depth buffer
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		// Process new events
-		glfwPollEvents();
 	}
 
 	// Initialize GLFW to use its functions
@@ -60,9 +71,9 @@ namespace wand
 	}
 
 	bool Window::InitWindow()
-	{			
+	{
 		// Create a new window with GLFW
-		mWindow = glfwCreateWindow(sWidth, sHeight, mData.title.c_str(), nullptr, nullptr);
+		mWindow = glfwCreateWindow(mData.width, mData.height, mName.c_str(), nullptr, nullptr);
 		if (!mWindow)
 		{
 			std::cout << "Failed to create GLFW window.\n";
@@ -71,7 +82,6 @@ namespace wand
 		}
 		// Use this window in the current context
 		glfwMakeContextCurrent(mWindow);
-
 		return true;
 	}
 
@@ -90,11 +100,21 @@ namespace wand
 		// Limit the window's frame rate
 		glfwSwapInterval(1);
 		// Set the background color
-		glClearColor(mData.color.r, mData.color.g, mData.color.b, mData.color.a);
+		glClearColor(mBackgroundColor.r, mBackgroundColor.g, mBackgroundColor.b, mBackgroundColor.a);
 		// Enable blending and properly rendering transparent pixels
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		// Associate the window data with the GLFW window
 		glfwSetWindowUserPointer(mWindow, (void*)&mData);
+	}
+
+	void Window::SetupCallbacks()
+	{
+		glfwSetFramebufferSizeCallback(mWindow, [](GLFWwindow* window, int width, int height)
+		{
+			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
+			WindowResizeEvent* event = new WindowResizeEvent((unsigned int)width, (unsigned int)height);
+			data->EventCallback(event);
+		});
 	}
 }

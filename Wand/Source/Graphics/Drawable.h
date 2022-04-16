@@ -15,9 +15,6 @@ namespace wand
 
 		// Drawable operations
 		std::shared_ptr<Transform> GetTransform() const;
-		bool IsVisible() const;
-		void Show();
-		void Hide();
 
 		virtual unsigned int GetItemCount() const = 0;
 		virtual unsigned int GetBufferSize() const = 0;
@@ -28,7 +25,7 @@ namespace wand
 		virtual glm::vec4 GetColor() const { return { 1.0f, 1.0f, 1.0f, 1.0f }; };
 		virtual void SetColor(glm::vec4 color) {};
 
-	private:
+	protected:
 		static const unsigned int sIndexCount;
 		std::shared_ptr<Transform> mTransform;
 	};

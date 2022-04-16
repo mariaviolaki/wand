@@ -46,13 +46,13 @@ namespace wand
 		// Get font atlas dimensions
 		float atlasWidth = mFont->GetAtlasWidth();
 		float atlasHeight = mFont->GetAtlasHeight();
-		// Get text position
-		Transform* t = GetTransform().get();
-		glm::vec3 pos = { t->GetPosition().x, t->GetHeight(), t->GetDepth() };
-		pos.y -= mFontSize;
+		// Get text scale and position
+		glm::vec2 scale = mTransform->GetScale();
+		glm::vec2 pos = { mTransform->GetPosition().x, mTransform->GetHeight() };
+		pos.y -= scale.y * mFontSize;
 		
 		// Set the SPACE width to be equal to the width of a dot '.'
-		float spaceWidth = mFont->GetGlyphs().at('.')->width;		
+		float spaceWidth = scale.x * mFont->GetGlyphs().at('.')->width;		
 
 		for (int i = 0; i < mText.size(); i++)
 		{
@@ -61,17 +61,17 @@ namespace wand
 			auto glyph = mFont->GetGlyphs().at(glyphIndex);
 
 			// Get the correct position and dimensions for the current character
-			float glyphYPos = pos.y - (glyph->height - glyph->bearingY);
-			float glyphXPos = pos.x;
-			float glyphHeight = glyph->height;
-			float glyphWidth = glyph->width;
+			float glyphYPos = pos.y - scale.y * (glyph->height - glyph->bearingY);
+			float glyphXPos = scale.x * pos.x;
+			float glyphHeight = scale.y * glyph->height;
+			float glyphWidth = scale.x * glyph->width;
 			if (std::isspace(mText[i]))
 				glyphWidth = spaceWidth;
 
 			// Get the bounds of the glyph in the atlas
 			float lBound = glyph->atlasCoordX;
-			float bBound = glyphHeight;
-			float rBound = lBound + glyphWidth;
+			float bBound = glyphHeight / scale.y;
+			float rBound = lBound + glyphWidth / scale.x;
 			float tBound = 0;
 			
 			/// Create the glyphs's vertices and add them to the vector of vertices for the entire text
@@ -117,6 +117,9 @@ namespace wand
 
 	void TextGFX::UpdateGlyphPos(int& index, float& x, float& y, const float glyphAdvance) const
 	{
+		// Get text container's new scale
+		glm::vec2 scale = mTransform->GetScale();
+
 		x += glyphAdvance;
 		// If the next character is a space
 		if (std::isspace(mText[index + 1]))
@@ -124,11 +127,11 @@ namespace wand
 			// Get the width of the next word
 			unsigned int nextWordWidth = GetNextWordWidth(index + 2);
 			// If the next word doesn't fit inside the textbox
-			if (x + nextWordWidth >= GetTransform()->GetWidth())
+			if (x + nextWordWidth >= GetTransform()->GetWidth() / scale.x)
 			{
 				// Start rendering words on the next line
 				x = GetTransform()->GetPosition().x;
-				y -= mFontSize;
+				y -= scale.y * mFontSize;
 				index++;
 			}
 		}

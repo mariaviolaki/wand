@@ -9,37 +9,51 @@ namespace wand
 {
 	struct WindowData
 	{
-		std::string title;
-		int width;
-		int height;
-		glm::vec4 color;
+		unsigned int width;
+		unsigned int height;
 		std::function<void(Event*)> EventCallback;
 	};
 
 	class Window
 	{
 	public:
-		static unsigned int GetWidth();
-		static unsigned int GetHeight();
-
 		Window();
 		~Window();
 
-		void Init(WindowData windowData);
+		void Init(std::function<void(Event* event)> eventCallback);
+
+		glm::vec2 GetAspectRatio() const;
+		float GetStartWidth() const;
+		float GetStartHeight() const;
+		float GetWidth() const;
+		float GetHeight() const;
+		std::string GetName() const;
+
+		void SetAspectRatio(unsigned int numer, unsigned int denom);
+		void SetStartWidth(unsigned int width);
+		void SetStartHeight(unsigned int height);
+		void SetWidth(unsigned int width);
+		void SetHeight(unsigned int height);
+		void SetName(std::string name);
+
 		GLFWwindow* GetGLFWWindow() const;
 		bool IsClosed() const;
+
+		void Clear() const;
 		void Update() const;
 
 	private:
-		static unsigned int sWidth;
-		static unsigned int sHeight;
-
 		GLFWwindow* mWindow;
+		std::string mName;
+		glm::vec4 mBackgroundColor;
+		glm::vec2 mStartDimens;
+		glm::vec2 mAspectRatio;
 		WindowData mData;
 
 		bool InitGLFW() const;
 		bool InitWindow();
 		bool InitGLAD() const;
 		void SetupWindow() const;
+		void SetupCallbacks();
 	};
 }

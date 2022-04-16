@@ -8,8 +8,8 @@
 #include "Input/InputManager.h"
 #include "Events/EventManager.h"
 #include "Graphics/Renderer.h"
-#include "Audio/AudioManager.h"
 #include "Graphics/FontManager.h"
+#include "Audio/AudioManager.h"
 
 namespace wand
 {
@@ -19,11 +19,14 @@ namespace wand
 		App();
 		~App();
 
+		void Clear() const;
 		void Update() const;
 		bool IsRunning() const;
 
 		void OnEvent(Event* event);
 
+		Input& GetInput() const;
+		Window& GetWindow() const;
 		EntityManager* GetEntityManager() const;
 		FontManager* GetFontManager() const;
 		AudioManager* GetAudioManager() const;

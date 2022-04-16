@@ -12,28 +12,35 @@ namespace wand
 		mInput(std::make_unique<Input>()), mInputManager(std::make_unique<InputManager>()),
 		mAudioManager(std::make_unique<AudioManager>()), mRenderer(std::make_unique<Renderer>())
 	{
-		WindowData windowData {"Wand Engine", 960, 540, { 0.1f, 0.1f, 0.1f, 0.1f }, [this](Event* event) 
+		mWindow->Init([this](Event* event)
 		{
 			this->OnEvent(event);
-		}};
-		mWindow->Init(windowData);
+		});
 		mEntityManager->Init(mFontManager.get());
-		mEventManager->Init(mInput.get());
+		mEventManager->Init(mWindow.get(), mInput.get(), mRenderer.get());
 		mInputManager->Init(mWindow->GetGLFWWindow());
-		mRenderer->Init();
+		mRenderer->Init(mWindow->GetWidth(), mWindow->GetHeight());
 	}
 
 	App::~App()
 	{}
 
+	void App::Clear() const
+	{
+		// Clear past events
+		mEventManager->Clear();
+		// Clear old graphics and poll events
+		mWindow->Clear();
+	}
+
 	void App::Update() const
 	{
-		// Update the graphics in the window and process events
-		mWindow->Update();
 		// Set the active entities to be processed in this frame
-		mEventManager->Update(mEntityManager->GetEntities());
+		mEventManager->SetEntities(mEntityManager->GetEntities());
 		// Render all graphics visible in this frame
 		mRenderer->Submit(mEntityManager->GetEntities());
+		// Update the graphics in the window
+		mWindow->Update();
 	}
 
 	bool App::IsRunning() const { return !mWindow->IsClosed(); }
@@ -43,6 +50,8 @@ namespace wand
 		mEventManager->HandleEvent(event);
 	}
 
+	Input& App::GetInput() const { return *mInput.get(); }
+	Window& App::GetWindow() const { return *mWindow.get(); }
 	EntityManager* App::GetEntityManager() const { return mEntityManager.get(); }
 	FontManager* App::GetFontManager() const { return mFontManager.get(); }
 	AudioManager* App::GetAudioManager() const { return mAudioManager.get(); }

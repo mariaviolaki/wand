@@ -10,6 +10,13 @@ namespace wand
 	EventCategory Event::GetCategory() const { return mCategory; }
 	EventType Event::GetType() const { return mType; }
 
+	/************************* WINDOW RESIZE EVENT CLASS ******************************/
+	WindowResizeEvent::WindowResizeEvent(unsigned int width, unsigned int height)
+		: Event(EventCategory::Window, EventType::WindowResize), mWidth(width), mHeight(height)
+	{}
+	unsigned int WindowResizeEvent::GetWidth() const { return mWidth; }
+	unsigned int WindowResizeEvent::GetHeight() const { return mHeight; }
+
 	/************************* KEY DOWN EVENT CLASS ***********************************/
 	KeyDownEvent::KeyDownEvent(int key, bool isCapital)
 		: Event(EventCategory::Input, EventType::KeyDown), mKey(key), mIsCapital(isCapital)

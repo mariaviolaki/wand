@@ -73,8 +73,13 @@ namespace wand
 		glfwSetCursorPosCallback(mWindow, [](GLFWwindow* window, double xpos, double ypos)
 		{
 			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
+			// Find the offsets to the beginning of the window with the correct aspect ratio
+			int width, height;
+			glfwGetFramebufferSize(window, &width, &height);
+			float xOffset = (width - data->width) / 2;
+			float yOffset = (height - data->height) / 2;
 			// Invert the Y axis to use the bottom edge as origin
-			MouseMoveEvent* event = new MouseMoveEvent(xpos, data->height - ypos);
+			MouseMoveEvent* event = new MouseMoveEvent(xpos - xOffset, data->height - ypos + yOffset);
 			data->EventCallback(event);
 		});
 	}

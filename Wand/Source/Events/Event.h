@@ -9,6 +9,7 @@ namespace wand
 
 	enum class EventType
 	{
+		WindowResize,
 		KeyUp, KeyDown, MouseButtonUp, MouseButtonDown,
 		MouseScrollX, MouseScrollY, MouseMove
 	};
@@ -23,6 +24,17 @@ namespace wand
 	private:
 		EventCategory mCategory;
 		EventType mType;
+	};
+
+	class WindowResizeEvent : public Event
+	{
+	public:
+		WindowResizeEvent(unsigned int width, unsigned int height);
+		unsigned int GetWidth() const;
+		unsigned int GetHeight() const;
+	private:
+		unsigned int mWidth;
+		unsigned int mHeight;
 	};
 
 	class KeyDownEvent : public Event

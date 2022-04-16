@@ -4,7 +4,10 @@
 
 void playSound(wand::App& app, wand::Rectangle& r)
 {
-	std::cout << r.GetLabel() << " selected.\n";
+	std::cout << r.GetLabel() << ": x=" << r.GetTransform().GetPosition().x
+		<< ", y=" << r.GetTransform().GetPosition().y
+		<< ", width=" << r.GetTransform().GetWidth()
+		<< ", height=" << r.GetTransform().GetHeight() << std::endl;
 	app.GetAudioManager()->Play("tick");
 	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	//app.GetAudioManager()->Stop("tick");
@@ -31,9 +34,13 @@ int main()
 	while (app.IsRunning())
 	{
 		//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+		app.Clear();
 
+		wand::Input& input = app.GetInput();
+		if (input.MouseButtonDown(MOUSE_BUTTON_LEFT))
+			std::cout << "(" << input.GetX() << ", " << input.GetY() << ")\n";
+		
 		app.Update();
-
 		//std::chrono::steady_clock::time_point stop = std::chrono::steady_clock::now();
 		//std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() << " ms\n";
 	}
@@ -42,13 +49,14 @@ int main()
 
 void loadData(wand::App& app)
 {
-	app.GetFontManager()->Add("C:\\Windows\\Fonts\\arial.ttf", "arial", 50);
+	app.GetFontManager()->Add("C:\\Windows\\Fonts\\arial.ttf", "arial", 20);
 	app.GetAudioManager()->Add("Audio/tick.ogg", "tick");
+	wand::Window& window = app.GetWindow();
 
 	glm::vec4 rectColor = { 1.0f, 0.0f, 1.0f, 1.0f };
 	glm::vec4 textColor = { 0.0f, 1.0f, 1.0f, 0.6f };
-	float rectSize = 50.0f;
-	float spriteSize = 100.0f;
+	float rectSize = 100.0f;
+	float spriteSize = 200.0f;
 
 	// Create a layout - container for the rectangles
 	std::shared_ptr<wand::Layout> layout = std::make_shared<wand::Layout>();
@@ -88,26 +96,28 @@ void loadData(wand::App& app)
 	}
 
 	// Render transparent and non-transparent sprites
-	for (int x = 0; x < wand::Window::GetWidth(); x += spriteSize + 15.0f)
+	for (int x = 0; x < window.GetWidth(); x += spriteSize + 15.0f)
 	{
-		for (int y = 0; y < wand::Window::GetHeight(); y += spriteSize + 15.0f)
+		for (int y = 0; y < window.GetHeight(); y += spriteSize + 15.0f)
 		{
 			float rem = y % 2;
-			std::string path = "Images\\wand." + std::string((rem == 0) ? "png" : "jpg");
+			std::string path = "Images\\wand." + std::string((rem == 0) ? "jpg" : "png");
 			wand::Sprite& s = app.GetEntityManager()->AddSprite(path);
 			s.GetTransform().SetPosition(x, y);
 			s.GetTransform().SetDepth(3);
+			s.GetTransform().SetWidth(100);
+			s.GetTransform().SetHeight(100);
 			s.Show();
 		}
 	}
 	
 	// Render semi-transparent text
-	wand::Text& t1 = app.GetEntityManager()->AddText("arial", 50, textColor);
+	wand::Text& t1 = app.GetEntityManager()->AddText("arial", 20, textColor);
 	t1.GetTransform().SetPosition(0, 0);
 	t1.GetTransform().SetDepth(1);
-	t1.GetTransform().SetWidth(wand::Window::GetWidth());
-	t1.GetTransform().SetHeight(wand::Window::GetHeight());
-	for (int i = 0; i < 10; i++)
+	t1.GetTransform().SetWidth(window.GetWidth());
+	t1.GetTransform().SetHeight(window.GetHeight());
+	for (int i = 0; i < 50; i++)
 	{
 		t1.Add("The quick brown fox jumps over the lazy dog. ");
 	}

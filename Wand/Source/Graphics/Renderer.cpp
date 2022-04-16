@@ -18,6 +18,18 @@ namespace wand
 		mSavedTexSlots(), mRenderQueue()
 	{}
 
+	void Renderer::Init(float windowWidth, float windowHeight)
+	{
+		SetupBuffers();
+		SetupShaderProgram(windowWidth, windowHeight);
+	}
+
+	void Renderer::ResetProjectionMatrix(float xMin, float yMin, float xMax, float yMax)
+	{
+		// Set the projection matrix in the shader according to the window size
+		mShaderProgram->SetUniformMat4("uProjection",glm::ortho(xMin, xMax, yMin, yMax, -1.0f, 1.0f));
+	}
+
 	// Get an already existing drawable and push it to the render queue
 	void Renderer::Submit(std::vector<std::unique_ptr<UIEntity>>& entities)
 	{
@@ -59,12 +71,6 @@ namespace wand
 
 	/********************************** PRIVATE ****************************************/
 
-	void Renderer::Init()
-	{
-		SetupBuffers();
-		SetupShaderProgram();
-	}
-
 	// Initialize the vao, vbo, and ibo to be used for rendering
 	void Renderer::SetupBuffers()
 	{
@@ -84,7 +90,7 @@ namespace wand
 	}
 
 	// Initialize the shader program and its uniforms to be used for rendering
-	void Renderer::SetupShaderProgram()
+	void Renderer::SetupShaderProgram(float windowWidth, float windowHeight)
 	{
 		// Choose the shaders to be used for rendering
 		mShaderProgram = std::make_unique<ShaderProgram>("Standard.vert", "Standard.frag");
@@ -94,9 +100,7 @@ namespace wand
 		int texSlots[slotCount];
 		for (int i = 0; i < slotCount; i++) texSlots[i] = i;
 		mShaderProgram->SetUniform1iv("uTexSlots", slotCount, texSlots);
-		// Set the projection matrix in the shader according to the window size
-		mShaderProgram->SetUniformMat4("uProjection",
-			glm::ortho(0.0f, (float)Window::GetWidth(), 0.0f, (float)Window::GetHeight(), -1000.0f, 1000.0f));
+		ResetProjectionMatrix(0.0f, 0.0f, windowWidth, windowHeight);
 	}
 
 	// Save the drawable's texture id in a new texture slot

@@ -6,7 +6,10 @@ namespace wand
 	SpriteGFX::SpriteGFX(const std::string& imagePath)
 		: mTexture(std::make_shared<Texture>(std::filesystem::current_path().string() + "\\" + imagePath)),
 		mVertices()
-	{}
+	{
+		mTransform->SetWidth(mTexture->GetWidth());
+		mTransform->SetHeight(mTexture->GetHeight());
+	}
 
 	unsigned int SpriteGFX::GetTexId() const { return mTexture->GetId(); }
 
@@ -20,16 +23,17 @@ namespace wand
 	// Set the vertex data before submitting to the renderer
 	const std::vector<Vertex>& SpriteGFX::GetVertexData()
 	{
-		Transform* t = GetTransform().get();
+		mVertices.clear();
+		Transform& t = *mTransform.get();
 
 		// Bottom left corner
-		CreateVertex(t->GetPosition().x, t->GetPosition().y, 0.0f, 0.0f);
+		CreateVertex(t.GetPosition().x, t.GetPosition().y, 0.0f, 0.0f);
 		// Bottom right corner
-		CreateVertex(t->GetPosition().x + t->GetWidth(), t->GetPosition().y, 1.0f, 0.0f);
+		CreateVertex(t.GetPosition().x + t.GetWidth(), t.GetPosition().y, 1.0f, 0.0f);
 		// Top right corner
-		CreateVertex(t->GetPosition().x + t->GetWidth(), t->GetPosition().y + t->GetHeight(), 1.0f, 1.0f);
+		CreateVertex(t.GetPosition().x + t.GetWidth(), t.GetPosition().y + t.GetHeight(), 1.0f, 1.0f);
 		// Top left corner
-		CreateVertex(t->GetPosition().x, t->GetPosition().y + t->GetHeight(), 0.0f, 1.0f);
+		CreateVertex(t.GetPosition().x, t.GetPosition().y + t.GetHeight(), 0.0f, 1.0f);
 
 		return mVertices;
 	}
