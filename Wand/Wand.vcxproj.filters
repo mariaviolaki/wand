@@ -81,7 +81,7 @@
     <ClCompile Include="Source\UI\UIEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\Text.cpp">
+    <ClCompile Include="Source\UI\TextBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\UI\Sprite.cpp">
@@ -99,7 +99,7 @@
     <ClCompile Include="Source\Utils\Pair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\State.cpp">
+    <ClCompile Include="Source\State\State.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\Serializer.cpp">
@@ -118,6 +118,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Input\Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\State\StateManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\FileManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -194,7 +200,7 @@
     <ClInclude Include="Source\UI\UIEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UI\Text.h">
+    <ClInclude Include="Source\UI\TextBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\UI\Sprite.h">
@@ -212,7 +218,7 @@
     <ClInclude Include="Source\Utils\Pair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Core\State.h">
+    <ClInclude Include="Source\State\State.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Utils\Serializer.h">
@@ -231,6 +237,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Input\Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\State\StateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\FileManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

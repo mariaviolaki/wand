@@ -17,11 +17,19 @@ void loadData(wand::App& app);
 int main()
 {
 	wand::App app;
-
 	loadData(app);
 
-	wand::Rectangle& r1 = app.GetEntityManager()->AddRectangle({ 1.0f, 0.0f, 0.0f, 1.0f });
+	// Test state manager
+	wand::StateManager* stateManager = app.GetStateManager();
+	stateManager->LoadStates("test.txt");
+	std::string str1 = "wand";
+	int num = 5;
+	double decnum = 5.5;
+	bool boolean = true;
+	std::string str2 = "engine";
 
+	// Test rectangle rendering and events
+	wand::Rectangle& r1 = app.GetEntityManager()->AddRectangle({ 1.0f, 0.0f, 0.0f, 1.0f });
 	r1.GetTransform().SetDepth(6);
 	r1.GetTransform().SetPosition(100, 100);
 	r1.GetTransform().SetWidth(100);
@@ -36,9 +44,26 @@ int main()
 		//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 		app.Clear();
 
-		wand::Input& input = app.GetInput();
-		if (input.MouseButtonDown(MOUSE_BUTTON_LEFT))
-			std::cout << "(" << input.GetX() << ", " << input.GetY() << ")\n";
+		wand::Input* input = app.GetInput();
+		if (input->MouseButtonDown(MOUSE_BUTTON_LEFT))
+			std::cout << "(" << input->GetX() << ", " << input->GetY() << ")\n";
+
+		// Save and overwrite an existing state every frame
+		std::shared_ptr<wand::State> state1 = std::make_shared<wand::State>("state1");
+		state1->Add(new wand::Pair("str1", str1));
+		state1->Add(new wand::Pair("num", num));
+		state1->Add(new wand::Pair("decnum", decnum));
+		state1->Add(new wand::Pair("boolean", boolean));
+		state1->Add(new wand::Pair("str2", str2));
+		stateManager->SaveState(state1, "test.txt");
+
+		std::shared_ptr<wand::State> state2 = std::make_shared<wand::State>("state1");
+		state2->Add(new wand::Pair("new str1", str1));
+		state2->Add(new wand::Pair("new num", num));
+		state2->Add(new wand::Pair("new decnum", decnum));
+		state2->Add(new wand::Pair("new boolean", boolean));
+		state2->Add(new wand::Pair("new str2", str2));
+		stateManager->SaveState(state2, "test.txt");
 		
 		app.Update();
 		//std::chrono::steady_clock::time_point stop = std::chrono::steady_clock::now();
@@ -51,7 +76,7 @@ void loadData(wand::App& app)
 {
 	app.GetFontManager()->Add("C:\\Windows\\Fonts\\arial.ttf", "arial", 20);
 	app.GetAudioManager()->Add("Audio/tick.ogg", "tick");
-	wand::Window& window = app.GetWindow();
+	wand::Window* window = app.GetWindow();
 
 	glm::vec4 rectColor = { 1.0f, 0.0f, 1.0f, 1.0f };
 	glm::vec4 textColor = { 0.0f, 1.0f, 1.0f, 0.6f };
@@ -96,9 +121,9 @@ void loadData(wand::App& app)
 	}
 
 	// Render transparent and non-transparent sprites
-	for (int x = 0; x < window.GetWidth(); x += spriteSize + 15.0f)
+	for (int x = 0; x < window->GetWidth(); x += spriteSize + 15.0f)
 	{
-		for (int y = 0; y < window.GetHeight(); y += spriteSize + 15.0f)
+		for (int y = 0; y < window->GetHeight(); y += spriteSize + 15.0f)
 		{
 			float rem = y % 2;
 			std::string path = "Images\\wand." + std::string((rem == 0) ? "jpg" : "png");
@@ -112,14 +137,16 @@ void loadData(wand::App& app)
 	}
 	
 	// Render semi-transparent text
-	wand::Text& t1 = app.GetEntityManager()->AddText("arial", 20, textColor);
+	wand::TextBox& t1 = app.GetEntityManager()->AddTextBox("arial", 20, textColor);
 	t1.GetTransform().SetPosition(0, 0);
 	t1.GetTransform().SetDepth(1);
-	t1.GetTransform().SetWidth(window.GetWidth());
-	t1.GetTransform().SetHeight(window.GetHeight());
+	t1.GetTransform().SetWidth(window->GetWidth());
+	t1.GetTransform().SetHeight(window->GetHeight());
+	std::string text = "";
 	for (int i = 0; i < 50; i++)
 	{
-		t1.Add("The quick brown fox jumps over the lazy dog. ");
+		text += "The quick brown fox jumps over the lazy dog. ";
 	}
+	t1.SetText(text);
 	t1.Show();
 }

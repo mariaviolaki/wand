@@ -5,12 +5,12 @@
 
 namespace wand
 {
-	class Text : public UIEntity
+	class TextBox : public UIEntity
 	{
 	public:
-		Text(const std::string& fontName, unsigned int fontSize, const glm::vec4& color);
+		TextBox(const std::string& fontName, unsigned int fontSize, const glm::vec4& color);
 		Drawable* GetDrawable() const override;
-		void Add(const std::string& newText);
+		void SetText(const std::string& newText);
 
 	private:
 		std::shared_ptr<TextGFX> drawable;

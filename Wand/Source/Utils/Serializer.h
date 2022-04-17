@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/State.h"
+#include "State/State.h"
 #include "nlohmann/json.hpp"
 
 namespace wand

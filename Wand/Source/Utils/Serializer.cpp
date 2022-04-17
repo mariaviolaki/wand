@@ -39,24 +39,16 @@ namespace wand
 	nlohmann::json Serializer::CreateStateList(const nlohmann::json& oldStates, const State& newState)
 	{
 		nlohmann::json newStates;
-		bool nameExists = false;
 
 		// Access each state in the old list
 		for (auto& state : oldStates.items())
 		{
 			// Copy its data to the new list
 			newStates[state.key()] = state.value();
-			// Check if the old state has the same name with the new one
-			if (state.key() == newState.GetName())
-				nameExists = true;
 		}
-
-		// Add the new state to the list if its name is unique
-		if (nameExists)
-			std::cout << "Serializer: State '" << newState.GetName() << "' already exists.\n";
-		else
-			newStates[newState.GetName()] = CreatePairs(newState);
-
+		
+		// Add the new state to the list, replacing the old one with the same name (if it exists)
+		newStates[newState.GetName()] = CreatePairs(newState);
 		return newStates;
 	}
 

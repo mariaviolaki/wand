@@ -3,7 +3,7 @@
 #include "UI/UIEntity.h"
 #include "UI/Rectangle.h"
 #include "UI/Sprite.h"
-#include "UI/Text.h"
+#include "UI/TextBox.h"
 
 namespace wand
 {
@@ -15,7 +15,7 @@ namespace wand
 		void Init(FontManager* fontManager);
 		Rectangle& AddRectangle(glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f });
 		Sprite& AddSprite(const std::string& imagePath);
-		Text& AddText(const std::string& fontName, unsigned int fontSize, const glm::vec4& color);
+		TextBox& AddTextBox(const std::string& fontName, unsigned int fontSize, const glm::vec4& color);
 		std::vector<std::unique_ptr<UIEntity>>& GetEntities();
 
 	private:

@@ -25,16 +25,16 @@ namespace wand
 		return static_cast<Sprite&>(*mEntities.back().get());
 	}
 
-	Text& EntityManager::AddText(const std::string& fontName, unsigned int fontSize, const glm::vec4& color)
+	TextBox& EntityManager::AddTextBox(const std::string& fontName, unsigned int fontSize, const glm::vec4& color)
 	{
 		// Create a text UI entity
-		Text* text = new Text(fontName, fontSize, color);
+		TextBox* text = new TextBox(fontName, fontSize, color);
 		// Set the font manager needed for the text's initialization
 		TextGFX* drawable = static_cast<TextGFX*>(text->GetDrawable());
 		drawable->SetFontManager(mFontManager);
 
-		mEntities.emplace_back(std::unique_ptr<Text>(text));
-		return static_cast<Text&>(*mEntities.back().get());
+		mEntities.emplace_back(std::unique_ptr<TextBox>(text));
+		return static_cast<TextBox&>(*mEntities.back().get());
 	}
 
 	std::vector<std::unique_ptr<UIEntity>>& EntityManager::GetEntities() { return mEntities; }
