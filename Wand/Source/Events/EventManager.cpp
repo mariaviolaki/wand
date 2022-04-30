@@ -1,7 +1,8 @@
 #include "WandPCH.h"
 #include "EventManager.h"
-#include "Input/InputMacros.h"
 #include "glad/glad.h"
+#include "Input/InputMacros.h"
+#include "UI/Button.h"
 
 namespace wand
 {
@@ -26,21 +27,18 @@ namespace wand
 	void EventManager::SetEntities(std::vector<std::unique_ptr<UIEntity>>& entities)
 	{
 		// Clear the entities of the last frame
-		mVisibleEntities.clear();
+		mEntities.clear();
 		mActiveEntities.clear();
 		// Process all entities given by the app
 		for (const auto& entity : entities)
 		{
-			if (entity->IsVisible())
+			// Add to the vector of entities
+			mEntities.emplace_back(entity.get());
+			if (entity->IsEnabled() && entity->IsVisible())
 			{
-				// Add to the vector of visible entities
-				mVisibleEntities.emplace_back(entity.get());
-				if (entity->IsEnabled())
-				{
-					// Add to the vector of visible and enabled entities
-					mActiveEntities.emplace_back(entity.get());
-				}
-			}				
+				// Add to the vector of enabled and visible entities
+				mActiveEntities.emplace_back(entity.get());
+			}	
 		}
 	}
 
@@ -128,8 +126,8 @@ namespace wand
 		// Reset the projection matrix in the renderer
 		mRenderer->ResetProjectionMatrix(0, 0, dimens.x, dimens.y);
 		// Resize the objects drawn to the window
-		for (auto& entity : mVisibleEntities)
-			entity->GetTransform().SetScale(scale.x, scale.y);
+		for (auto& entity : mEntities)
+			entity->GetTransform()->SetScale(scale.x, scale.y);
 	}
 
 	void EventManager::ProcessLeftClick(MouseButtonUpEvent* event)
@@ -174,11 +172,12 @@ namespace wand
 		}
 	}
 
-	bool EventManager::IsMouseInArea(const Transform& transform)
+	bool EventManager::IsMouseInArea(Transform* transform)
 	{
-		glm::vec2 pos = transform.GetPosition();
-		return mXPos >= pos.x && mXPos <= pos.x + transform.GetWidth()
-			&& mYPos >= pos.y && mYPos <= pos.y + transform.GetHeight();
+		glm::vec2 pos = transform->GetPos();
+		glm::vec2 scale = transform->GetScale();
+		return mXPos >= pos.x * scale.x && mXPos <= (pos.x + transform->GetWidth()) * scale.x
+			&& mYPos >= pos.y * scale.y && mYPos <= (pos.y + transform->GetHeight()) * scale.y;
 	}
 
 	void EventManager::SortEntities(std::vector<UIEntity*>& entities) const
@@ -188,7 +187,7 @@ namespace wand
 		[](const UIEntity* a, const UIEntity* b)
 		{
 			// Sort in descending order
-			return a->GetTransform().GetDepth() > b->GetTransform().GetDepth();
+			return a->GetTransform()->GetDepth() > b->GetTransform()->GetDepth();
 		});
 	}
 }

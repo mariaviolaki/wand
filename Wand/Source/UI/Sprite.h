@@ -10,6 +10,7 @@ namespace wand
 	public:
 		Sprite(const std::string& imagePath);
 		Drawable* GetDrawable() const override;
+		Transform* GetTransform() const override;
 
 	private:
 		std::shared_ptr<SpriteGFX> drawable;

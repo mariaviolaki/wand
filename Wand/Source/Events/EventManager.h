@@ -20,7 +20,7 @@ namespace wand
 
 	private:
 		std::vector<std::unique_ptr<Event>> mInputEvents;
-		std::vector<UIEntity*> mVisibleEntities;
+		std::vector<UIEntity*> mEntities;
 		std::vector<UIEntity*> mActiveEntities;
 		Window* mWindow;
 		Input* mInput;
@@ -35,7 +35,7 @@ namespace wand
 		void ProcessLeftClick(MouseButtonUpEvent* event);
 
 		void ResetWindowBounds(WindowResizeEvent* event, glm::vec2& pos, glm::vec2& dimens);
-		bool IsMouseInArea(const Transform& transform);
+		bool IsMouseInArea(Transform* transform);
 		// Sort entities based on their depth in the window
 		void SortEntities(std::vector<UIEntity*>& entities) const;
 	};

@@ -24,16 +24,21 @@ namespace wand
 	const std::vector<Vertex>& SpriteGFX::GetVertexData()
 	{
 		mVertices.clear();
+		UpdateTransform();
 		Transform& t = *mTransform.get();
 
 		// Bottom left corner
-		CreateVertex(t.GetPosition().x, t.GetPosition().y, 0.0f, 0.0f);
+		CreateVertex(t.GetPos().x * t.GetScale().x,
+			t.GetPos().y * t.GetScale().y, 0.0f, 0.0f);
 		// Bottom right corner
-		CreateVertex(t.GetPosition().x + t.GetWidth(), t.GetPosition().y, 1.0f, 0.0f);
+		CreateVertex(t.GetPos().x * t.GetScale().x + t.GetWidth() * t.GetScale().x,
+			t.GetPos().y * t.GetScale().y, 1.0f, 0.0f);
 		// Top right corner
-		CreateVertex(t.GetPosition().x + t.GetWidth(), t.GetPosition().y + t.GetHeight(), 1.0f, 1.0f);
+		CreateVertex(t.GetPos().x * t.GetScale().x + t.GetWidth() * t.GetScale().x,
+			t.GetPos().y * t.GetScale().y + t.GetHeight() * t.GetScale().y, 1.0f, 1.0f);
 		// Top left corner
-		CreateVertex(t.GetPosition().x, t.GetPosition().y + t.GetHeight(), 0.0f, 1.0f);
+		CreateVertex(t.GetPos().x * t.GetScale().x,
+			t.GetPos().y * t.GetScale().y + t.GetHeight() * t.GetScale().y, 0.0f, 1.0f);
 
 		return mVertices;
 	}

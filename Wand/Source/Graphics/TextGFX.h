@@ -12,15 +12,19 @@ namespace wand
 	public:
 		TextGFX(const std::string& fontName, unsigned int fontSize, const glm::vec4& color);
 
-		void SetFontManager(FontManager* fontManager);
-
+		// Submit and concatenate a string with the existing text
 		void Add(const std::string& newText);
+		// Replace the stored text with an empty string
 		void Clear();
+		// Set the text to be centered or to start from the top left corner
+		void SetCenteredText(bool isTextCentered);
+		// Get the maximum number of characters in a text object
 		unsigned int GetMaxLength() const;
+
+		void SetFontManager(FontManager* fontManager);
 
 		glm::vec4 GetColor() const override;
 		void SetColor(glm::vec4 color) override;
-
 		unsigned int GetTexId() const override;
 		void SetTextureSlot(int slot) override;
 		unsigned int GetItemCount() const override;
@@ -36,10 +40,15 @@ namespace wand
 		unsigned int mFontSize;
 		std::shared_ptr<Texture> mTexture;
 		std::vector<Vertex> mVertices;
+		glm::vec2 mTextDimens;
+		bool mIsTextCentered;
 
 		void Init();
 		void CreateVertex(const float posX, const float posY, const float texX, const float texY);
 		void UpdateGlyphPos(int& index, float& x, float& y, const float glyphAdvance) const;
-		unsigned int GetNextWordWidth(const int index) const;
+		// Get the width of the next word and set its starting index
+		unsigned int GetNextWordWidth(unsigned int& index) const;
+		void FindTextDimens(float spaceWidth);
+		glm::vec2 GetTextStartPos(float spaceWidth);
 	};
 }

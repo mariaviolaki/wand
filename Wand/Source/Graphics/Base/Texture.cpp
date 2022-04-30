@@ -20,6 +20,7 @@ namespace wand
 		ConfigTexture();
 		LoadWhiteTexture();
 	}
+
 	// Constructor for images
 	Texture::Texture(const std::string& imagePath)
 		: mImagePath(imagePath), mImageData(nullptr), mTexSlot(1), 

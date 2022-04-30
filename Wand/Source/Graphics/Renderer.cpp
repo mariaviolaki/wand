@@ -10,6 +10,7 @@
 #include "SpriteGFX.h"
 #include "TextGFX.h"
 #include "Utils/Utils.h"
+#include "UI/Button.h"
 
 namespace wand
 {
@@ -27,7 +28,7 @@ namespace wand
 	void Renderer::ResetProjectionMatrix(float xMin, float yMin, float xMax, float yMax)
 	{
 		// Set the projection matrix in the shader according to the window size
-		mShaderProgram->SetUniformMat4("uProjection",glm::ortho(xMin, xMax, yMin, yMax, -1.0f, 1.0f));
+		mShaderProgram->SetUniformMat4("uProjection",glm::ortho(xMin, xMax, yMin, yMax, -1000.0f, 1000.0f));
 	}
 
 	// Get an already existing drawable and push it to the render queue
@@ -36,7 +37,11 @@ namespace wand
 		for (const auto& entity : entities)
 		{
 			if (entity->IsVisible())
+			{
 				mRenderQueue.emplace_back(entity->GetDrawable());
+				if (dynamic_cast<Button*>(entity.get()))
+					mRenderQueue.emplace_back(static_cast<Button*>(entity.get())->GetTextDrawable());
+			}
 		}
 
 		// Sort entities based on their depth by providing a comparison function

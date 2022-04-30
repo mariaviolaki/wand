@@ -5,16 +5,36 @@
 
 namespace wand
 {
+	enum class LayoutPosition
+	{
+		LEFT, CENTERX, RIGHT, // horizontal
+		BOTTOM, CENTERY, TOP  // vertical
+	};
+
+	struct ParentLayoutPos
+	{
+		LayoutPosition horizontal;
+		LayoutPosition vertical;
+	};
+
+	struct ParentLayoutCoords
+	{
+		float x;
+		float y;
+	};
+
 	class Drawable
 	{
-	protected:
-		Drawable();
-
 	public:
 		static unsigned int GetIndexCount();
 
 		// Drawable operations
-		std::shared_ptr<Transform> GetTransform() const;
+		Transform* GetTransform() const;
+		void SetTransform(bool isLayoutChild);
+		const Transform* GetParentTransform() const;
+		void SetParentTransform(Transform* transform);
+		void SetParentLayoutPos(LayoutPosition horizontal, LayoutPosition vertical);
+		void SetParentLayoutCoords(float x, float y);
 
 		virtual unsigned int GetItemCount() const = 0;
 		virtual unsigned int GetBufferSize() const = 0;
@@ -27,6 +47,16 @@ namespace wand
 
 	protected:
 		static const unsigned int sIndexCount;
-		std::shared_ptr<Transform> mTransform;
+		std::unique_ptr<Transform> mTransform;
+		Transform* mParentTransform;
+
+		Drawable();
+		void UpdateTransform(bool adoptDimens = false);
+
+	private:
+		std::unique_ptr<ParentLayoutPos> mParentLayoutPos;
+		std::unique_ptr<ParentLayoutCoords> mParentLayoutCoords;
+
+		void SetParentLayoutPos();
 	};
 }

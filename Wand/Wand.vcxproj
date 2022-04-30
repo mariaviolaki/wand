@@ -113,7 +113,7 @@
     <ClCompile Include="Source\Graphics\TextGFX.cpp" />
     <ClCompile Include="Source\Input\Input.cpp" />
     <ClCompile Include="Source\State\StateManager.cpp" />
-    <ClCompile Include="Source\UI\Layout.cpp" />
+    <ClCompile Include="Source\UI\Button.cpp" />
     <ClCompile Include="Source\UI\Rectangle.cpp" />
     <ClCompile Include="Source\UI\Sprite.cpp" />
     <ClCompile Include="Source\UI\TextBox.cpp" />
@@ -170,7 +170,7 @@
     <ClInclude Include="Source\Graphics\Base\VertexBuffer.h" />
     <ClInclude Include="Source\Graphics\Base\VertexLayout.h" />
     <ClInclude Include="Source\State\StateManager.h" />
-    <ClInclude Include="Source\UI\Layout.h" />
+    <ClInclude Include="Source\UI\Button.h" />
     <ClInclude Include="Source\UI\Rectangle.h" />
     <ClInclude Include="Source\UI\Sprite.h" />
     <ClInclude Include="Source\UI\TextBox.h" />

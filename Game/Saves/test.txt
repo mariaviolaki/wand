@@ -1,0 +1,24 @@
+{
+    "state1": {
+        "new boolean": {
+            "type": "bool",
+            "value": true
+        },
+        "new decnum": {
+            "type": "double",
+            "value": 5.5
+        },
+        "new num": {
+            "type": "int",
+            "value": 5
+        },
+        "new str1": {
+            "type": "string",
+            "value": "wand"
+        },
+        "new str2": {
+            "type": "string",
+            "value": "engine"
+        }
+    }
+}

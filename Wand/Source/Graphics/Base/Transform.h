@@ -7,15 +7,15 @@ namespace wand
 	class Transform
 	{
 	public:
-		Transform(glm::vec2 dimens = { 100.0f, 100.0f });
+		Transform(bool isLayoutChild = false);
 
-		const glm::vec2& GetPosition() const;
+		const glm::vec2& GetPos() const;
 		const glm::vec2& GetScale() const;
 		float GetDepth() const;
 		float GetWidth() const;
 		float GetHeight() const;
 
-		void SetPosition(float x, float y);
+		void SetPos(float x, float y);
 		void SetScale(float x, float y);
 		void SetDepth(float depth);
 		void SetWidth(float width);
@@ -26,5 +26,6 @@ namespace wand
 		glm::vec2 mScale;
 		glm::vec2 mDimens;
 		float mDepth;
+		bool mIsLayoutChild;
 	};
 }
