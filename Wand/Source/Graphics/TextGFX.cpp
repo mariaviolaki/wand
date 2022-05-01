@@ -81,7 +81,7 @@ namespace wand
 			CreateVertex(glyphXPos + 2 * scale.x * glyph->bearingX + glyphWidth, glyphYPos,
 				rBound / atlasWidth, bBound / atlasHeight);
 			// Top right corner
-			CreateVertex(glyphXPos + 2 *scale.x *  glyph->bearingX + glyphWidth, glyphYPos + glyphHeight,
+			CreateVertex(glyphXPos + 2 * scale.x *  glyph->bearingX + glyphWidth, glyphYPos + glyphHeight,
 				rBound / atlasWidth, tBound / atlasHeight);
 			// Top left corner
 			CreateVertex(glyphXPos + scale.x * glyph->bearingX, glyphYPos + glyphHeight,

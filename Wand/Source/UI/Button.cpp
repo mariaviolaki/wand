@@ -85,7 +85,7 @@ namespace wand
     
     void Button::CenterText()
     {
-        mTextBox->SetLayoutPosition(LayoutPosition::CENTERX, LayoutPosition::CENTERY);
+        mTextBox->SetLayoutPosition(LayoutPosition::MIDDLEX, LayoutPosition::MIDDLEY);
         static_cast<TextGFX*>(mTextBox->GetDrawable())->SetCenteredText(true);
     }
 }

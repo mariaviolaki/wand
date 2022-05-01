@@ -7,8 +7,8 @@ namespace wand
 {
 	enum class LayoutPosition
 	{
-		LEFT, CENTERX, RIGHT, // horizontal
-		BOTTOM, CENTERY, TOP  // vertical
+		LEFT, MIDLEFT, MIDDLEX, MIDRIGHT, RIGHT, // horizontal
+		BOTTOM, MIDBOTTOM, MIDDLEY, MIDTOP, TOP  // vertical
 	};
 
 	struct ParentLayoutPos
@@ -57,6 +57,7 @@ namespace wand
 		std::unique_ptr<ParentLayoutPos> mParentLayoutPos;
 		std::unique_ptr<ParentLayoutCoords> mParentLayoutCoords;
 
-		void SetParentLayoutPos();
+		float FindHorizontalPos();
+		float FindVerticalPos();
 	};
 }

@@ -73,39 +73,35 @@ void loadData(wand::App& app)
 
 	// Create a layout - container for the rectangles
 	wand::Rectangle& layout = app.GetEntityManager()->AddRectangle();
-	layout.GetTransform()->SetPos(100, 100);
-	layout.GetTransform()->SetWidth(200);
-	layout.GetTransform()->SetHeight(200);
-	layout.GetTransform()->SetDepth(2);
+	layout.GetTransform()->SetPos(0, 0);
+	layout.GetTransform()->SetWidth(window->GetWidth());
+	layout.GetTransform()->SetHeight(window->GetHeight());
+	layout.GetTransform()->SetDepth(1);
 	layout.Hide();
-
-	// Create a rectangle with the same transform data as the layout
-	wand::Rectangle& rect = app.GetEntityManager()->AddRectangle({ 1.0f, 1.0f, 1.0f, 0.5f });
-	rect.GetTransform()->SetPos(layout.GetTransform()->GetPos().x, layout.GetTransform()->GetPos().y);
-	rect.GetTransform()->SetWidth(layout.GetTransform()->GetWidth());
-	rect.GetTransform()->SetHeight(layout.GetTransform()->GetHeight());
-	rect.GetTransform()->SetDepth(1);
-	rect.OnLeftClick([&app, &rect]() { playSound(app, rect); });
-	rect.SetLabel("transparent white square");
-	rect.Enable();
 	
-	// Render solid-color rectangles
-	for (float x = 0.0f; x <= layout.GetTransform()->GetWidth(); x += rectSize + 10.0f)
+	std::vector<wand::Rectangle> rects;
+	for (int i = 0; i < 10; i++)
 	{
-		for (float y = 0.0f; y <= layout.GetTransform()->GetHeight(); y += rectSize + 10.0f)
-		{
-			wand::Rectangle& r = app.GetEntityManager()->AddRectangle(rectColor);
-			//r.SetPosition(x, y);
-			r.SetParentLayout(layout.GetTransform());
-			r.SetLayoutPosition(x, y);
-			r.GetTransform()->SetWidth(rectSize);
-			r.GetTransform()->SetHeight(rectSize);
-			r.SetLabel("pink square");
-			r.OnLeftClick([&app, &r]() { playSound(app, r); });
-			//r.SetLayoutPosition(wand::LayoutPosition::CENTERX, wand::LayoutPosition::CENTERY);
-			r.Enable();
-		}
+		auto& r = app.GetEntityManager()->AddRectangle(rectColor);
+		rects.emplace_back(r);
+		r.SetParentLayout(layout.GetTransform());
+		r.GetTransform()->SetWidth(rectSize);
+		r.GetTransform()->SetHeight(rectSize);
+		r.SetLabel("pink square " + std::to_string(i));
+		r.OnLeftClick([&app, &r]() { playSound(app, r); });
+		r.Enable();
 	}
+
+	rects[0].SetLayoutPosition(wand::LayoutPosition::LEFT, wand::LayoutPosition::TOP);
+	rects[1].SetLayoutPosition(wand::LayoutPosition::LEFT, wand::LayoutPosition::MIDTOP);
+	rects[2].SetLayoutPosition(wand::LayoutPosition::LEFT, wand::LayoutPosition::MIDDLEY);
+	rects[3].SetLayoutPosition(wand::LayoutPosition::LEFT, wand::LayoutPosition::MIDBOTTOM);
+	rects[4].SetLayoutPosition(wand::LayoutPosition::LEFT, wand::LayoutPosition::BOTTOM);
+	rects[5].SetLayoutPosition(wand::LayoutPosition::MIDLEFT, wand::LayoutPosition::BOTTOM);
+	rects[6].SetLayoutPosition(wand::LayoutPosition::MIDDLEX, wand::LayoutPosition::BOTTOM);
+	rects[7].SetLayoutPosition(wand::LayoutPosition::MIDRIGHT, wand::LayoutPosition::BOTTOM);
+	rects[8].SetLayoutPosition(wand::LayoutPosition::RIGHT, wand::LayoutPosition::BOTTOM);
+	
 	
 	// Render transparent and non-transparent sprites
 	for (int x = 0; x < window->GetWidth(); x += spriteSize + 15.0f)
@@ -125,7 +121,7 @@ void loadData(wand::App& app)
 	// Render semi-transparent text
 	wand::TextBox& t1 = app.GetEntityManager()->AddTextBox("arial", 20, textColor);
 	t1.GetTransform()->SetPos(0, 0);
-	t1.GetTransform()->SetDepth(100);
+	t1.GetTransform()->SetDepth(5);
 	t1.GetTransform()->SetWidth(window->GetWidth());
 	t1.GetTransform()->SetHeight(window->GetHeight());
 	std::string text = "";

@@ -19,7 +19,7 @@ namespace wand
 	{
 		// Layout children should be displayed on top of parents
 		if (mIsLayoutChild)
-			return mDepth + 0.5;
+			return mDepth + 0.1;
 		return mDepth;
 	}
 
