@@ -46,6 +46,8 @@ namespace wand
 
 	bool App::IsRunning() const { return !mWindow->IsClosed(); }
 
+	void App::Exit() const { mWindow->Close(); }
+
 	void App::OnEvent(Event* event)
 	{
 		mEventManager->HandleEvent(event);

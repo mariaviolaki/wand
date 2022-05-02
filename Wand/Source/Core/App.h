@@ -24,6 +24,7 @@ namespace wand
 		void Clear() const;
 		void Update() const;
 		bool IsRunning() const;
+		void Exit() const;
 
 		void OnEvent(Event* event);
 

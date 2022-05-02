@@ -6,7 +6,8 @@ namespace wand
 {
 	Window::Window()
 		: mWindow(nullptr), mName("Wand Engine"), mBackgroundColor({ 0.1f, 0.1f, 0.1f, 0.1f }),
-		mStartDimens({ 960, 540 }), mAspectRatio({ 16.0f, 9.0f }), mData({ 960, 540, nullptr })
+		mStartDimens({ 960, 540 }), mAspectRatio({ 16.0f, 9.0f }), mData({ 960, 540, nullptr }),
+		mIsFullscreen(false), mPosition({ 0, 0 })
 	{}
 
 	Window::~Window()
@@ -35,6 +36,7 @@ namespace wand
 	float Window::GetWidth() const { return mData.width; }
 	float Window::GetHeight() const { return mData.height; }
 	std::string Window::GetName() const { return mName; }
+	bool Window::IsFullscreen() const { return mIsFullscreen; }
 
 	void Window::SetAspectRatio(unsigned int numer, unsigned int denom) { mAspectRatio = glm::vec2(numer, denom); }
 	void Window::SetStartWidth(unsigned int width) { mStartDimens.x = width; }
@@ -42,6 +44,29 @@ namespace wand
 	void Window::SetWidth(unsigned int width) { mData.width = width; }
 	void Window::SetHeight(unsigned int height) { mData.height = height; }
 	void Window::SetName(std::string name) { mName = name; }
+
+	void Window::SetFullscreen(bool fullscreen)
+	{
+		if (fullscreen)
+		{
+			if (mIsFullscreen)
+				return;
+			// Save the current position of the window
+			glfwGetWindowPos(mWindow, &mPosition.x, &mPosition.y);
+			GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+			const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+			glfwSetWindowMonitor(mWindow, monitor,
+				0, 0, mode->width, mode->height, mode->refreshRate);
+		}
+		else
+		{
+			if (!mIsFullscreen)
+				return;
+			glfwSetWindowMonitor(mWindow, nullptr,
+				mPosition.x, mPosition.y, mStartDimens.x, mStartDimens.y, GLFW_DONT_CARE);
+		}
+		mIsFullscreen = fullscreen;
+	}
 
 	GLFWwindow* Window::GetGLFWWindow() const { return mWindow; }
 	bool Window::IsClosed() const {	return glfwWindowShouldClose(mWindow) == 1;	}
@@ -58,6 +83,11 @@ namespace wand
 	{
 		// Swap front and back window buffers
 		glfwSwapBuffers(mWindow);
+	}
+
+	void Window::Close() const
+	{
+		glfwSetWindowShouldClose(mWindow, GL_TRUE);
 	}
 
 	// Initialize GLFW to use its functions
@@ -95,7 +125,7 @@ namespace wand
 		return false;
 	}
 
-	void Window::SetupWindow() const
+	void Window::SetupWindow()
 	{
 		// Limit the window's frame rate
 		glfwSwapInterval(1);
@@ -106,6 +136,8 @@ namespace wand
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		// Associate the window data with the GLFW window
 		glfwSetWindowUserPointer(mWindow, (void*)&mData);
+		// Save the current position of the window
+		glfwGetWindowPos(mWindow, &mPosition.x, &mPosition.y);
 	}
 
 	void Window::SetupCallbacks()

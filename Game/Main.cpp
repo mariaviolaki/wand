@@ -2,21 +2,16 @@
 //#include <thread>
 //#include <chrono>
 
-void playSound(wand::App& app)
+void toggleFullscreen(wand::App& app)
 {
-	app.GetAudioManager()->Play("tick");
-	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	//app.GetAudioManager()->Stop("tick");
+	if (app.GetWindow()->IsFullscreen())
+		app.GetWindow()->SetFullscreen(false);
+	else
+		app.GetWindow()->SetFullscreen(true);
 }
-void showInfo(wand::UIEntity& e)
+void exitApp(wand::App& app)
 {
-	glm::vec2 scale = e.GetTransform()->GetScale();
-	std::cout << e.GetLabel()
-		<< ": x=" << e.GetTransform()->GetPos().x * scale.x
-		<< ", y=" << e.GetTransform()->GetPos().y * scale.y
-		<< ", width=" << e.GetTransform()->GetWidth() * scale.x
-		<< ", height=" << e.GetTransform()->GetHeight() * scale.y
-		<< std::endl;
+	app.Exit();
 }
 void showMousePos(wand::App& app)
 {
@@ -39,8 +34,8 @@ int main()
 	r1.GetTransform()->SetPos(100, 100);
 	r1.GetTransform()->SetWidth(100);
 	r1.GetTransform()->SetHeight(100);
-	r1.OnLeftClick([&app]() { playSound(app); });
-	r1.OnRightClick([&r1]() { showInfo(r1); });
+	r1.OnLeftClick([&app]() { toggleFullscreen(app); });
+	r1.OnRightClick([&app]() { exitApp(app); });
 	r1.OnHover([&app]() { showMousePos(app); });
 	r1.SetLabel("red square");
 	r1.Enable();
@@ -54,8 +49,8 @@ int main()
 	button.SetText("Click me!");
 	button.GetTransform()->SetDepth(4);
 	button.SetLabel("green button");
-	button.OnLeftClick([&app]() { playSound(app); });
-	button.OnRightClick([&button]() { showInfo(button); });
+	button.OnLeftClick([&app]() { toggleFullscreen(app); });
+	button.OnRightClick([&app]() { exitApp( app); });
 	button.OnHover([&app]() { showMousePos(app); });
 	
 	while (app.IsRunning())
@@ -99,8 +94,8 @@ void loadData(wand::App& app)
 		r.GetTransform()->SetWidth(rectSize);
 		r.GetTransform()->SetHeight(rectSize);
 		r.SetLabel("pink square " + std::to_string(i));
-		r.OnLeftClick([&app]() { playSound(app); });
-		r.OnRightClick([&r]() { showInfo(r); });
+		r.OnLeftClick([&app]() { toggleFullscreen(app); });
+		r.OnRightClick([&app]() { exitApp(app); });
 		r.OnHover([&app]() { showMousePos(app); });
 		r.Enable();
 	}

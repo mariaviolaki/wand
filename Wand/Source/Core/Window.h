@@ -28,6 +28,7 @@ namespace wand
 		float GetWidth() const;
 		float GetHeight() const;
 		std::string GetName() const;
+		bool IsFullscreen() const;
 
 		void SetAspectRatio(unsigned int numer, unsigned int denom);
 		void SetStartWidth(unsigned int width);
@@ -35,12 +36,14 @@ namespace wand
 		void SetWidth(unsigned int width);
 		void SetHeight(unsigned int height);
 		void SetName(std::string name);
+		void SetFullscreen(bool fullscreen);
 
 		GLFWwindow* GetGLFWWindow() const;
 		bool IsClosed() const;
 
 		void Clear() const;
 		void Update() const;
+		void Close() const;
 
 	private:
 		GLFWwindow* mWindow;
@@ -48,12 +51,14 @@ namespace wand
 		glm::vec4 mBackgroundColor;
 		glm::vec2 mStartDimens;
 		glm::vec2 mAspectRatio;
+		glm::ivec2 mPosition;
 		WindowData mData;
+		bool mIsFullscreen;
 
 		bool InitGLFW() const;
 		bool InitWindow();
 		bool InitGLAD() const;
-		void SetupWindow() const;
+		void SetupWindow();
 		void SetupCallbacks();
 	};
 }
