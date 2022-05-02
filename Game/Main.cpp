@@ -29,7 +29,7 @@ int main()
 	app.GetCursorManager()->CreateCursor(wand::CursorType::HAND, "Images/hand_cursor.png");
 	
 	// Test rectangle rendering and events
-	wand::Rectangle& r1 = app.GetEntityManager()->AddRectangle({ 1.0f, 0.0f, 0.0f, 1.0f });
+	wand::Rectangle& r1 = app.GetEntityManager()->AddRectangle(wand::Color(255, 0, 0, 255));
 	r1.GetTransform()->SetDepth(3);
 	r1.GetTransform()->SetPos(100, 100);
 	r1.GetTransform()->SetWidth(100);
@@ -41,8 +41,8 @@ int main()
 	r1.Enable();
 	
 	// Test buttons
-	glm::vec4 buttonColor = { 0.5f, 1.0f, 1.0f, 1.0f };
-	glm::vec4 textColor = { 0.1f, 0.1f, 0.1f, 1.0f };
+	wand::Color buttonColor(127, 255, 255, 255);
+	wand::Color textColor(50, 50, 50, 255);
 	wand::Button& button = app.GetEntityManager()->AddButton("Images/button.png", "arial", 20, textColor);
 	button.GetTransform()->SetWidth(200);
 	button.GetTransform()->SetHeight(100);
@@ -72,8 +72,8 @@ void loadData(wand::App& app)
 	app.GetAudioManager()->Add("Audio/tick.ogg", "tick");
 	wand::Window* window = app.GetWindow();
 
-	glm::vec4 rectColor = { 1.0f, 0.0f, 1.0f, 1.0f };
-	glm::vec4 textColor = { 0.0f, 1.0f, 1.0f, 0.6f };
+	wand::Color rectColor(255, 0, 255, 255);
+	wand::Color textColor(0, 255, 255, 130);
 	float rectSize = 100.0f;
 	float spriteSize = 200.0f;
 

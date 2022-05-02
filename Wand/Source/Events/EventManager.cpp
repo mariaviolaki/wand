@@ -207,8 +207,8 @@ namespace wand
 
 	bool EventManager::IsMouseInArea(Transform* transform)
 	{
-		glm::vec2 pos = transform->GetPos();
-		glm::vec2 scale = transform->GetScale();
+		Vector2 pos = transform->GetPos();
+		Vector2 scale = transform->GetScale();
 		return mXPos >= pos.x * scale.x && mXPos <= (pos.x + transform->GetWidth()) * scale.x
 			&& mYPos >= pos.y * scale.y && mYPos <= (pos.y + transform->GetHeight()) * scale.y;
 	}

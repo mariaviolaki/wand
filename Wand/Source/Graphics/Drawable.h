@@ -2,6 +2,7 @@
 
 #include "Graphics.h"
 #include "Base/Transform.h"
+#include "Color.h"
 
 namespace wand
 {
@@ -42,8 +43,8 @@ namespace wand
 
 		virtual unsigned int GetTexId() const { return 0; };
 		virtual void SetTextureSlot(int slot) {};
-		virtual glm::vec4 GetColor() const { return { 1.0f, 1.0f, 1.0f, 1.0f }; };
-		virtual void SetColor(glm::vec4 color) {};
+		virtual Color GetColor() const { return Color(255, 255, 255, 0); };
+		virtual void SetColor(Color color) {};
 
 	protected:
 		static const unsigned int sIndexCount;

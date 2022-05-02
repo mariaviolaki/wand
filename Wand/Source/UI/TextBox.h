@@ -8,7 +8,7 @@ namespace wand
 	class TextBox : public UIEntity
 	{
 	public:
-		TextBox(const std::string& fontName, unsigned int fontSize, const glm::vec4& color);
+		TextBox(const std::string& fontName, unsigned int fontSize, Color color);
 		Drawable* GetDrawable() const override;
 		Transform* GetTransform() const override;
 		void SetText(const std::string& newText);

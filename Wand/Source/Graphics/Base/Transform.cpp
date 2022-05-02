@@ -11,9 +11,9 @@ namespace wand
 
 	/******************** ACCESSOR METHODS ***********************/
 
-	const glm::vec2& Transform::GetPos() const { return glm::vec2({ mTransform[3] }); }
+	Vector2 Transform::GetPos() const { return { mTransform[3].x, mTransform[3].y }; }
 
-	const glm::vec2& Transform::GetScale() const { return mScale; }
+	Vector2 Transform::GetScale() const { return { mScale.x, mScale.y }; }
 
 	float Transform::GetDepth() const
 	{

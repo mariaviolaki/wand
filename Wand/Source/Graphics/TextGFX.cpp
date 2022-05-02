@@ -4,7 +4,7 @@
 
 namespace wand
 {
-	TextGFX::TextGFX(const std::string& fontName, unsigned int fontSize, const glm::vec4& color)
+	TextGFX::TextGFX(const std::string& fontName, unsigned int fontSize, Color color)
 		: Drawable(), mFontManager(nullptr), mFont(nullptr), mFontName(fontName), mFontSize(fontSize),
 		mColor(color), mText(""), mTexture(nullptr), mVertices(), mTextDimens(0.0f), mIsTextCentered(false)
 	{}
@@ -26,8 +26,8 @@ namespace wand
 	unsigned int TextGFX::GetMaxLength() const	{ return MAX_TEXT_LENGTH; }
 	void TextGFX::SetCenteredText(bool isTextCentered) { mIsTextCentered = isTextCentered; }
 
-	glm::vec4 TextGFX::GetColor() const { return mColor; }
-	void TextGFX::SetColor(glm::vec4 color) { mColor = color; }
+	Color TextGFX::GetColor() const { return mColor; }
+	void TextGFX::SetColor(Color color) { mColor = color; }
 	
 	unsigned int TextGFX::GetTexId() const { return mTexture->GetId(); }
 	void TextGFX::SetTextureSlot(int slot) { mTexture->Bind(slot); }
@@ -45,7 +45,7 @@ namespace wand
 		float atlasWidth = mFont->GetAtlasWidth();
 		float atlasHeight = mFont->GetAtlasHeight();
 		// Get the scale of the textbox
-		glm::vec2 scale = mTransform->GetScale();
+		Vector2 scale = mTransform->GetScale();
 		// Set the SPACE width to be equal to the width of a dot '.'
 		float spaceWidth = scale.x * mFont->GetGlyphs().at('.')->width;
 		// Find the text's starting position
@@ -106,7 +106,7 @@ namespace wand
 
 		Vertex v;
 		v.position = { posX, posY, 1.0f };
-		v.color = mColor;
+		v.color = mColor.GetBase();
 		v.texCoords = { texX, texY };
 		v.texSlot = (float)mTexture->GetTexSlot();
 		v.isText = isText;

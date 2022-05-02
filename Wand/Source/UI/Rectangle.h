@@ -8,7 +8,7 @@ namespace wand
 	class Rectangle : public UIEntity
 	{
 	public:
-		Rectangle(glm::vec4 color = { 1.0f, 1.0f, 1.0f, 0.0f });
+		Rectangle(Color color = Color(255, 255, 255, 0));
 		Drawable* GetDrawable() const override;
 		Transform* GetTransform() const override;
 

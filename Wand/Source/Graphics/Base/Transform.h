@@ -4,13 +4,19 @@
 
 namespace wand
 {
+	struct Vector2
+	{
+		float x;
+		float y;
+	};
+
 	class Transform
 	{
 	public:
 		Transform(bool isLayoutChild = false);
 
-		const glm::vec2& GetPos() const;
-		const glm::vec2& GetScale() const;
+		Vector2 GetPos() const;
+		Vector2 GetScale() const;
 		float GetDepth() const;
 		float GetWidth() const;
 		float GetHeight() const;

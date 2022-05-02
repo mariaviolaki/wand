@@ -3,7 +3,7 @@
 
 namespace wand
 {
-    TextBox::TextBox(const std::string& fontName, unsigned int fontSize, const glm::vec4& color)
+    TextBox::TextBox(const std::string& fontName, unsigned int fontSize, Color color)
         : drawable(std::make_shared<TextGFX>(fontName, fontSize, color)), UIEntity(false)
     {}
 

@@ -14,11 +14,11 @@ namespace wand
 		EntityManager();
 
 		void Init(FontManager* fontManager);
-		Rectangle& AddRectangle(glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f });
+		Rectangle& AddRectangle(Color color = Color(255, 255, 255, 0));
 		Sprite& AddSprite(const std::string& imagePath);
-		TextBox& AddTextBox(const std::string& fontName, unsigned int fontSize, const glm::vec4& color);
-		Button& AddButton(std::string imagePath, std::string fontName, unsigned int fontSize, glm::vec4 textColor);
-		Button& AddButton(glm::vec4 bgColor, std::string fontName, unsigned int fontSize, glm::vec4 textColor);
+		TextBox& AddTextBox(const std::string& fontName, unsigned int fontSize, Color color);
+		Button& AddButton(std::string imagePath, std::string fontName, unsigned int fontSize, Color textColor);
+		Button& AddButton(Color bgColor, std::string fontName, unsigned int fontSize, Color textColor);
 		std::vector<std::unique_ptr<UIEntity>>& GetEntities();
 
 	private:

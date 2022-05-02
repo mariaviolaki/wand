@@ -106,6 +106,7 @@
     <ClCompile Include="Source\Core\CursorManager.cpp" />
     <ClCompile Include="Source\Core\EntityManager.cpp" />
     <ClCompile Include="Source\Core\FileManager.cpp" />
+    <ClCompile Include="Source\Graphics\Color.cpp" />
     <ClCompile Include="Source\State\State.cpp" />
     <ClCompile Include="Source\Events\Event.cpp" />
     <ClCompile Include="Source\Events\EventManager.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Source\Core\CursorManager.h" />
     <ClInclude Include="Source\Core\EntityManager.h" />
     <ClInclude Include="Source\Core\FileManager.h" />
+    <ClInclude Include="Source\Graphics\Color.h" />
     <ClInclude Include="Source\State\State.h" />
     <ClInclude Include="Source\Events\Event.h" />
     <ClInclude Include="Source\Events\EventManager.h" />

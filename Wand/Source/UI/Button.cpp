@@ -3,7 +3,7 @@
 
 namespace wand
 {
-    Button::Button(std::string imagePath, std::string fontName, unsigned int fontSize, glm::vec4 textColor)
+    Button::Button(std::string imagePath, std::string fontName, unsigned int fontSize, Color textColor)
         : UIEntity(true), mTextBox(std::make_unique<TextBox>(fontName, fontSize, textColor)),
         mRectangle(nullptr), mSprite(std::make_unique<Sprite>(imagePath))
     {
@@ -12,7 +12,7 @@ namespace wand
         CenterText();
     }
 
-    Button::Button(glm::vec4 bgColor, std::string fontName, unsigned int fontSize, glm::vec4 textColor)
+    Button::Button(Color bgColor, std::string fontName, unsigned int fontSize, Color textColor)
         : UIEntity(true), mTextBox(std::make_unique<TextBox>(fontName, fontSize, textColor)),
         mRectangle(std::make_unique<Rectangle>(bgColor)), mSprite(nullptr)
     {

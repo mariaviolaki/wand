@@ -10,7 +10,7 @@ namespace wand
 	class TextGFX : public Drawable
 	{
 	public:
-		TextGFX(const std::string& fontName, unsigned int fontSize, const glm::vec4& color);
+		TextGFX(const std::string& fontName, unsigned int fontSize, Color color);
 
 		// Submit and concatenate a string with the existing text
 		void Add(const std::string& newText);
@@ -23,8 +23,8 @@ namespace wand
 
 		void SetFontManager(FontManager* fontManager);
 
-		glm::vec4 GetColor() const override;
-		void SetColor(glm::vec4 color) override;
+		Color GetColor() const override;
+		void SetColor(Color color) override;
 		unsigned int GetTexId() const override;
 		void SetTextureSlot(int slot) override;
 		unsigned int GetItemCount() const override;
@@ -34,7 +34,7 @@ namespace wand
 	private:
 		FontManager* mFontManager;
 		std::string mText;
-		glm::vec4 mColor;
+		Color mColor;
 		Font* mFont;
 		std::string mFontName;
 		unsigned int mFontSize;

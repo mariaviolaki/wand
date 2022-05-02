@@ -13,7 +13,7 @@ namespace wand
 		mFontManager = fontManager;
 	}
 
-	Rectangle& EntityManager::AddRectangle(glm::vec4 color)
+	Rectangle& EntityManager::AddRectangle(Color color)
 	{
 		mEntities.emplace_back(std::unique_ptr<Rectangle>(new Rectangle(color)));
 		return static_cast<Rectangle&>(*mEntities.back().get());
@@ -25,7 +25,7 @@ namespace wand
 		return static_cast<Sprite&>(*mEntities.back().get());
 	}
 
-	TextBox& EntityManager::AddTextBox(const std::string& fontName, unsigned int fontSize, const glm::vec4& color)
+	TextBox& EntityManager::AddTextBox(const std::string& fontName, unsigned int fontSize, Color color)
 	{
 		// Create and setup a text UI entity
 		TextBox* text = new TextBox(fontName, fontSize, color);
@@ -35,7 +35,7 @@ namespace wand
 		return static_cast<TextBox&>(*mEntities.back().get());
 	}
 
-	Button& EntityManager::AddButton(std::string imagePath, std::string fontName, unsigned int fontSize, glm::vec4 textColor)
+	Button& EntityManager::AddButton(std::string imagePath, std::string fontName, unsigned int fontSize, Color textColor)
 	{
 		// Create and setup a button UI entity
 		Button* button = new Button(imagePath, fontName, fontSize, textColor);
@@ -45,7 +45,7 @@ namespace wand
 		return static_cast<Button&>(*mEntities.back().get());
 	}
 
-	Button& EntityManager::AddButton(glm::vec4 bgColor, std::string fontName, unsigned int fontSize, glm::vec4 textColor)
+	Button& EntityManager::AddButton(Color bgColor, std::string fontName, unsigned int fontSize, Color textColor)
 	{
 		// Create and setup a button UI entity
 		Button* button = new Button(bgColor, fontName, fontSize, textColor);

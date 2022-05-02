@@ -9,8 +9,8 @@ namespace wand
 	class Button : public UIEntity
 	{
 	public:
-		Button(std::string imagePath, std::string fontName, unsigned int fontSize, glm::vec4 textColor);
-		Button(glm::vec4 bgColor, std::string fontName, unsigned int fontSize, glm::vec4 textColor);
+		Button(std::string imagePath, std::string fontName, unsigned int fontSize, Color textColor);
+		Button(Color bgColor, std::string fontName, unsigned int fontSize, Color textColor);
 
 		// Get the drawable of the background entity (rectangle or sprite)
 		Drawable* GetDrawable() const override;

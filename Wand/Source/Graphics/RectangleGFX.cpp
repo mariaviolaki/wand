@@ -3,14 +3,14 @@
 
 namespace wand
 {
-	RectangleGFX::RectangleGFX(glm::vec4 color)
+	RectangleGFX::RectangleGFX(Color color)
 		: mColor(color), mTexture(std::make_shared<Texture>()), 
 		mVertices()
 	{}
 
-	glm::vec4 RectangleGFX::GetColor() const { return mColor; }
+	Color RectangleGFX::GetColor() const { return mColor; }
 
-	void RectangleGFX::SetColor(glm::vec4 color) { mColor = color; }
+	void RectangleGFX::SetColor(Color color) { mColor = color; }
 
 	unsigned int RectangleGFX::GetItemCount() const { return 1; }
 
@@ -47,7 +47,7 @@ namespace wand
 
 		Vertex v;
 		v.position = { posX, posY, 1.0f };
-		v.color = mColor;
+		v.color = mColor.GetBase();
 		v.texCoords = { texX, texY };
 		v.texSlot = texSlot;
 		v.isText = isText;
