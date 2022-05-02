@@ -9,7 +9,7 @@ namespace wand
 		mEntityManager(std::make_unique<EntityManager>()), mEventManager(std::make_unique<EventManager>()),
 		mStateManager(std::make_unique<StateManager>()), mInputManager(std::make_unique<InputManager>()),
 		mFontManager(std::make_unique<FontManager>()), mAudioManager(std::make_unique<AudioManager>()),
-		mFileManager(std::make_unique<FileManager>())
+		mFileManager(std::make_unique<FileManager>()), mRandom(std::make_unique<Random>())
 	{
 		mWindow->Init([this](Event* event)
 		{
@@ -55,6 +55,7 @@ namespace wand
 
 	Input* App::GetInput() const { return mInput.get(); }
 	Window* App::GetWindow() const { return mWindow.get(); }
+	Random* App::GetRandom() const { return mRandom.get(); }
 	CursorManager* App::GetCursorManager() const { return mCursorManager.get(); }
 	EntityManager* App::GetEntityManager() const { return mEntityManager.get(); }
 	StateManager* App::GetStateManager() const { return mStateManager.get(); }

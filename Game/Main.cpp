@@ -25,8 +25,12 @@ int main()
 	wand::App app;
 	loadData(app);
 
-	app.GetCursorManager()->CreateCursor(wand::CursorType::ARROW, "Images/arrow_cursor.png");
-	app.GetCursorManager()->CreateCursor(wand::CursorType::HAND, "Images/hand_cursor.png");
+	std::cout << "Random Numbers: [ ";
+	for (int i = 0; i < 10; i++)
+	{
+		std::cout << app.GetRandom()->GetInt(0, 10) << " ";
+	}
+	std::cout << "]\n";
 	
 	// Test rectangle rendering and events
 	wand::Rectangle& r1 = app.GetEntityManager()->AddRectangle(wand::Color(255, 0, 0, 255));

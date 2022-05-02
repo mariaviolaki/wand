@@ -121,6 +121,7 @@
     <ClCompile Include="Source\UI\TextBox.cpp" />
     <ClCompile Include="Source\UI\UIEntity.cpp" />
     <ClCompile Include="Source\Utils\Pair.cpp" />
+    <ClCompile Include="Source\Utils\Random.cpp" />
     <ClCompile Include="Source\Utils\Serializer.cpp" />
     <ClCompile Include="Source\Wand.cpp" />
     <ClCompile Include="Source\Core\App.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Source\UI\TextBox.h" />
     <ClInclude Include="Source\UI\UIEntity.h" />
     <ClInclude Include="Source\Utils\Pair.h" />
+    <ClInclude Include="Source\Utils\Random.h" />
     <ClInclude Include="Source\Utils\Serializer.h" />
     <ClInclude Include="Source\Utils\Utils.h" />
     <ClInclude Include="Source\WandPCH.h" />
