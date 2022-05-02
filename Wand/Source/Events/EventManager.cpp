@@ -7,14 +7,16 @@
 namespace wand
 {
 	EventManager::EventManager()
-		: mWindow(nullptr), mInput(nullptr), mRenderer(nullptr), mXPos(0.0), mYPos(0.0)
+		: mWindow(nullptr), mInput(nullptr), mRenderer(nullptr), mCursorManager(nullptr),
+		mXPos(0.0), mYPos(0.0)
 	{}
 
-	void EventManager::Init(Window* window, Input* input, Renderer* renderer)
+	void EventManager::Init(Window* window, Input* input, Renderer* renderer, CursorManager* cursorManager)
 	{
 		mWindow = window;
 		mInput = input;
 		mRenderer = renderer;
+		mCursorManager = cursorManager;
 	}
 
 	void EventManager::Clear()
@@ -86,7 +88,6 @@ namespace wand
 		case EventType::MouseButtonUp:
 			mInputEvents.emplace_back(
 				std::unique_ptr<MouseButtonUpEvent>(static_cast<MouseButtonUpEvent*>(inputEvent)));
-			ProcessLeftClick(static_cast<MouseButtonUpEvent*>(inputEvent));
 			break;
 		case EventType::MouseScrollX:
 			mInputEvents.emplace_back(
@@ -105,6 +106,7 @@ namespace wand
 			mInput->SetMousePos(mXPos, mYPos);
 			break;
 		}
+		ProcessUIEvent(inputEvent);
 		// Send the event to the Input class
 		mInput->AddEvent(inputEvent);
 	}
@@ -130,10 +132,14 @@ namespace wand
 			entity->GetTransform()->SetScale(scale.x, scale.y);
 	}
 
-	void EventManager::ProcessLeftClick(MouseButtonUpEvent* event)
+	void EventManager::ProcessUIEvent(Event* event)
 	{
-		if (mActiveEntities.empty() || event->GetButton() != MOUSE_BUTTON_LEFT)
+		// Do nothing if there are no enabled entities
+		if (mActiveEntities.empty())
+		{
+			mCursorManager->SetCursor(CursorType::ARROW);
 			return;
+		}
 
 		// Add the entities in the current mouse position to one vector
 		std::vector<UIEntity*> validEntities;
@@ -143,12 +149,39 @@ namespace wand
 				validEntities.push_back(entity);
 		}
 
+		// Do nothing if there are no entities in the current mouse position
 		if (validEntities.empty())
+		{
+			mCursorManager->SetCursor(CursorType::ARROW);
 			return;
+		}
+
+		// Switch to the hand cursor because there are enabled entities in this position
+		mCursorManager->SetCursor(CursorType::HAND);
 
 		// Run the function of the entity in front of the others
 		SortEntities(validEntities);
-		auto function = validEntities[0]->GetLeftClickFunction();
+		ProcessUIFunction(validEntities[0], event);
+	}
+
+	void EventManager::ProcessUIFunction(UIEntity* entity, Event* event)
+	{
+		std::function<void()> function;
+
+		// Get the appropriate function
+		if (event->GetType() == EventType::MouseButtonUp)
+		{
+			if (static_cast<MouseButtonUpEvent*>(event)->GetButton() == MOUSE_BUTTON_LEFT)
+				function = entity->GetLeftClickFunction();
+			else if (static_cast<MouseButtonUpEvent*>(event)->GetButton() == MOUSE_BUTTON_RIGHT)
+				function = entity->GetRightClickFunction();
+		}
+		else
+		{
+			function = entity->GetHoverFunction();
+		}
+
+		// Run the function if there is one set
 		if (function)
 			function();
 	}

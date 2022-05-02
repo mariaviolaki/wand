@@ -2,18 +2,26 @@
 //#include <thread>
 //#include <chrono>
 
-void playSound(wand::App& app, wand::UIEntity& e)
+void playSound(wand::App& app)
+{
+	app.GetAudioManager()->Play("tick");
+	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	//app.GetAudioManager()->Stop("tick");
+}
+void showInfo(wand::UIEntity& e)
 {
 	glm::vec2 scale = e.GetTransform()->GetScale();
-	std::cout << e.GetLabel() 
+	std::cout << e.GetLabel()
 		<< ": x=" << e.GetTransform()->GetPos().x * scale.x
 		<< ", y=" << e.GetTransform()->GetPos().y * scale.y
 		<< ", width=" << e.GetTransform()->GetWidth() * scale.x
 		<< ", height=" << e.GetTransform()->GetHeight() * scale.y
 		<< std::endl;
-	app.GetAudioManager()->Play("tick");
-	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	//app.GetAudioManager()->Stop("tick");
+}
+void showMousePos(wand::App& app)
+{
+	wand::Input* input = app.GetInput();
+	std::cout << "Mouse Pos: [" << input->GetX() << ", " << input->GetY() << "]\n";
 }
 void loadData(wand::App& app);
 
@@ -21,6 +29,9 @@ int main()
 {
 	wand::App app;
 	loadData(app);
+
+	app.GetCursorManager()->CreateCursor(wand::CursorType::ARROW, "Images/arrow_cursor.png");
+	app.GetCursorManager()->CreateCursor(wand::CursorType::HAND, "Images/hand_cursor.png");
 	
 	// Test rectangle rendering and events
 	wand::Rectangle& r1 = app.GetEntityManager()->AddRectangle({ 1.0f, 0.0f, 0.0f, 1.0f });
@@ -28,7 +39,9 @@ int main()
 	r1.GetTransform()->SetPos(100, 100);
 	r1.GetTransform()->SetWidth(100);
 	r1.GetTransform()->SetHeight(100);
-	r1.OnLeftClick([&app, &r1]() { playSound(app, r1); });
+	r1.OnLeftClick([&app]() { playSound(app); });
+	r1.OnRightClick([&r1]() { showInfo(r1); });
+	r1.OnHover([&app]() { showMousePos(app); });
 	r1.SetLabel("red square");
 	r1.Enable();
 	
@@ -41,16 +54,14 @@ int main()
 	button.SetText("Click me!");
 	button.GetTransform()->SetDepth(4);
 	button.SetLabel("green button");
-	button.OnLeftClick([&app, &button]() { playSound(app, button); });
+	button.OnLeftClick([&app]() { playSound(app); });
+	button.OnRightClick([&button]() { showInfo(button); });
+	button.OnHover([&app]() { showMousePos(app); });
 	
 	while (app.IsRunning())
 	{
 		//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 		app.Clear();
-
-		wand::Input* input = app.GetInput();
-		if (input->MouseButtonDown(MOUSE_BUTTON_LEFT))
-			std::cout << "(" << input->GetX() << ", " << input->GetY() << ")\n";
 
 		app.Update();
 		//std::chrono::steady_clock::time_point stop = std::chrono::steady_clock::now();
@@ -88,7 +99,9 @@ void loadData(wand::App& app)
 		r.GetTransform()->SetWidth(rectSize);
 		r.GetTransform()->SetHeight(rectSize);
 		r.SetLabel("pink square " + std::to_string(i));
-		r.OnLeftClick([&app, &r]() { playSound(app, r); });
+		r.OnLeftClick([&app]() { playSound(app); });
+		r.OnRightClick([&r]() { showInfo(r); });
+		r.OnHover([&app]() { showMousePos(app); });
 		r.Enable();
 	}
 
@@ -101,7 +114,6 @@ void loadData(wand::App& app)
 	rects[6].SetLayoutPosition(wand::LayoutPosition::MIDDLEX, wand::LayoutPosition::BOTTOM);
 	rects[7].SetLayoutPosition(wand::LayoutPosition::MIDRIGHT, wand::LayoutPosition::BOTTOM);
 	rects[8].SetLayoutPosition(wand::LayoutPosition::RIGHT, wand::LayoutPosition::BOTTOM);
-	
 	
 	// Render transparent and non-transparent sprites
 	for (int x = 0; x < window->GetWidth(); x += spriteSize + 15.0f)

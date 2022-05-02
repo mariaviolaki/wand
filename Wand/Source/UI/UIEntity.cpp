@@ -19,7 +19,11 @@ namespace wand
 	void UIEntity::SetLabel(const std::string& label) { mLabel = label; }
 
 	std::function<void()> UIEntity::GetLeftClickFunction() const { return mLeftClickFunction; }
+	std::function<void()> UIEntity::GetRightClickFunction() const { return mRightClickFunction; }
+	std::function<void()> UIEntity::GetHoverFunction() const { return mHoverFunction; }
 	void UIEntity::OnLeftClick(const std::function<void()>& fun) { mLeftClickFunction = fun; }
+	void UIEntity::OnRightClick(const std::function<void()>& fun) { mRightClickFunction = fun; }
+	void UIEntity::OnHover(const std::function<void()>& fun) { mHoverFunction = fun; }
 	
 	// Set a layout so that the entity's position is relative to it
 	void UIEntity::SetParentLayout(Transform* layout) { GetDrawable()->SetParentTransform(layout); }

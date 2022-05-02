@@ -4,19 +4,21 @@
 namespace wand
 {
 	App::App()
-		: mWindow(std::make_unique<Window>()), mInput(std::make_unique<Input>()),
-		mRenderer(std::make_unique<Renderer>()), mEntityManager(std::make_unique<EntityManager>()),
-		mEventManager(std::make_unique<EventManager>()), mStateManager(std::make_unique<StateManager>()),
-		mInputManager(std::make_unique<InputManager>()), mFontManager(std::make_unique<FontManager>()),
-		mAudioManager(std::make_unique<AudioManager>()), mFileManager(std::make_unique<FileManager>())
+		: mWindow(std::make_unique<Window>()), mCursorManager(std::make_unique<CursorManager>()),
+		mInput(std::make_unique<Input>()), mRenderer(std::make_unique<Renderer>()),
+		mEntityManager(std::make_unique<EntityManager>()), mEventManager(std::make_unique<EventManager>()),
+		mStateManager(std::make_unique<StateManager>()), mInputManager(std::make_unique<InputManager>()),
+		mFontManager(std::make_unique<FontManager>()), mAudioManager(std::make_unique<AudioManager>()),
+		mFileManager(std::make_unique<FileManager>())
 	{
 		mWindow->Init([this](Event* event)
 		{
 			this->OnEvent(event);
 		});
+		mCursorManager->Init(mWindow->GetGLFWWindow());
 		mRenderer->Init(mWindow->GetWidth(), mWindow->GetHeight());
 		mEntityManager->Init(mFontManager.get());
-		mEventManager->Init(mWindow.get(), mInput.get(), mRenderer.get());
+		mEventManager->Init(mWindow.get(), mInput.get(), mRenderer.get(), mCursorManager.get());
 		mInputManager->Init(mWindow->GetGLFWWindow());
 		mStateManager->Init(mFileManager.get());
 	}
@@ -51,6 +53,7 @@ namespace wand
 
 	Input* App::GetInput() const { return mInput.get(); }
 	Window* App::GetWindow() const { return mWindow.get(); }
+	CursorManager* App::GetCursorManager() const { return mCursorManager.get(); }
 	EntityManager* App::GetEntityManager() const { return mEntityManager.get(); }
 	StateManager* App::GetStateManager() const { return mStateManager.get(); }
 	FontManager* App::GetFontManager() const { return mFontManager.get(); }

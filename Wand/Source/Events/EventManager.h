@@ -6,6 +6,7 @@
 #include "Input/Input.h"
 #include "Graphics/Renderer.h"
 #include "Graphics/Base/Transform.h"
+#include "Core/CursorManager.h"
 
 namespace wand
 {
@@ -13,7 +14,7 @@ namespace wand
 	{
 	public:
 		EventManager();
-		void Init(Window* window, Input* input, Renderer* renderer);
+		void Init(Window* window, Input* input, Renderer* renderer, CursorManager* cursorManager);
 		void Clear();
 		void SetEntities(std::vector<std::unique_ptr<UIEntity>>& entities);
 		void HandleEvent(Event* event);
@@ -25,6 +26,7 @@ namespace wand
 		Window* mWindow;
 		Input* mInput;
 		Renderer* mRenderer;
+		CursorManager* mCursorManager;
 		double mXPos;
 		double mYPos;
 
@@ -32,7 +34,8 @@ namespace wand
 		void HandleInputEvent(Event* inputEvent);
 
 		void ProcessWindowResize(WindowResizeEvent* event);
-		void ProcessLeftClick(MouseButtonUpEvent* event);
+		void ProcessUIEvent(Event* event);
+		void ProcessUIFunction(UIEntity* entity, Event* event);
 
 		void ResetWindowBounds(WindowResizeEvent* event, glm::vec2& pos, glm::vec2& dimens);
 		bool IsMouseInArea(Transform* transform);

@@ -126,6 +126,9 @@
     <ClCompile Include="Source\UI\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Core\CursorManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Window.h">
@@ -243,6 +246,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\UI\Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\CursorManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

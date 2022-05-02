@@ -103,6 +103,7 @@
     <ClCompile Include="External\stb\stb_image.cpp" />
     <ClCompile Include="Source\Audio\AudioManager.cpp" />
     <ClCompile Include="Source\Audio\AudioSource.cpp" />
+    <ClCompile Include="Source\Core\CursorManager.cpp" />
     <ClCompile Include="Source\Core\EntityManager.cpp" />
     <ClCompile Include="Source\Core\FileManager.cpp" />
     <ClCompile Include="Source\State\State.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Source\Audio\AudioManager.h" />
     <ClInclude Include="Source\Audio\AudioSource.h" />
     <ClInclude Include="Source\Core\App.h" />
+    <ClInclude Include="Source\Core\CursorManager.h" />
     <ClInclude Include="Source\Core\EntityManager.h" />
     <ClInclude Include="Source\Core\FileManager.h" />
     <ClInclude Include="Source\State\State.h" />

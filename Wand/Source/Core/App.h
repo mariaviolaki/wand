@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Window.h"
+#include "CursorManager.h"
 #include "Input/Input.h"
 #include "Graphics/Renderer.h"
 #include "UI/UIEntity.h"
@@ -28,6 +29,7 @@ namespace wand
 
 		Input* GetInput() const;
 		Window* GetWindow() const;
+		CursorManager* GetCursorManager() const;
 		EntityManager* GetEntityManager() const;
 		StateManager* GetStateManager() const;
 		FontManager* GetFontManager() const;
@@ -36,6 +38,7 @@ namespace wand
 		
 	private:
 		std::unique_ptr<Window> mWindow;
+		std::unique_ptr<CursorManager> mCursorManager;
 		std::unique_ptr<Input> mInput;
 		std::unique_ptr<Renderer> mRenderer;
 		std::unique_ptr<EntityManager> mEntityManager;

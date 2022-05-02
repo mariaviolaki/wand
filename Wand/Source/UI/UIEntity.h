@@ -20,7 +20,11 @@ namespace wand
 		void SetLabel(const std::string& label);
 
 		std::function<void()> GetLeftClickFunction() const;
+		std::function<void()> GetRightClickFunction() const;
+		std::function<void()> GetHoverFunction() const;
 		void OnLeftClick(const std::function<void()>& fun);
+		void OnRightClick(const std::function<void()>& fun);
+		void OnHover(const std::function<void()>& fun);
 		void SetParentLayout(Transform* layout);
 		void SetLayoutPosition(float x, float y);
 		void SetLayoutPosition(LayoutPosition horizontal, LayoutPosition vertical);
@@ -32,6 +36,8 @@ namespace wand
 
 	private:
 		std::function<void()> mLeftClickFunction;
+		std::function<void()> mRightClickFunction;
+		std::function<void()> mHoverFunction;
 		std::string mLabel;
 	};
 }
