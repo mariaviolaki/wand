@@ -4,7 +4,7 @@
 namespace wand
 {
     Input::Input()
-        : mXPos(0.0), mYPos(0.0)
+        : mXPos(0.0), mYPos(0.0), mEvents()
     {}
 
     int Input::GetX() const { return mXPos; }

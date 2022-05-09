@@ -4,11 +4,17 @@
 namespace wand
 {
 	FileManager::FileManager()
-		: mImagePath(std::filesystem::current_path().string() + "/Images/"),
-		mAudioPath(std::filesystem::current_path().string() + "/Audio/"),
-		mFontPath(std::filesystem::current_path().string() + "/Fonts/"),
-		mSavePath(std::filesystem::current_path().string() + "/Saves/")
+		: mRootFolder(SOLUTION_DIR), mShaderPath(""),
+		mImagePath(""), mAudioPath(""), mFontPath(""), mSavePath("")
 	{
+		// Save the directories in the Wand folder
+		mShaderPath = mRootFolder + "Wand\\Source\\Graphics\\Base\\Shaders\\";
+		// Save the directories in the Game folder
+		mImagePath = mRootFolder + "Game\\Images\\";
+		mAudioPath = mRootFolder + "Game\\Audio\\";
+		mFontPath = mRootFolder + "Game\\Fonts\\";
+		mSavePath = mRootFolder + "Game\\Saves\\";
+
 		// Create directories in the default paths if they don't already exist
 		std::filesystem::create_directory(mImagePath);
 		std::filesystem::create_directory(mAudioPath);
@@ -16,6 +22,8 @@ namespace wand
 		std::filesystem::create_directory(mSavePath);
 	}
 
+	std::string FileManager::GetRootFolder() const { return mRootFolder; }
+	std::string FileManager::GetShaderPath() const { return mShaderPath; }
 	std::string FileManager::GetImagePath() const { return mImagePath; }
 	std::string FileManager::GetAudioPath() const { return mAudioPath; }
 	std::string FileManager::GetFontPath() const { return mFontPath; }

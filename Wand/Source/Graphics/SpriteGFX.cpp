@@ -4,8 +4,7 @@
 namespace wand
 {
 	SpriteGFX::SpriteGFX(const std::string& imagePath)
-		: mTexture(std::make_shared<Texture>(std::filesystem::current_path().string() + "\\" + imagePath)),
-		mVertices()
+		: mTexture(std::make_shared<Texture>(imagePath)), mVertices()
 	{
 		mTransform->SetWidth(mTexture->GetWidth());
 		mTransform->SetHeight(mTexture->GetHeight());

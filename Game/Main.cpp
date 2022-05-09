@@ -4,10 +4,11 @@
 
 void toggleFullscreen(wand::App& app)
 {
-	if (app.GetWindow()->IsFullscreen())
-		app.GetWindow()->SetFullscreen(false);
+	auto window = app.GetWindow();
+	if (window->IsFullscreen())
+		window->SetFullscreen(false);
 	else
-		app.GetWindow()->SetFullscreen(true);
+		window->SetFullscreen(true);
 }
 void exitApp(wand::App& app)
 {
@@ -18,63 +19,66 @@ void showMousePos(wand::App& app)
 	wand::Input* input = app.GetInput();
 	std::cout << "Mouse Pos: [" << input->GetX() << ", " << input->GetY() << "]\n";
 }
-void loadData(wand::App& app);
+void loadData(std::shared_ptr<wand::App> app); // pass app copy for valid lambda functions
 
-int main()
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
-	wand::App app;
+	std::shared_ptr<wand::App> app = std::make_shared<wand::App>();
+	std::string gameDir = app->GetFileManager()->GetRootFolder() + "Game\\";
+	
 	loadData(app);
 
 	std::cout << "Random Numbers: [ ";
 	for (int i = 0; i < 10; i++)
 	{
-		std::cout << app.GetRandom()->GetInt(0, 10) << " ";
+		std::cout << app->GetRandom()->GetInt(0, 10) << " ";
 	}
 	std::cout << "]\n";
 	
 	// Test rectangle rendering and events
-	wand::Rectangle& r1 = app.GetEntityManager()->AddRectangle(wand::Color(255, 0, 0, 255));
+	wand::Rectangle& r1 = app->GetEntityManager()->AddRectangle(wand::Color(255, 0, 0, 255));
 	r1.GetTransform()->SetDepth(3);
 	r1.GetTransform()->SetPos(100, 100);
 	r1.GetTransform()->SetWidth(100);
 	r1.GetTransform()->SetHeight(100);
-	r1.OnLeftClick([&app]() { toggleFullscreen(app); });
-	r1.OnRightClick([&app]() { exitApp(app); });
-	r1.OnHover([&app]() { showMousePos(app); });
+	r1.OnLeftClick([&app]() { toggleFullscreen(*app.get()); });
+	r1.OnRightClick([&app]() { exitApp(*app.get()); });
+	r1.OnHover([&app]() { showMousePos(*app.get()); });
 	r1.SetLabel("red square");
 	r1.Enable();
 	
 	// Test buttons
 	wand::Color buttonColor(127, 255, 255, 255);
 	wand::Color textColor(50, 50, 50, 255);
-	wand::Button& button = app.GetEntityManager()->AddButton("Images/button.png", "arial", 20, textColor);
+	wand::Button& button = app->GetEntityManager()->AddButton(gameDir + "Images\\button.png", "arial", 20, textColor);
 	button.GetTransform()->SetWidth(200);
 	button.GetTransform()->SetHeight(100);
 	button.SetText("Click me!");
 	button.GetTransform()->SetDepth(4);
 	button.SetLabel("green button");
-	button.OnLeftClick([&app]() { toggleFullscreen(app); });
-	button.OnRightClick([&app]() { exitApp( app); });
-	button.OnHover([&app]() { showMousePos(app); });
+	button.OnLeftClick([&app]() { toggleFullscreen(*app); });
+	button.OnRightClick([&app]() { exitApp(*app); });
+	button.OnHover([&app]() { showMousePos(*app); });
 	
-	while (app.IsRunning())
+	while (app->IsRunning())
 	{
 		//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
-		app.Clear();
+		app->Clear();
 
-		app.Update();
+		app->Update();
 		//std::chrono::steady_clock::time_point stop = std::chrono::steady_clock::now();
 		//std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() << " ms\n";
 	}
 	return 0;
 }
 
-void loadData(wand::App& app)
+void loadData(std::shared_ptr<wand::App> app)
 {
-	app.GetFontManager()->Add("C:\\Windows\\Fonts\\arial.ttf", "arial", 20);
-	app.GetFontManager()->Add("C:\\Windows\\Fonts\\arialbd.ttf", "arialbd", 20);
-	app.GetAudioManager()->Add("Audio/tick.ogg", "tick");
-	wand::Window* window = app.GetWindow();
+	std::string gameDir = app->GetFileManager()->GetRootFolder() + "Game\\";
+	app->GetFontManager()->Add("C:\\Windows\\Fonts\\arial.ttf", "arial", 20);
+	app->GetFontManager()->Add("C:\\Windows\\Fonts\\arialbd.ttf", "arialbd", 20);
+	app->GetAudioManager()->Add(gameDir + "Audio\\tick.ogg", "tick");
+	wand::Window* window = app->GetWindow();
 
 	wand::Color rectColor(255, 0, 255, 255);
 	wand::Color textColor(0, 255, 255, 130);
@@ -82,7 +86,7 @@ void loadData(wand::App& app)
 	float spriteSize = 200.0f;
 
 	// Create a layout - container for the rectangles
-	wand::Rectangle& layout = app.GetEntityManager()->AddRectangle();
+	wand::Rectangle& layout = app->GetEntityManager()->AddRectangle();
 	layout.GetTransform()->SetPos(0, 0);
 	layout.GetTransform()->SetWidth(window->GetWidth());
 	layout.GetTransform()->SetHeight(window->GetHeight());
@@ -92,15 +96,15 @@ void loadData(wand::App& app)
 	std::vector<wand::Rectangle> rects;
 	for (int i = 0; i < 10; i++)
 	{
-		auto& r = app.GetEntityManager()->AddRectangle(rectColor);
+		auto& r = app->GetEntityManager()->AddRectangle(rectColor);
 		rects.emplace_back(r);
 		r.SetParentLayout(layout.GetTransform());
 		r.GetTransform()->SetWidth(rectSize);
 		r.GetTransform()->SetHeight(rectSize);
 		r.SetLabel("pink square " + std::to_string(i));
-		r.OnLeftClick([&app]() { toggleFullscreen(app); });
-		r.OnRightClick([&app]() { exitApp(app); });
-		r.OnHover([&app]() { showMousePos(app); });
+		r.OnLeftClick([&app]() { toggleFullscreen(*app); });
+		r.OnRightClick([&app]() { exitApp(*app); });
+		r.OnHover([&app]() { showMousePos(*app); });
 		r.Enable();
 	}
 
@@ -120,8 +124,8 @@ void loadData(wand::App& app)
 		for (int y = 0; y < window->GetHeight(); y += spriteSize + 15.0f)
 		{
 			float rem = y % 2;
-			std::string path = "Images\\wand." + std::string((rem == 0) ? "jpg" : "png");
-			wand::Sprite& s = app.GetEntityManager()->AddSprite(path);
+			std::string path = gameDir + "Images\\wand." + std::string((rem == 0) ? "jpg" : "png");
+			wand::Sprite& s = app->GetEntityManager()->AddSprite(path);
 			s.GetTransform()->SetPos(x, y);
 			s.GetTransform()->SetDepth(0);
 			s.GetTransform()->SetWidth(100);
@@ -130,7 +134,7 @@ void loadData(wand::App& app)
 	}
 	
 	// Render semi-transparent text
-	wand::TextBox& t1 = app.GetEntityManager()->AddTextBox("arial", 20, textColor);
+	wand::TextBox& t1 = app->GetEntityManager()->AddTextBox("arial", 20, textColor);
 	t1.GetTransform()->SetPos(0, 0);
 	t1.GetTransform()->SetDepth(5);
 	t1.GetTransform()->SetWidth(window->GetWidth());

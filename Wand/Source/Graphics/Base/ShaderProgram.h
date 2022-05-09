@@ -7,7 +7,7 @@ namespace wand
 	class ShaderProgram
 	{
 	public:
-		ShaderProgram(const std::string& vertShader, const std::string& fragShader);
+		ShaderProgram(std::string shaderPath, std::string vertShader, std::string fragShader);
 		~ShaderProgram();
 
 		// Set the value of a single float in the shader
@@ -22,7 +22,6 @@ namespace wand
 		void Unbind() const;
 
 	private:
-		const std::string SHADER_PATH;
 		unsigned int mId;
 		std::unordered_map<std::string, int> mUniformLocations;
 

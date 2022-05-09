@@ -19,10 +19,10 @@ namespace wand
 		mSavedTexSlots(), mRenderQueue()
 	{}
 
-	void Renderer::Init(float windowWidth, float windowHeight)
+	void Renderer::Init(float windowWidth, float windowHeight, std::string shaderPath)
 	{
 		SetupBuffers();
-		SetupShaderProgram(windowWidth, windowHeight);
+		SetupShaderProgram(windowWidth, windowHeight, shaderPath);
 	}
 
 	void Renderer::ResetProjectionMatrix(float xMin, float yMin, float xMax, float yMax)
@@ -95,10 +95,10 @@ namespace wand
 	}
 
 	// Initialize the shader program and its uniforms to be used for rendering
-	void Renderer::SetupShaderProgram(float windowWidth, float windowHeight)
+	void Renderer::SetupShaderProgram(float windowWidth, float windowHeight, std::string shaderPath)
 	{
 		// Choose the shaders to be used for rendering
-		mShaderProgram = std::make_unique<ShaderProgram>("Standard.vert", "Standard.frag");
+		mShaderProgram = std::make_unique<ShaderProgram>(shaderPath, "Standard.vert", "Standard.frag");
 		
 		// Set up the texture slots in the fragment shader
 		const int slotCount = MAX_TEXTURES + 1; // include the 'no texture' slot

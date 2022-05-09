@@ -40,17 +40,18 @@ namespace wand
 		FileManager* GetFileManager() const;
 		
 	private:
-		std::unique_ptr<Window> mWindow;
-		std::unique_ptr<CursorManager> mCursorManager;
-		std::unique_ptr<Input> mInput;
-		std::unique_ptr<Renderer> mRenderer;
-		std::unique_ptr<EntityManager> mEntityManager;
-		std::unique_ptr<InputManager> mInputManager;
-		std::unique_ptr<EventManager> mEventManager;
-		std::unique_ptr<StateManager> mStateManager;
-		std::unique_ptr<FontManager> mFontManager;
-		std::unique_ptr<AudioManager> mAudioManager;
-		std::unique_ptr<FileManager> mFileManager;
-		std::unique_ptr<Random> mRandom;
+		// Use shared pointers for each subsystem so that app can be copied
+		std::shared_ptr<Window> mWindow;
+		std::shared_ptr<CursorManager> mCursorManager;
+		std::shared_ptr<Input> mInput;
+		std::shared_ptr<Renderer> mRenderer;
+		std::shared_ptr<EntityManager> mEntityManager;
+		std::shared_ptr<InputManager> mInputManager;
+		std::shared_ptr<EventManager> mEventManager;
+		std::shared_ptr<StateManager> mStateManager;
+		std::shared_ptr<FontManager> mFontManager;
+		std::shared_ptr<AudioManager> mAudioManager;
+		std::shared_ptr<FileManager> mFileManager;
+		std::shared_ptr<Random> mRandom;
 	};
 }

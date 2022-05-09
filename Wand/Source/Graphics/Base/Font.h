@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ft2build.h"
-#include FT_FREETYPE_H
+#include "FreeType/ft2build.h"
+#include "FreeType/freetype/freetype.h"
 
 namespace wand
 {

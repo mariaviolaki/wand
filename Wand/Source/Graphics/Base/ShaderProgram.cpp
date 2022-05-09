@@ -6,10 +6,9 @@
 
 namespace wand
 {
-	ShaderProgram::ShaderProgram(const std::string& vertShader, const std::string& fragShader)
-		: SHADER_PATH("../Wand/Source/Graphics/Base/Shaders/")
+	ShaderProgram::ShaderProgram(std::string shaderPath, std::string vertShader, std::string fragShader)
 	{
-		mId = CreateProgram(SHADER_PATH + vertShader, SHADER_PATH + fragShader);
+		mId = CreateProgram(shaderPath + vertShader, shaderPath + fragShader);
 		glUseProgram(mId);
 	}
 

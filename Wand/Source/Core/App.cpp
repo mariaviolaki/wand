@@ -4,19 +4,19 @@
 namespace wand
 {
 	App::App()
-		: mWindow(std::make_unique<Window>()), mCursorManager(std::make_unique<CursorManager>()),
-		mInput(std::make_unique<Input>()), mRenderer(std::make_unique<Renderer>()),
-		mEntityManager(std::make_unique<EntityManager>()), mEventManager(std::make_unique<EventManager>()),
-		mStateManager(std::make_unique<StateManager>()), mInputManager(std::make_unique<InputManager>()),
-		mFontManager(std::make_unique<FontManager>()), mAudioManager(std::make_unique<AudioManager>()),
-		mFileManager(std::make_unique<FileManager>()), mRandom(std::make_unique<Random>())
+		: mWindow(std::make_shared<Window>()), mCursorManager(std::make_shared<CursorManager>()),
+		mInput(std::make_shared<Input>()), mRenderer(std::make_shared<Renderer>()),
+		mEntityManager(std::make_shared<EntityManager>()), mEventManager(std::make_shared<EventManager>()),
+		mStateManager(std::make_shared<StateManager>()), mInputManager(std::make_shared<InputManager>()),
+		mFontManager(std::make_shared<FontManager>()), mAudioManager(std::make_shared<AudioManager>()),
+		mFileManager(std::make_shared<FileManager>()), mRandom(std::make_shared<Random>())
 	{
 		mWindow->Init([this](Event* event)
 		{
 			this->OnEvent(event);
 		});
 		mCursorManager->Init(mWindow->GetGLFWWindow());
-		mRenderer->Init(mWindow->GetWidth(), mWindow->GetHeight());
+		mRenderer->Init(mWindow->GetWidth(), mWindow->GetHeight(), mFileManager->GetShaderPath());
 		mEntityManager->Init(mFontManager.get());
 		mEventManager->Init(mWindow.get(), mInput.get(), mRenderer.get(), mCursorManager.get());
 		mInputManager->Init(mWindow->GetGLFWWindow());

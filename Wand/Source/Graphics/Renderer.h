@@ -14,7 +14,7 @@ namespace wand
 	public:
 		Renderer();
 
-		void Init(float windowWidth, float windowHeight);
+		void Init(float windowWidth, float windowHeight, std::string shaderPath);
 		void ResetProjectionMatrix(float xMin, float yMin, float xMax, float yMax);
 		void Submit(std::vector<std::unique_ptr<UIEntity>>& entities);
 
@@ -29,7 +29,7 @@ namespace wand
 
 		// Private Methods
 		void SetupBuffers();
-		void SetupShaderProgram(float windowWidth, float windowHeight);
+		void SetupShaderProgram(float windowWidth, float windowHeight, std::string shaderPath);
 		void SaveTextureSlot(Drawable* sprite, unsigned int& slotIndex);
 		void FillVertexBuffer(unsigned int& drawablesInBuffer, unsigned int& itemsInBuffer);
 		void Render();
