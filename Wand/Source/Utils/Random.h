@@ -5,12 +5,13 @@ namespace wand
 	class Random
 	{
 	public:
-		Random();
-
-		int GetInt(int first, int last);
-		float GetFloat(float first, float last);
+		static void Init();
+		static int GetInt(int first, int last);
+		static float GetFloat(float first, float last);
 
 	private:
-		std::mt19937 mRNG;
+		static std::mt19937 sRNG;
+
+		Random();
 	};
 }

@@ -1,6 +1,5 @@
 #include "Wand.h"
-//#include <thread>
-//#include <chrono>
+#include <chrono>
 
 void toggleFullscreen(wand::App& app)
 {
@@ -17,10 +16,12 @@ void exitApp(wand::App& app)
 void showMousePos(wand::App& app)
 {
 	wand::Input* input = app.GetInput();
-	std::cout << "Mouse Pos: [" << input->GetX() << ", " << input->GetY() << "]\n";
+	std::string mousePos = "Mouse Pos: [" + std::to_string(input->GetX()) + ", " + std::to_string(input->GetY()) + "]\n";
+	wand::Logger::Log(mousePos);
 }
 void loadData(std::shared_ptr<wand::App> app); // pass app copy for valid lambda functions
 
+// Entry point for windows applications
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
 	std::shared_ptr<wand::App> app = std::make_shared<wand::App>();
@@ -28,12 +29,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	
 	loadData(app);
 
-	std::cout << "Random Numbers: [ ";
+	wand::Logger::Log("Random Numbers: [ ");
 	for (int i = 0; i < 10; i++)
 	{
-		std::cout << app->GetRandom()->GetInt(0, 10) << " ";
+		wand::Logger::Log(std::to_string(wand::Random::GetInt(0, 10)) + " ");
 	}
-	std::cout << "]\n";
+	wand::Logger::Log("]\n");
 	
 	// Test rectangle rendering and events
 	wand::Rectangle& r1 = app->GetEntityManager()->AddRectangle(wand::Color(255, 0, 0, 255));
@@ -62,12 +63,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	
 	while (app->IsRunning())
 	{
-		//std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+		std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 		app->Clear();
 
 		app->Update();
-		//std::chrono::steady_clock::time_point stop = std::chrono::steady_clock::now();
-		//std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() << " ms\n";
+		std::chrono::steady_clock::time_point stop = std::chrono::steady_clock::now();
+		//wand::Logger::Log(std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count()) + " ms\n");
 	}
 	return 0;
 }
@@ -140,7 +141,7 @@ void loadData(std::shared_ptr<wand::App> app)
 	t1.GetTransform()->SetWidth(window->GetWidth());
 	t1.GetTransform()->SetHeight(window->GetHeight());
 	std::string text = "";
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		text += "The quick brown fox jumps over the lazy dog. ";
 	}

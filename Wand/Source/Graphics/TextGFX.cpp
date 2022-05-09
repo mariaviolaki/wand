@@ -1,6 +1,7 @@
 #include "WandPCH.h"
 #include "TextGFX.h"
 #include "Core/Window.h"
+#include "Utils/Logger.h"
 
 namespace wand
 {
@@ -20,7 +21,7 @@ namespace wand
 		if (mText.size() + newText.size() <= MAX_TEXT_LENGTH)
 			mText += newText;
 		else
-			std::cout << "Submitted text exceeds max character limit.\n";
+			Logger::EngineLog("TextGFX", "Submitted text exceeds max character limit.\n");
 	}
 	void TextGFX::Clear() { mText = ""; }
 	unsigned int TextGFX::GetMaxLength() const	{ return MAX_TEXT_LENGTH; }

@@ -8,10 +8,7 @@ namespace wand
 		: mEntities(), mFontManager(nullptr)
 	{}
 
-	void EntityManager::Init(FontManager* fontManager)
-	{
-		mFontManager = fontManager;
-	}
+	void EntityManager::Init(FontManager* fontManager) { mFontManager = fontManager; }
 
 	Rectangle& EntityManager::AddRectangle(Color color)
 	{

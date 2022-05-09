@@ -12,7 +12,6 @@
 #include "Graphics/FontManager.h"
 #include "Audio/AudioManager.h"
 #include "FileManager.h"
-#include "Utils/Random.h"
 
 namespace wand
 {
@@ -31,7 +30,6 @@ namespace wand
 
 		Input* GetInput() const;
 		Window* GetWindow() const;
-		Random* GetRandom() const;
 		CursorManager* GetCursorManager() const;
 		EntityManager* GetEntityManager() const;
 		StateManager* GetStateManager() const;
@@ -52,6 +50,5 @@ namespace wand
 		std::shared_ptr<FontManager> mFontManager;
 		std::shared_ptr<AudioManager> mAudioManager;
 		std::shared_ptr<FileManager> mFileManager;
-		std::shared_ptr<Random> mRandom;
 	};
 }

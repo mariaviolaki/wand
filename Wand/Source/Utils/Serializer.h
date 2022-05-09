@@ -8,17 +8,19 @@ namespace wand
 	class Serializer
 	{
 	public:
-		void Serialize(const State& state, const std::string& path);
-		std::unordered_map<std::string, std::shared_ptr<State>> Deserialize(const std::string& path);
+		static void Serialize(const State& state, const std::string& path);
+		static std::unordered_map<std::string, std::shared_ptr<State>> Deserialize(const std::string& path);
 
 	private:
+		Serializer();
+
 		// Helper methods for serialization
-		nlohmann::json CreateStateList(const nlohmann::json& oldStates, const State& newState);
-		nlohmann::json CreatePairs(const State& state);
-		nlohmann::json CreateValue(const Pair& pair);
+		static nlohmann::json CreateStateList(const nlohmann::json& oldStates, const State& newState);
+		static nlohmann::json CreatePairs(const State& state);
+		static nlohmann::json CreateValue(const Pair& pair);
 		// Helper methods for deserialization
-		nlohmann::json GetSavedStates(const std::string& path);
-		std::shared_ptr<State> GetState(std::string name, const nlohmann::json& state);
-		Pair* GetPair(std::string name, const nlohmann::json& value);
+		static nlohmann::json GetSavedStates(const std::string& path);
+		static std::shared_ptr<State> GetState(std::string name, const nlohmann::json& state);
+		static Pair* GetPair(std::string name, const nlohmann::json& value);
 	};
 }

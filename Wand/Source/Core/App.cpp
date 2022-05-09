@@ -1,5 +1,7 @@
 #include "WandPCH.h"
 #include "App.h"
+#include "Utils/Random.h"
+#include "Utils/Logger.h"
 
 namespace wand
 {
@@ -9,18 +11,19 @@ namespace wand
 		mEntityManager(std::make_shared<EntityManager>()), mEventManager(std::make_shared<EventManager>()),
 		mStateManager(std::make_shared<StateManager>()), mInputManager(std::make_shared<InputManager>()),
 		mFontManager(std::make_shared<FontManager>()), mAudioManager(std::make_shared<AudioManager>()),
-		mFileManager(std::make_shared<FileManager>()), mRandom(std::make_shared<Random>())
+		mFileManager(std::make_shared<FileManager>())
 	{
-		mWindow->Init([this](Event* event)
-		{
-			this->OnEvent(event);
-		});
+		// Initialize all subsystems
+		Logger::Init(mFileManager->GetRootFolder());
+		Random::Init();
+
+		mWindow->Init([this](Event* event) { this->OnEvent(event); });
 		mCursorManager->Init(mWindow->GetGLFWWindow());
 		mRenderer->Init(mWindow->GetWidth(), mWindow->GetHeight(), mFileManager->GetShaderPath());
 		mEntityManager->Init(mFontManager.get());
 		mEventManager->Init(mWindow.get(), mInput.get(), mRenderer.get(), mCursorManager.get());
-		mInputManager->Init(mWindow->GetGLFWWindow());
 		mStateManager->Init(mFileManager.get());
+		mInputManager->Init(mWindow->GetGLFWWindow());
 	}
 
 	App::~App()
@@ -55,7 +58,6 @@ namespace wand
 
 	Input* App::GetInput() const { return mInput.get(); }
 	Window* App::GetWindow() const { return mWindow.get(); }
-	Random* App::GetRandom() const { return mRandom.get(); }
 	CursorManager* App::GetCursorManager() const { return mCursorManager.get(); }
 	EntityManager* App::GetEntityManager() const { return mEntityManager.get(); }
 	StateManager* App::GetStateManager() const { return mStateManager.get(); }

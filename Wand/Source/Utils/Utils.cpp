@@ -1,5 +1,6 @@
 #include "WandPCH.h"
 #include "Utils.h"
+#include "Logger.h"
 
 namespace wand::Utils // compile with C++17 at least
 {
@@ -8,7 +9,7 @@ namespace wand::Utils // compile with C++17 at least
 		// Open a file at a specific path
 		std::ifstream file(path);
 		if (!file)
-			std::cout << "Unable to open file at path: " << path << std::endl;
+			Logger::EngineLog("Utils:ReadFile", "Unable to open file at path: " + path + "\n");
 		
 		std::string line;
 		std::ostringstream stream;

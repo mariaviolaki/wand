@@ -1,5 +1,6 @@
 #include "WandPCH.h"
 #include "FontManager.h"
+#include "Utils/Logger.h"
 
 namespace wand
 {
@@ -13,7 +14,7 @@ namespace wand
 		if (std::filesystem::exists(filepath))
 			mFonts.emplace_back(std::unique_ptr<Font>(new Font(filepath, name, size)));
 		else
-			std::cout << "Font not found in location: " << filepath << std::endl;
+			Logger::EngineLog("FontManager", "Font not found in location: " + filepath + "\n");
 	}
 
 	Font* FontManager::Get(const std::string& fontName, unsigned int fontSize)
@@ -41,7 +42,7 @@ namespace wand
 			return newFont;
 		}
 
-		std::cout << "Font '" << fontName << "' not found.\n";
+		Logger::EngineLog("FontManager", "Font '" + fontName + "' not found.\n");
 		return nullptr;
 	}
 }

@@ -1,6 +1,7 @@
 #include "WandPCH.h"
 #include "Window.h"
 #include "glad/glad.h"
+#include "Utils/Logger.h"
 
 namespace wand
 {
@@ -96,7 +97,7 @@ namespace wand
 		if (glfwInit())
 			return true;
 
-		std::cout << "Failed to initialize GLFW.\n";
+		Logger::EngineLog("Window", "Failed to initialize GLFW.\n");
 		return false;	
 	}
 
@@ -106,7 +107,7 @@ namespace wand
 		mWindow = glfwCreateWindow(mData.width, mData.height, mName.c_str(), nullptr, nullptr);
 		if (!mWindow)
 		{
-			std::cout << "Failed to create GLFW window.\n";
+			Logger::EngineLog("Window", "Failed to create GLFW window.\n");
 			glfwTerminate();
 			return false;
 		}
@@ -121,7 +122,7 @@ namespace wand
 		if (gladLoadGL())
 			return true;
 		
-		std::cout << "Failed to load the OpenGL functions.\n";
+		Logger::EngineLog("Window", "Failed to load the OpenGL functions.\n");
 		return false;
 	}
 

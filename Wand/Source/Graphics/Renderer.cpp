@@ -38,11 +38,23 @@ namespace wand
 		{
 			if (entity->IsVisible())
 			{
+				// Don't render empty text
+				if (dynamic_cast<TextBox*>(entity.get()))
+				{
+					if (static_cast<TextGFX*>(entity.get()->GetDrawable())->GetItemCount() < 1)
+						continue;
+				}
+				// Also render button text if it exists
+				else if (dynamic_cast<Button*>(entity.get()))
+				{
+					if (static_cast<Button*>(entity.get())->GetTextDrawable()->GetItemCount() > 0)
+						mRenderQueue.emplace_back(static_cast<Button*>(entity.get())->GetTextDrawable());
+				}
 				mRenderQueue.emplace_back(entity->GetDrawable());
-				if (dynamic_cast<Button*>(entity.get()))
-					mRenderQueue.emplace_back(static_cast<Button*>(entity.get())->GetTextDrawable());
 			}
 		}
+
+		// 
 
 		// Sort entities based on their depth by providing a comparison function
 		std::sort(mRenderQueue.begin(), mRenderQueue.end(),

@@ -1,6 +1,7 @@
 #include "WandPCH.h"
 #include "AudioManager.h"
 #include "soloud/soloud_wav.h"
+#include "Utils/Logger.h"
 
 namespace wand
 {
@@ -25,7 +26,7 @@ namespace wand
 		if (std::filesystem::exists(filepath))
 			mAudioSources.emplace(std::make_pair(name, std::unique_ptr<AudioSource>(new AudioSource(filepath))));
 		else
-			std::cout << "Audio file not found in location: " << filepath << std::endl;
+			Logger::EngineLog("AudioManager", "Audio file not found in location: " + filepath + "\n");
 	}
 
 	void AudioManager::Play(const std::string& name, float volume, float panning, float speed)

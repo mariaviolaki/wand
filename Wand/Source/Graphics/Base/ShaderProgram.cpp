@@ -1,8 +1,8 @@
 #include "WandPCH.h"
 #include "ShaderProgram.h"
-
 #include "glad/glad.h"
 #include "Utils/Utils.h"
+#include "Utils/Logger.h"
 
 namespace wand
 {
@@ -43,7 +43,7 @@ namespace wand
 		mUniformLocations[name] = location;
 
 		if (location == -1)
-			std::cout << "Uniform '" << name << "' not found or not set correctly.\n";
+			Logger::EngineLog("ShaderProgram", "Uniform '" + name + "' not found or not set correctly.\n");
 
 		return location;
 	}
@@ -113,10 +113,10 @@ namespace wand
 
 			// Display the error message for the appropriate shader
 			if (shaderType == GL_VERTEX_SHADER)
-				std::cout << "Vertex ";
+				Logger::EngineLog("ShaderProgram", "Vertex ");
 			else if (shaderType == GL_FRAGMENT_SHADER)
-				std::cout << "Fragment ";
-			std::cout << "Shader compilation error:\n" << message << std::endl;
+				Logger::EngineLog("ShaderProgram", "Fragment ");
+			Logger::Log("Shader compilation error: " + std::string(message));
 
 			// Free memory for the error message
 			delete[] message;

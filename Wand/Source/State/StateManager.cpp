@@ -15,15 +15,13 @@ namespace wand
 		// Save new state by replacing the old one with the same name (if it exists)
 		mStates.insert(std::make_pair(state->GetName(), state));
 		// Save the data in a file in JSON format
-		Serializer serializer;
-		serializer.Serialize(*state.get(), mFileManager->GetSavePath() + filename);
+		Serializer::Serialize(*state.get(), mFileManager->GetSavePath() + filename);
 	}
 
 	void StateManager::LoadStates(const std::string& filename)
 	{
 		// Deserialize the states stored in a file and store them in an unordered map
-		Serializer serializer;
-		auto newStates = serializer.Deserialize(mFileManager->GetSavePath() + filename);
+		auto newStates = Serializer::Deserialize(mFileManager->GetSavePath() + filename);
 		// If the map is not empty, overwrite the states
 		if (!newStates.empty())
 		{

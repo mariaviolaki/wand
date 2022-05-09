@@ -1,5 +1,6 @@
 #include "WandPCH.h"
 #include "Font.h"
+#include "Utils/Logger.h"
 
 namespace wand
 {
@@ -34,10 +35,10 @@ namespace wand
 	{
 		// Initialize FreeType library
 		if (FT_Init_FreeType(&mFreetype))
-			std::cout << "FreeType: Failed to initialize FreeType library.\n";
+			Logger::EngineLog("Font", "FreeType: Failed to initialize FreeType library.\n");
 		// Load the given font
 		if (FT_New_Face(mFreetype, mPath.c_str(), 0, &mFace))
-			std::cout << "FreeType: Failed to load font.\n";
+			Logger::EngineLog("Font", "FreeType: Failed to load font.\n");
 		FT_Set_Pixel_Sizes(mFace, 0, mSize);
 	}
 
@@ -51,7 +52,7 @@ namespace wand
 			// Load a specific ASCII character from the font
 			if (FT_Load_Char(mFace, c, FT_LOAD_RENDER))
 			{
-				std::cout << "FreeType: Failed to load character " << c << std::endl;
+				Logger::EngineLog("Font", "FreeType: Failed to load character " + (char)c + std::string("\n"));
 				continue;
 			}
 

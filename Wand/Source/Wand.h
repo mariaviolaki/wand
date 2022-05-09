@@ -12,3 +12,5 @@
 #include "Graphics/Base/Transform.h"
 #include "Audio/AudioSource.h"
 #include "Input/Input.h"
+#include "Utils/Logger.h"
+#include "Utils/Random.h"
