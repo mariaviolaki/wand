@@ -22,7 +22,9 @@ namespace wand
 		~CursorManager();
 
 		void Init(GLFWwindow* window);
+		// Set the cursor type to arrow, hand, or text input
 		void SetCursor(CursorType cursorType);
+		// Create a custom cursor from an image file
 		void CreateCursor(CursorType cursorType, std::string imagePath);
 		
 	private:

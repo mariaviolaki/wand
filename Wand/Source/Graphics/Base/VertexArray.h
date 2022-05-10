@@ -10,8 +10,7 @@ namespace wand
 		VertexArray();
 		~VertexArray();
 
-		// Should be called after binding a vertex buffer
-		void AddLayout(VertexLayout* layout);
+		void AddLayout(VertexLayout* layout); // should be called after binding a vertex buffer
 		void Bind() const;
 		void Unbind() const;
 

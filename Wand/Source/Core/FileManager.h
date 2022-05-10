@@ -8,9 +8,9 @@ namespace wand
 		FileManager();
 
 		std::string GetRootFolder() const;
-		// Engine directories
+		/* Engine directories */
 		std::string GetShaderPath() const;
-		// Game directories
+		/* Game directories */
 		std::string GetImagePath() const;
 		std::string GetAudioPath() const;
 		std::string GetFontPath() const;

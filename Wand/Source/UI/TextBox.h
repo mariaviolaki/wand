@@ -11,6 +11,7 @@ namespace wand
 		TextBox(const std::string& fontName, unsigned int fontSize, Color color);
 		Drawable* GetDrawable() const override;
 		Transform* GetTransform() const override;
+		// Set the new text by overwriting the existing one
 		void SetText(const std::string& newText);
 
 	private:

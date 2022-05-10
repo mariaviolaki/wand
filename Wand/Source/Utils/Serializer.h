@@ -8,7 +8,9 @@ namespace wand
 	class Serializer
 	{
 	public:
+		// Save a new state in JSON format to a file
 		static void Serialize(const State& state, const std::string& path);
+		// Load any existing states from a file
 		static std::unordered_map<std::string, std::shared_ptr<State>> Deserialize(const std::string& path);
 
 	private:

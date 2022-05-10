@@ -62,7 +62,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(SolutionDir)Wand\External\;$(SolutionDir)Wand\Source\</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -70,7 +70,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>%(AdditionalDependencies);opengl32.lib;glfw3.lib;freetype.lib;soloud.lib;wand.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(OutDir)Wand\;$(SolutionDir)Wand\External\GLFW\lib\$(Configuration)\;$(SolutionDir)Wand\External\FreeType\lib\$(Configuration)\;$(SolutionDir)Wand\External\SoLoud\lib\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(SolutionDir)Wand\lib\$(Configuration)\;$(SolutionDir)Wand\External\GLFW\lib\$(Configuration)\;$(SolutionDir)Wand\External\FreeType\lib\$(Configuration)\;$(SolutionDir)Wand\External\SoLoud\lib\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -92,7 +92,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>%(AdditionalDependencies);opengl32.lib;glfw3.lib;freetype.lib;soloud.lib;wand.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(OutDir)Wand\;$(SolutionDir)Wand\External\GLFW\lib\$(Configuration)\;$(SolutionDir)Wand\External\FreeType\lib\$(Configuration)\;$(SolutionDir)Wand\External\SoLoud\lib\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(SolutionDir)Wand\lib\$(Configuration)\;$(SolutionDir)Wand\External\GLFW\lib\$(Configuration)\;$(SolutionDir)Wand\External\FreeType\lib\$(Configuration)\;$(SolutionDir)Wand\External\SoLoud\lib\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

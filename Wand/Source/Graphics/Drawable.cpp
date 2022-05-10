@@ -48,7 +48,7 @@ namespace wand
 			height = mTransform->GetHeight();
 		}
 		SetTransform(true);
-		mTransform->SetDepth(mParentTransform->GetDepth());
+		mTransform->SetLayer(mParentTransform->GetLayer());
 		mTransform->SetScale(mParentTransform->GetScale().x, mParentTransform->GetScale().y);
 		mTransform->SetWidth(width);
 		mTransform->SetHeight(height);

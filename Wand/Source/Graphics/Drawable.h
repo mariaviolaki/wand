@@ -29,18 +29,17 @@ namespace wand
 	public:
 		static unsigned int GetIndexCount();
 
-		// Drawable operations
+		/* Transform operations */
 		Transform* GetTransform() const;
 		void SetTransform(bool isLayoutChild);
 		const Transform* GetParentTransform() const;
 		void SetParentTransform(Transform* transform);
 		void SetParentLayoutPos(LayoutPosition horizontal, LayoutPosition vertical);
 		void SetParentLayoutCoords(float x, float y);
-
+		/* Operations used for rendering */
 		virtual unsigned int GetItemCount() const = 0;
 		virtual unsigned int GetBufferSize() const = 0;
 		virtual const std::vector<Vertex>& GetVertexData() = 0;
-
 		virtual unsigned int GetTexId() const { return 0; };
 		virtual void SetTextureSlot(int slot) {};
 		virtual Color GetColor() const { return Color(255, 255, 255, 0); };

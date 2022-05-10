@@ -6,7 +6,7 @@ namespace wand
 {
 	Transform::Transform(bool isLayoutChild)
 		: mTransform(glm::mat4(1.0f)), mScale(glm::vec2(1.0f)), mDimens({ 100.0f, 100.0f }),
-		mDepth(0.0f), mIsLayoutChild(isLayoutChild)
+		mLayer(0.0f), mIsLayoutChild(isLayoutChild)
 	{}
 
 	/******************** ACCESSOR METHODS ***********************/
@@ -15,12 +15,12 @@ namespace wand
 
 	Vector2 Transform::GetScale() const { return { mScale.x, mScale.y }; }
 
-	float Transform::GetDepth() const
+	float Transform::GetLayer() const
 	{
 		// Layout children should be displayed on top of parents
 		if (mIsLayoutChild)
-			return mDepth + 0.1;
-		return mDepth;
+			return mLayer + 0.1;
+		return mLayer;
 	}
 
 	float Transform::GetWidth() const { return mDimens.x; }
@@ -33,7 +33,7 @@ namespace wand
 
 	void Transform::SetScale(float x, float y) { mScale = glm::vec2(x, y); }
 
-	void Transform::SetDepth(float depth) { mDepth = depth; }
+	void Transform::SetLayer(float layer) { mLayer = layer; }
 
 	void Transform::SetWidth(float width) { mDimens.x = width; }
 

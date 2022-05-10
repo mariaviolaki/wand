@@ -22,6 +22,7 @@ namespace wand
 
 		void Init(std::function<void(Event* event)> eventCallback);
 
+		/* Accessor methods */
 		glm::vec2 GetAspectRatio() const;
 		float GetStartWidth() const;
 		float GetStartHeight() const;
@@ -30,6 +31,7 @@ namespace wand
 		std::string GetName() const;
 		bool IsFullscreen() const;
 
+		/* Mutator methods */
 		void SetAspectRatio(unsigned int numer, unsigned int denom);
 		void SetStartWidth(unsigned int width);
 		void SetStartHeight(unsigned int height);

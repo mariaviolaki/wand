@@ -17,13 +17,13 @@ namespace wand
 
 		Vector2 GetPos() const;
 		Vector2 GetScale() const;
-		float GetDepth() const;
+		float GetLayer() const;
 		float GetWidth() const;
 		float GetHeight() const;
 
 		void SetPos(float x, float y);
 		void SetScale(float x, float y);
-		void SetDepth(float depth);
+		void SetLayer(float layer);
 		void SetWidth(float width);
 		void SetHeight(float height);
 
@@ -31,7 +31,7 @@ namespace wand
 		glm::mat4 mTransform;
 		glm::vec2 mScale;
 		glm::vec2 mDimens;
-		float mDepth;
+		float mLayer;
 		bool mIsLayoutChild;
 	};
 }

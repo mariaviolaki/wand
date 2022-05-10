@@ -15,7 +15,9 @@ namespace wand
 		Renderer();
 
 		void Init(float windowWidth, float windowHeight, std::string shaderPath);
+		// Adjust the projection matrix in the shader when the window is resized
 		void ResetProjectionMatrix(float xMin, float yMin, float xMax, float yMax);
+		// Submit the entities that should be considered for rendering in this frame
 		void Submit(std::vector<std::unique_ptr<UIEntity>>& entities);
 
 	private:

@@ -54,14 +54,12 @@ namespace wand
 			}
 		}
 
-		// 
-
 		// Sort entities based on their depth by providing a comparison function
 		std::sort(mRenderQueue.begin(), mRenderQueue.end(),
 		[](const Drawable* a, const Drawable* b)
 		{
 			// Sort in descending order
-			return a->GetTransform()->GetDepth() < b->GetTransform()->GetDepth();
+			return a->GetTransform()->GetLayer() < b->GetTransform()->GetLayer();
 		});
 
 		Render();

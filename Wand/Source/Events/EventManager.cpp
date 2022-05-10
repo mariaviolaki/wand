@@ -220,7 +220,7 @@ namespace wand
 		[](const UIEntity* a, const UIEntity* b)
 		{
 			// Sort in descending order
-			return a->GetTransform()->GetDepth() > b->GetTransform()->GetDepth();
+			return a->GetTransform()->GetLayer() > b->GetTransform()->GetLayer();
 		});
 	}
 }

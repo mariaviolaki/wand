@@ -21,10 +21,11 @@ namespace wand
         Font(const std::string& path, const std::string& name, unsigned int size = 24);
         ~Font();
 
+        /* Accessors for data used to differentiate between various fonts */
         const std::string GetName() const;
         const std::string GetPath() const;
         const unsigned int GetSize() const;
-
+        /* Accessors for base font data */
         unsigned int GetAtlasWidth() const;
         unsigned int GetAtlasHeight() const;
         const FT_Face& GetFontFace() const;

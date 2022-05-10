@@ -10,6 +10,7 @@ namespace wand
 	public:
 		Input();
 
+		/* Search this frame's events for a specific type of input */
 		int GetX() const;
 		int GetY() const;
 		bool KeyDown(int key) const;
@@ -21,8 +22,11 @@ namespace wand
 		float GetScrollX() const;
 		float GetScrollY() const;
 
+		// Clear the last frame's events
 		void ClearEvents();
+		// Add a new event for this frame
 		void AddEvent(Event* event);
+		// Set the latest mouse position
 		void SetMousePos(double xPos, double yPos);
 
 	private:
