@@ -197,7 +197,7 @@ namespace wand
 	{
 		if (!mIsTextCentered)
 			return { mTransform->GetScale().x * mTransform->GetPos().x, 
-			mTransform->GetScale().x * mTransform->GetHeight() };
+			mTransform->GetScale().y * mTransform->GetPos().y + mTransform->GetScale().y * mTransform->GetHeight() };
 
 		FindTextDimens(spaceWidth);
 		float xOffset = (mTransform->GetWidth() * mTransform->GetScale().x - mTextDimens.x) / 2;

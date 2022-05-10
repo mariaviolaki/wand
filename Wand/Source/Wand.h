@@ -14,3 +14,5 @@
 #include "Input/Input.h"
 #include "Utils/Logger.h"
 #include "Utils/Random.h"
+#include "VN/Character.h"
+#include "VN/Background.h"

@@ -13,8 +13,10 @@ namespace wand
 		Transform* GetTransform() const override;
 		// Set the new text by overwriting the existing one
 		void SetText(const std::string& newText);
+		// Set the text to be centered or to start from the top left corner
+		void SetCenteredText(bool isTextCentered);
 
 	private:
-		std::shared_ptr<TextGFX> drawable;
+		std::shared_ptr<TextGFX> mDrawable;
 	};
 }

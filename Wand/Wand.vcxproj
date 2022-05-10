@@ -124,6 +124,9 @@
     <ClCompile Include="Source\Utils\Pair.cpp" />
     <ClCompile Include="Source\Utils\Random.cpp" />
     <ClCompile Include="Source\Utils\Serializer.cpp" />
+    <ClCompile Include="Source\VN\Background.cpp" />
+    <ClCompile Include="Source\VN\Character.cpp" />
+    <ClCompile Include="Source\VN\VNEntity.cpp" />
     <ClCompile Include="Source\Wand.cpp" />
     <ClCompile Include="Source\Core\App.cpp" />
     <ClCompile Include="Source\Graphics\Drawable.cpp" />
@@ -186,6 +189,9 @@
     <ClInclude Include="Source\Utils\Random.h" />
     <ClInclude Include="Source\Utils\Serializer.h" />
     <ClInclude Include="Source\Utils\Utils.h" />
+    <ClInclude Include="Source\VN\Background.h" />
+    <ClInclude Include="Source\VN\Character.h" />
+    <ClInclude Include="Source\VN\VNEntity.h" />
     <ClInclude Include="Source\WandPCH.h" />
     <ClInclude Include="Source\Core\Window.h" />
     <ClInclude Include="Source\Wand.h" />
