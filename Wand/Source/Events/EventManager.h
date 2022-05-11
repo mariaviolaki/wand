@@ -42,6 +42,7 @@ namespace wand
 		void ProcessUIFunction(UIEntity* entity, Event* event);
 
 		void ResetWindowBounds(WindowResizeEvent* event, glm::vec2& pos, glm::vec2& dimens);
+		void ResizeEntities(glm::vec2 scale);
 		// Return true if the cursor is inside the entity bounds
 		bool IsMouseInArea(Transform* transform);
 		// Sort entities based on their depth in the window

@@ -18,11 +18,15 @@ namespace wand
 		void Clear();
 		// Set the text to be centered or to start from the top left corner
 		void SetCenteredText(bool isTextCentered);
+		// Render text using a new font
+		void SetFont(std::string fontName, unsigned int fontSize);
 		// Get the maximum number of characters in a text object
 		unsigned int GetMaxLength() const;
 
+		std::string GetFontName() const;
+		unsigned int GetFontSize() const;
+		unsigned int GetStartFontSize() const;
 		void SetFontManager(FontManager* fontManager);
-
 		Color GetColor() const override;
 		void SetColor(Color color) override;
 		unsigned int GetTexId() const override;
@@ -38,12 +42,13 @@ namespace wand
 		Font* mFont;
 		std::string mFontName;
 		unsigned int mFontSize;
+		unsigned int mStartFontSize;
 		std::shared_ptr<Texture> mTexture;
 		std::vector<Vertex> mVertices;
 		glm::vec2 mTextDimens;
 		bool mIsTextCentered;
 
-		void Init();
+		void SetupFont();
 		void CreateVertex(const float posX, const float posY, const float texX, const float texY);
 		void UpdateGlyphPos(int& index, float& x, float& y, const float glyphAdvance) const;
 		// Get the width of the next word and set its starting index

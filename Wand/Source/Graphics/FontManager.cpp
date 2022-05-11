@@ -37,7 +37,7 @@ namespace wand
 		if (savedName != "" && savedPath != "")
 		{
 			// Create and return a new font with an existing name but with a different size
-			Font* newFont = new Font(savedName, savedPath, fontSize);
+			Font* newFont = new Font(savedPath, savedName, fontSize);
 			mFonts.emplace_back(std::unique_ptr<Font>(newFont));
 			return newFont;
 		}

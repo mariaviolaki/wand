@@ -20,4 +20,9 @@ namespace wand
     {
         mDrawable->SetCenteredText(isTextCentered);
     }
+    
+    void TextBox::SetFont(std::string fontName, unsigned int fontSize)
+    {
+        mDrawable->SetFont(fontName, fontSize);
+    }
 }

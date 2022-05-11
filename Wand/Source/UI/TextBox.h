@@ -15,6 +15,8 @@ namespace wand
 		void SetText(const std::string& newText);
 		// Set the text to be centered or to start from the top left corner
 		void SetCenteredText(bool isTextCentered);
+		// Render text using a new font
+		void SetFont(std::string fontName, unsigned int fontSize);
 
 	private:
 		std::shared_ptr<TextGFX> mDrawable;

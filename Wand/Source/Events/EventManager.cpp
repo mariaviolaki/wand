@@ -40,7 +40,7 @@ namespace wand
 			{
 				// Add to the vector of enabled and visible entities
 				mActiveEntities.emplace_back(entity.get());
-			}	
+			}
 		}
 	}
 
@@ -127,9 +127,7 @@ namespace wand
 		scale.y = dimens.y / mWindow->GetStartHeight();
 		// Reset the projection matrix in the renderer
 		mRenderer->ResetProjectionMatrix(0, 0, dimens.x, dimens.y);
-		// Resize the objects drawn to the window
-		for (auto& entity : mEntities)
-			entity->GetTransform()->SetScale(scale.x, scale.y);
+		ResizeEntities(scale);
 	}
 
 	void EventManager::ProcessUIEvent(Event* event)
@@ -205,6 +203,25 @@ namespace wand
 		}
 	}
 
+	void EventManager::ResizeEntities(glm::vec2 scale)
+	{
+		// Resize the objects drawn to the window
+		for (auto& entity : mEntities)
+		{
+			entity->GetTransform()->SetScale(scale.x, scale.y);
+			if (dynamic_cast<TextBox*>(entity))
+			{
+				auto text = static_cast<TextGFX*>(entity->GetDrawable());
+				text->SetFont(text->GetFontName(), scale.x * text->GetStartFontSize());
+			}
+			else if (dynamic_cast<Button*>(entity))
+			{
+				auto text = static_cast<TextGFX*>(static_cast<Button*>(entity)->GetTextDrawable());
+				text->SetFont(text->GetFontName(), scale.x * text->GetStartFontSize());
+			}
+		}
+	}
+
 	bool EventManager::IsMouseInArea(Transform* transform)
 	{
 		Vector2 pos = transform->GetPos();
@@ -217,10 +234,10 @@ namespace wand
 	{
 		// Sort entities based on their depth by providing a comparison function
 		std::sort(entities.begin(), entities.end(),
-		[](const UIEntity* a, const UIEntity* b)
-		{
-			// Sort in descending order
-			return a->GetTransform()->GetLayer() > b->GetTransform()->GetLayer();
-		});
+			[](const UIEntity* a, const UIEntity* b)
+			{
+				// Sort in descending order
+				return a->GetTransform()->GetLayer() > b->GetTransform()->GetLayer();
+			});
 	}
 }
