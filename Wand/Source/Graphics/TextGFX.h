@@ -47,6 +47,7 @@ namespace wand
 		std::vector<Vertex> mVertices;
 		glm::vec2 mTextDimens;
 		bool mIsTextCentered;
+		glm::vec2 mOffset;
 
 		void SetupFont();
 		void CreateVertex(const float posX, const float posY, const float texX, const float texY);

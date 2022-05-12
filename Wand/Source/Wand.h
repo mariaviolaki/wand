@@ -16,3 +16,4 @@
 #include "Utils/Random.h"
 #include "VN/Character.h"
 #include "VN/Background.h"
+#include "Utils/Utils.h"

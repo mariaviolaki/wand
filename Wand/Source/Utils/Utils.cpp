@@ -20,14 +20,14 @@ namespace wand::Utils // compile with C++17 at least
 		return stream.str();
 	}
 
-	std::string ToUppercase(const std::string& str)
+	std::string ToUpper(const std::string& str)
 	{
 		std::string newStr = str;
 		transform(newStr.begin(), newStr.end(), newStr.begin(), ::toupper);
 		return newStr;
 	}
 
-	std::string ToLowercase(const std::string& str)
+	std::string ToLower(const std::string& str)
 	{
 		std::string newStr = str;
 		transform(newStr.begin(), newStr.end(), newStr.begin(), ::tolower);

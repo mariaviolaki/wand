@@ -31,7 +31,6 @@ namespace wand
 
 		/* Transform operations */
 		Transform* GetTransform() const;
-		void SetTransform(bool isLayoutChild);
 		const Transform* GetParentTransform() const;
 		void SetParentTransform(Transform* transform);
 		void SetParentLayoutPos(LayoutPosition horizontal, LayoutPosition vertical);

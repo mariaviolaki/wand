@@ -13,7 +13,7 @@ namespace wand
 	class Transform
 	{
 	public:
-		Transform(bool isLayoutChild = false);
+		Transform();
 
 		Vector2 GetPos() const;
 		Vector2 GetScale() const;
@@ -26,9 +26,10 @@ namespace wand
 		void SetLayer(float layer);
 		void SetWidth(float width);
 		void SetHeight(float height);
+		void SetLayoutChild(bool isLayoutChild);
 
 	private:
-		glm::mat4 mTransform;
+		glm::vec2 mPos;
 		glm::vec2 mScale;
 		glm::vec2 mDimens;
 		float mLayer;

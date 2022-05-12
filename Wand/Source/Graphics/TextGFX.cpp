@@ -8,7 +8,7 @@ namespace wand
 	TextGFX::TextGFX(const std::string& fontName, unsigned int fontSize, Color color)
 		: Drawable(), mFontManager(nullptr), mFont(nullptr), mFontName(fontName), mFontSize(fontSize),
 		mStartFontSize(fontSize), mColor(color), mText(""), mTexture(nullptr), mVertices(), mTextDimens(0.0f),
-		mIsTextCentered(false)
+		mIsTextCentered(false), mOffset({ 0.0f, 0.0f })
 	{}
 
 	void TextGFX::SetFontManager(FontManager* fontManager)
@@ -134,10 +134,11 @@ namespace wand
 			unsigned int wordIndex = index + 2;
 			unsigned int nextWordWidth = GetNextWordWidth(wordIndex);
 			// If the next word doesn't fit inside the textbox
-			if (x + nextWordWidth >= mTransform->GetScale().x * GetTransform()->GetWidth())
+			if (x + nextWordWidth >= mTransform->GetScale().x *
+				(mTransform->GetPos().x + mTransform->GetWidth()) - mFontSize)
 			{
 				// Start rendering words on the next line
-				x = mTransform->GetScale().x * GetTransform()->GetPos().x;
+				x = mTransform->GetScale().x * mTransform->GetPos().x + mOffset.x;
 				y -= mFontSize;
 				index++;
 			}
@@ -172,6 +173,7 @@ namespace wand
 	void TextGFX::FindTextDimens(float spaceWidth)
 	{
 		mTextDimens = { 0.0f, 0.0f };
+		mOffset = { 0.0f, 0.0f };
 		float lineWidth = 0.0f;
 		unsigned int wordIndex = 0;
 		while (wordIndex < mText.size())
@@ -198,9 +200,8 @@ namespace wand
 		// Keep the biggest line width
 		if (lineWidth > mTextDimens.x)
 			mTextDimens.x = lineWidth;
-		// Set a minimum height if the text is a single line
-		if (mTextDimens.y == 0.0f)
-			mTextDimens.y = mFontSize;
+		// Add the height of the last line
+		mTextDimens.y += mFontSize;
 	}
 
 	glm::vec2 TextGFX::GetTextStartPos(float spaceWidth)
@@ -210,10 +211,11 @@ namespace wand
 			mTransform->GetScale().y * mTransform->GetPos().y + mTransform->GetScale().y * mTransform->GetHeight() };
 
 		FindTextDimens(spaceWidth);
-		float xOffset = (mTransform->GetWidth() * mTransform->GetScale().x - mTextDimens.x) / 2;
-		float yOffset = (mTransform->GetHeight() * mTransform->GetScale().y - mTextDimens.y) / 2;
-		float xPos = mTransform->GetPos().x * mTransform->GetScale().x + xOffset;
-		float yPos = mTransform->GetPos().y * mTransform->GetScale().y + yOffset + mTextDimens.y;
+		// Use the font size as padding on the x-axis
+		mOffset.x = (mTransform->GetWidth() * mTransform->GetScale().x - mTextDimens.x) / 2 + mFontSize;
+		mOffset.y = (mTransform->GetHeight() * mTransform->GetScale().y - mTextDimens.y) / 2;
+		float xPos = mTransform->GetPos().x * mTransform->GetScale().x + mOffset.x;
+		float yPos = mTransform->GetPos().y * mTransform->GetScale().y + mOffset.y + mTextDimens.y;
 		return { xPos, yPos };
 	}
 }

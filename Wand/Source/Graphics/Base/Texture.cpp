@@ -144,7 +144,7 @@ namespace wand
 		std::string imageType = mImagePath.substr(pos + 1);
 
 		// Return the appropriate color format according to the extension
-		if (Utils::ToLowercase(imageType) == "png")
+		if (Utils::ToLower(imageType) == "png")
 			mColorFormat = ColorFormat::RGBA;
 		else // default format
 			mColorFormat = ColorFormat::RGB;
