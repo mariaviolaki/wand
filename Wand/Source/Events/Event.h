@@ -9,7 +9,7 @@ namespace wand
 
 	enum class EventType
 	{
-		WindowResize,
+		WindowResize, WindowClose,
 		KeyRelease, KeyPress, MouseButtonRelease, MouseButtonPress,
 		MouseScrollX, MouseScrollY, MouseMove
 	};
@@ -35,6 +35,12 @@ namespace wand
 	private:
 		unsigned int mWidth;
 		unsigned int mHeight;
+	};
+
+	class WindowCloseEvent : public Event
+	{
+	public:
+		WindowCloseEvent();
 	};
 
 	class KeyPressEvent : public Event

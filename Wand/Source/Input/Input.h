@@ -11,6 +11,7 @@ namespace wand
 		Input();
 
 		/* Search this frame's events for a specific type of input */
+		bool MouseMoved() const;
 		int GetX() const;
 		int GetY() const;
 		bool KeyPressed(int key) const;
@@ -30,7 +31,7 @@ namespace wand
 		void SetMousePos(double xPos, double yPos);
 
 	private:
-		std::vector<Event*> mEvents;
+		std::vector<std::unique_ptr<Event>> mEvents;
 		double mXPos;
 		double mYPos;
 	};

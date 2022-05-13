@@ -51,7 +51,7 @@ namespace wand
 
 		void SetupFont();
 		void CreateVertex(const float posX, const float posY, const float texX, const float texY);
-		void UpdateGlyphPos(int& index, float& x, float& y, const float glyphAdvance) const;
+		void UpdateGlyphPos(const int index, float& x, float& y, const float glyphAdvance) const;
 		// Get the width of the next word and set its starting index
 		unsigned int GetNextWordWidth(unsigned int& index) const;
 		void FindTextDimens(float spaceWidth);

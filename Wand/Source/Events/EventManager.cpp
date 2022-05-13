@@ -23,7 +23,6 @@ namespace wand
 	{
 		// Clear the events of the last frame
 		mInput->ClearEvents();
-		mInputEvents.clear();
 	}
 
 	void EventManager::SetEntities(std::vector<std::unique_ptr<UIEntity>>& entities)
@@ -59,12 +58,15 @@ namespace wand
 
 	void EventManager::HandleWindowEvent(Event* windowEvent)
 	{
-		switch (windowEvent->GetType())
+		if (windowEvent->GetType() == EventType::WindowResize)
 		{
-		case EventType::WindowResize:
 			std::unique_ptr<WindowResizeEvent> event(static_cast<WindowResizeEvent*>(windowEvent));
 			ProcessWindowResize(static_cast<WindowResizeEvent*>(event.get()));
-			break;
+		}
+		else if (windowEvent->GetType() == EventType::WindowClose)
+		{
+			std::unique_ptr<WindowCloseEvent> event(static_cast<WindowCloseEvent*>(windowEvent));
+			mWindow->RunCloseFunctions();
 		}
 	}
 
@@ -74,42 +76,14 @@ namespace wand
 		if (ProcessUIEvent(inputEvent))
 			return;
 
-		// Push the correct event to the event buffer
-		switch (inputEvent->GetType())
+		// Save the position of the mouse in case it doesn't move in the next frame
+		if (inputEvent->GetType() == EventType::MouseMove)
 		{
-		case EventType::KeyPress:
-			mInputEvents.emplace_back(
-				std::unique_ptr<KeyPressEvent>(static_cast<KeyPressEvent*>(inputEvent)));
-			break;
-		case EventType::KeyRelease:
-			mInputEvents.emplace_back(
-				std::unique_ptr<KeyReleaseEvent>(static_cast<KeyReleaseEvent*>(inputEvent)));
-			break;
-		case EventType::MouseButtonPress:
-			mInputEvents.emplace_back(
-				std::unique_ptr<MouseButtonPressEvent>(static_cast<MouseButtonPressEvent*>(inputEvent)));
-			break;
-		case EventType::MouseButtonRelease:
-			mInputEvents.emplace_back(
-				std::unique_ptr<MouseButtonReleaseEvent>(static_cast<MouseButtonReleaseEvent*>(inputEvent)));
-			break;
-		case EventType::MouseScrollX:
-			mInputEvents.emplace_back(
-				std::unique_ptr<MouseScrollXEvent>(static_cast<MouseScrollXEvent*>(inputEvent)));
-			break;
-		case EventType::MouseScrollY:
-			mInputEvents.emplace_back(
-				std::unique_ptr<MouseScrollYEvent>(static_cast<MouseScrollYEvent*>(inputEvent)));
-			break;
-		case EventType::MouseMove:
-			mInputEvents.emplace_back(
-				std::unique_ptr<MouseMoveEvent>(static_cast<MouseMoveEvent*>(inputEvent)));
-			// Save the position of the mouse in case it doesn't move in the next frame
 			mXPos = static_cast<MouseMoveEvent*>(inputEvent)->GetXPos();
 			mYPos = static_cast<MouseMoveEvent*>(inputEvent)->GetYPos();
 			mInput->SetMousePos(mXPos, mYPos);
-			break;
 		}
+
 		// Send the event to the Input class
 		mInput->AddEvent(inputEvent);
 	}

@@ -15,6 +15,8 @@ namespace wand
 		void SaveState(std::shared_ptr<State> state, const std::string& filename);
 		// Overwrite the states in memory with the ones loaded from a file
 		void LoadStates(const std::string& filename);
+		// Use a state name to get an already loaded state
+		State* GetState(const std::string& stateName);
 
 	private:
 		std::unordered_map<std::string, std::shared_ptr<State>> mStates;

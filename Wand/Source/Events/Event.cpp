@@ -17,6 +17,11 @@ namespace wand
 	unsigned int WindowResizeEvent::GetWidth() const { return mWidth; }
 	unsigned int WindowResizeEvent::GetHeight() const { return mHeight; }
 
+	/************************* WINDOW CLOSE EVENT CLASS *******************************/
+	WindowCloseEvent::WindowCloseEvent()
+		: Event(EventCategory::Window, EventType::WindowClose)
+	{}
+
 	/************************* KEY PRESS EVENT CLASS **********************************/
 	KeyPressEvent::KeyPressEvent(int key, bool isCapital)
 		: Event(EventCategory::Input, EventType::KeyPress), mKey(key), mIsCapital(isCapital)

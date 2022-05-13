@@ -124,9 +124,10 @@ namespace wand
 		mVertices.emplace_back(v);
 	}
 
-	void TextGFX::UpdateGlyphPos(int& index, float& x, float& y, const float glyphAdvance) const
+	void TextGFX::UpdateGlyphPos(const int index, float& x, float& y, const float glyphAdvance) const
 	{
 		x += glyphAdvance;
+		float spaceWidth = mFont->GetGlyphs().at('.')->advanceX;
 		// If the next character is a space
 		if (std::isspace(mText[index + 1]))
 		{
@@ -138,9 +139,8 @@ namespace wand
 				(mTransform->GetPos().x + mTransform->GetWidth()) - mFontSize)
 			{
 				// Start rendering words on the next line
-				x = mTransform->GetScale().x * mTransform->GetPos().x + mOffset.x;
+				x = mTransform->GetScale().x * mTransform->GetPos().x + mOffset.x - spaceWidth;
 				y -= mFontSize;
-				index++;
 			}
 		}
 	}

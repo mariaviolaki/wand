@@ -29,4 +29,9 @@ namespace wand
 			mStates = newStates;
 		}
 	}
+
+	State* StateManager::GetState(const std::string& stateName)
+	{
+		return mStates[stateName].get();
+	}
 }

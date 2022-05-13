@@ -42,6 +42,10 @@ namespace wand
 
 		GLFWwindow* GetGLFWWindow() const;
 		bool IsClosed() const;
+		// Save a function that will run before the app exits
+		void OnClose(std::function<void()> closeFunction);
+		// Run all the OnClose functions before exiting
+		void RunCloseFunctions();
 
 		void Clear() const;
 		void Update() const;
@@ -56,6 +60,7 @@ namespace wand
 		glm::ivec2 mPosition;
 		WindowData mData;
 		bool mIsFullscreen;
+		std::vector<std::function<void()>> mCloseFunctions;
 
 		bool InitGLFW() const;
 		bool InitWindow();

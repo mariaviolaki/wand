@@ -70,7 +70,18 @@ namespace wand
 	}
 
 	GLFWwindow* Window::GetGLFWWindow() const { return mWindow; }
-	bool Window::IsClosed() const {	return glfwWindowShouldClose(mWindow) == 1;	}
+	bool Window::IsClosed() const { return glfwWindowShouldClose(mWindow) == 1; }
+
+	void Window::OnClose(std::function<void()> closeFunction)
+	{
+		mCloseFunctions.emplace_back(closeFunction);
+	}
+
+	void Window::RunCloseFunctions()
+	{
+		for (auto& closeFunction : mCloseFunctions)
+			closeFunction();
+	}
 
 	void Window::Clear() const
 	{
@@ -98,7 +109,7 @@ namespace wand
 			return true;
 
 		Logger::EngineLog("Window", "Failed to initialize GLFW.\n");
-		return false;	
+		return false;
 	}
 
 	bool Window::InitWindow()
@@ -121,7 +132,7 @@ namespace wand
 	{
 		if (gladLoadGL())
 			return true;
-		
+
 		Logger::EngineLog("Window", "Failed to load the OpenGL functions.\n");
 		return false;
 	}
@@ -144,10 +155,17 @@ namespace wand
 	void Window::SetupCallbacks()
 	{
 		glfwSetFramebufferSizeCallback(mWindow, [](GLFWwindow* window, int width, int height)
-		{
-			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
-			WindowResizeEvent* event = new WindowResizeEvent((unsigned int)width, (unsigned int)height);
-			data->EventCallback(event);
-		});
+			{
+				WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
+				WindowResizeEvent* event = new WindowResizeEvent((unsigned int)width, (unsigned int)height);
+				data->EventCallback(event);
+			});
+
+		glfwSetWindowCloseCallback(mWindow, [](GLFWwindow* window)
+			{
+				WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
+				WindowCloseEvent* event = new WindowCloseEvent();
+				data->EventCallback(event);
+			});
 	}
 }

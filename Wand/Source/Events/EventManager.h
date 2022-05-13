@@ -23,7 +23,6 @@ namespace wand
 		void HandleEvent(Event* event);
 
 	private:
-		std::vector<std::unique_ptr<Event>> mInputEvents;
 		std::vector<UIEntity*> mEntities;
 		std::vector<UIEntity*> mActiveEntities;
 		Window* mWindow;
