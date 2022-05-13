@@ -10,7 +10,7 @@ namespace wand
 	enum class EventType
 	{
 		WindowResize,
-		KeyUp, KeyDown, MouseButtonUp, MouseButtonDown,
+		KeyRelease, KeyPress, MouseButtonRelease, MouseButtonPress,
 		MouseScrollX, MouseScrollY, MouseMove
 	};
 
@@ -37,10 +37,10 @@ namespace wand
 		unsigned int mHeight;
 	};
 
-	class KeyDownEvent : public Event
+	class KeyPressEvent : public Event
 	{
 	public:
-		KeyDownEvent(int key, bool isCapital);
+		KeyPressEvent(int key, bool isCapital);
 		int GetKey() const;
 		bool IsCapital() const;
 	private:
@@ -48,10 +48,10 @@ namespace wand
 		bool mIsCapital;
 	};
 
-	class KeyUpEvent : public Event
+	class KeyReleaseEvent : public Event
 	{
 	public:
-		KeyUpEvent(int key, bool isCapital);
+		KeyReleaseEvent(int key, bool isCapital);
 		int GetKey() const;
 		bool IsCapital() const;
 	private:
@@ -59,19 +59,19 @@ namespace wand
 		bool mIsCapital;
 	};
 
-	class MouseButtonDownEvent : public Event
+	class MouseButtonPressEvent : public Event
 	{
 	public:
-		MouseButtonDownEvent(int button);
+		MouseButtonPressEvent(int button);
 		int GetButton() const;
 	private:
 		int mButton;
 	};
 
-	class MouseButtonUpEvent : public Event
+	class MouseButtonReleaseEvent : public Event
 	{
 	public:
-		MouseButtonUpEvent(int button);
+		MouseButtonReleaseEvent(int button);
 		int GetButton() const;
 	private:
 		int mButton;

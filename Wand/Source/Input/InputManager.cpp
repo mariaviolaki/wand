@@ -27,12 +27,12 @@ namespace wand
 			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 			if (action == GLFW_PRESS)
 			{
-				KeyDownEvent* event = new KeyDownEvent(key, capsOn);
+				KeyPressEvent* event = new KeyPressEvent(key, capsOn);
 				data->EventCallback(event);
 			}
 			else if (action == GLFW_RELEASE)
 			{
-				KeyUpEvent* event = new KeyUpEvent(key, capsOn);
+				KeyReleaseEvent* event = new KeyReleaseEvent(key, capsOn);
 				data->EventCallback(event);
 			}
 		});
@@ -43,12 +43,12 @@ namespace wand
 			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 			if (action == GLFW_PRESS)
 			{
-				MouseButtonDownEvent* event = new MouseButtonDownEvent(button);
+				MouseButtonPressEvent* event = new MouseButtonPressEvent(button);
 				data->EventCallback(event);
 			}
 			else if (action == GLFW_RELEASE)
 			{
-				MouseButtonUpEvent* event = new MouseButtonUpEvent(button);
+				MouseButtonReleaseEvent* event = new MouseButtonReleaseEvent(button);
 				data->EventCallback(event);
 			}
 		});

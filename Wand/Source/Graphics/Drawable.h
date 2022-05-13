@@ -50,7 +50,7 @@ namespace wand
 		Transform* mParentTransform;
 
 		Drawable();
-		void UpdateTransform(bool adoptDimens = false);
+		void UpdateTransform();
 
 	private:
 		std::unique_ptr<ParentLayoutPos> mParentLayoutPos;

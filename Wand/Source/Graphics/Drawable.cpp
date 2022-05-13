@@ -32,17 +32,12 @@ namespace wand
 		mParentLayoutCoords = std::make_unique<ParentLayoutCoords>(ParentLayoutCoords({ x, y }));
 	}
 
-	void Drawable::UpdateTransform(bool adoptDimens)
+	void Drawable::UpdateTransform()
 	{
 		if (!mParentTransform)
 			return;
 
 		mTransform->SetLayoutChild(true);
-		if (adoptDimens)
-		{
-			mTransform->SetWidth(mParentTransform->GetWidth());
-			mTransform->SetHeight(mParentTransform->GetHeight());
-		}
 		mTransform->SetLayer(mParentTransform->GetLayer());
 		mTransform->SetScale(mParentTransform->GetScale().x, mParentTransform->GetScale().y);
 		if (mParentLayoutPos)

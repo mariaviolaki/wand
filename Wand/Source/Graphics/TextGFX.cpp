@@ -52,7 +52,7 @@ namespace wand
 	const std::vector<Vertex>& TextGFX::GetVertexData()
 	{
 		mVertices.clear();
-		UpdateTransform(true); // true = text will fit its potential container
+		UpdateTransform();
 
 		// Get font atlas dimensions
 		float atlasWidth = mFont->GetAtlasWidth();
@@ -211,8 +211,7 @@ namespace wand
 			mTransform->GetScale().y * mTransform->GetPos().y + mTransform->GetScale().y * mTransform->GetHeight() };
 
 		FindTextDimens(spaceWidth);
-		// Use the font size as padding on the x-axis
-		mOffset.x = (mTransform->GetWidth() * mTransform->GetScale().x - mTextDimens.x) / 2 + mFontSize;
+		mOffset.x = (mTransform->GetWidth() * mTransform->GetScale().x - mTextDimens.x) / 2;
 		mOffset.y = (mTransform->GetHeight() * mTransform->GetScale().y - mTextDimens.y) / 2;
 		float xPos = mTransform->GetPos().x * mTransform->GetScale().x + mOffset.x;
 		float yPos = mTransform->GetPos().y * mTransform->GetScale().y + mOffset.y + mTextDimens.y;

@@ -10,45 +10,45 @@ namespace wand
     int Input::GetX() const { return mXPos; }
     int Input::GetY() const { return mYPos; }
 
-    bool Input::KeyDown(int key) const
+    bool Input::KeyPressed(int key) const
     {
         for (const auto& event : mEvents)
         {
-            if (event->GetType() == EventType::KeyDown)
-                if (static_cast<KeyDownEvent*>(event)->GetKey() == key)
+            if (event->GetType() == EventType::KeyPress)
+                if (static_cast<KeyPressEvent*>(event)->GetKey() == key)
                     return true;
         }
         return false;
     }
 
-    bool Input::KeyUp(int key) const
+    bool Input::KeyReleased(int key) const
     {
         for (const auto& event : mEvents)
         {
-            if (event->GetType() == EventType::KeyUp)
-                if (static_cast<KeyUpEvent*>(event)->GetKey() == key)
+            if (event->GetType() == EventType::KeyRelease)
+                if (static_cast<KeyReleaseEvent*>(event)->GetKey() == key)
                     return true;
         }
         return false;
     }
 
-    bool Input::MouseButtonDown(int button) const
+    bool Input::MouseButtonPressed(int button) const
     {
         for (const auto& event : mEvents)
         {
-            if (event->GetType() == EventType::MouseButtonDown)
-                if (static_cast<MouseButtonDownEvent*>(event)->GetButton() == button)
+            if (event->GetType() == EventType::MouseButtonPress)
+                if (static_cast<MouseButtonPressEvent*>(event)->GetButton() == button)
                     return true;
         }
         return false;
     }
 
-    bool Input::MouseButtonUp(int button) const
+    bool Input::MouseButtonReleased(int button) const
     {
         for (const auto& event : mEvents)
         {
-            if (event->GetType() == EventType::MouseButtonUp)
-                if (static_cast<MouseButtonUpEvent*>(event)->GetButton() == button)
+            if (event->GetType() == EventType::MouseButtonRelease)
+                if (static_cast<MouseButtonReleaseEvent*>(event)->GetButton() == button)
                     return true;
         }
         return false;

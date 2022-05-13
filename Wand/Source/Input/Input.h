@@ -13,10 +13,10 @@ namespace wand
 		/* Search this frame's events for a specific type of input */
 		int GetX() const;
 		int GetY() const;
-		bool KeyDown(int key) const;
-		bool KeyUp(int key) const;
-		bool MouseButtonDown(int button) const;
-		bool MouseButtonUp(int button) const;
+		bool KeyPressed(int key) const;
+		bool KeyReleased(int key) const;
+		bool MouseButtonPressed(int button) const;
+		bool MouseButtonReleased(int button) const;
 		bool ScrollX() const;
 		bool ScrollY() const;
 		float GetScrollX() const;

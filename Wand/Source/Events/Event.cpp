@@ -17,31 +17,31 @@ namespace wand
 	unsigned int WindowResizeEvent::GetWidth() const { return mWidth; }
 	unsigned int WindowResizeEvent::GetHeight() const { return mHeight; }
 
-	/************************* KEY DOWN EVENT CLASS ***********************************/
-	KeyDownEvent::KeyDownEvent(int key, bool isCapital)
-		: Event(EventCategory::Input, EventType::KeyDown), mKey(key), mIsCapital(isCapital)
+	/************************* KEY PRESS EVENT CLASS **********************************/
+	KeyPressEvent::KeyPressEvent(int key, bool isCapital)
+		: Event(EventCategory::Input, EventType::KeyPress), mKey(key), mIsCapital(isCapital)
 	{}
-	int KeyDownEvent::GetKey() const { return mKey; }
-	bool KeyDownEvent::IsCapital() const { return mIsCapital; }
+	int KeyPressEvent::GetKey() const { return mKey; }
+	bool KeyPressEvent::IsCapital() const { return mIsCapital; }
 
-	/************************* KEY UP EVENT CLASS *************************************/
-	KeyUpEvent::KeyUpEvent(int key, bool isCapital)
-		: Event(EventCategory::Input, EventType::KeyUp), mKey(key), mIsCapital(isCapital)
+	/************************* KEY RELEASE EVENT CLASS ********************************/
+	KeyReleaseEvent::KeyReleaseEvent(int key, bool isCapital)
+		: Event(EventCategory::Input, EventType::KeyRelease), mKey(key), mIsCapital(isCapital)
 	{}
-	int KeyUpEvent::GetKey() const { return mKey; }
-	bool KeyUpEvent::IsCapital() const { return mIsCapital; }
+	int KeyReleaseEvent::GetKey() const { return mKey; }
+	bool KeyReleaseEvent::IsCapital() const { return mIsCapital; }
 
-	/************************* MOUSE BUTTON DOWN EVENT CLASS **************************/
-	MouseButtonDownEvent::MouseButtonDownEvent(int button)
-		: Event(EventCategory::Input, EventType::MouseButtonDown), mButton(button)
+	/************************* MOUSE BUTTON PRESS EVENT CLASS *************************/
+	MouseButtonPressEvent::MouseButtonPressEvent(int button)
+		: Event(EventCategory::Input, EventType::MouseButtonPress), mButton(button)
 	{}
-	int MouseButtonDownEvent::GetButton() const { return mButton; }
+	int MouseButtonPressEvent::GetButton() const { return mButton; }
 
-	/************************* MOUSE BUTTON UP EVENT CLASS ****************************/
-	MouseButtonUpEvent::MouseButtonUpEvent(int button)
-		: Event(EventCategory::Input, EventType::MouseButtonUp), mButton(button)
+	/************************* MOUSE BUTTON RELEASE EVENT CLASS ***********************/
+	MouseButtonReleaseEvent::MouseButtonReleaseEvent(int button)
+		: Event(EventCategory::Input, EventType::MouseButtonRelease), mButton(button)
 	{}
-	int MouseButtonUpEvent::GetButton() const { return mButton; }
+	int MouseButtonReleaseEvent::GetButton() const { return mButton; }
 
 	/************************* MOUSE SCROLL X EVENT CLASS *****************************/
 	MouseScrollXEvent::MouseScrollXEvent(double offset)
