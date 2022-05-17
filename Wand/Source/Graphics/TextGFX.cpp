@@ -114,9 +114,10 @@ namespace wand
 	void TextGFX::CreateVertex(const float posX, const float posY, const float texX, const float texY)
 	{
 		float isText = 1.0f;
+		Vector2 transformedPos = mTransform->GetTransformedPos(posX, posY);
 
 		Vertex v;
-		v.position = { posX, posY, 1.0f };
+		v.position = { transformedPos.x, transformedPos.y, 1.0f };
 		v.color = mColor.GetBase();
 		v.texCoords = { texX, texY };
 		v.texSlot = (float)mTexture->GetTexSlot();

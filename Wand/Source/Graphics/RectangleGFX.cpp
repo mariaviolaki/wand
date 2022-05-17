@@ -4,7 +4,7 @@
 namespace wand
 {
 	RectangleGFX::RectangleGFX(Color color)
-		: mColor(color), mTexture(std::make_shared<Texture>()), 
+		: mColor(color), mTexture(std::make_shared<Texture>()),
 		mVertices()
 	{}
 
@@ -44,9 +44,10 @@ namespace wand
 	{
 		float texSlot = 0.0f; // rectangles have no actual texture
 		float isText = 0.0f;
+		Vector2 transformedPos = mTransform->GetTransformedPos(posX, posY);
 
 		Vertex v;
-		v.position = { posX, posY, 1.0f };
+		v.position = { transformedPos.x, transformedPos.y, 1.0f };
 		v.color = mColor.GetBase();
 		v.texCoords = { texX, texY };
 		v.texSlot = texSlot;

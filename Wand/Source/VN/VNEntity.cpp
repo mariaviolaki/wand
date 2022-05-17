@@ -39,6 +39,8 @@ namespace wand
 	float VNEntity::GetLayer() const { return mCurrentSprite->GetTransform()->GetLayer(); }
 	float VNEntity::GetWidth() const { return mCurrentSprite->GetTransform()->GetWidth(); }
 	float VNEntity::GetHeight() const { return mCurrentSprite->GetTransform()->GetHeight(); }
+	float VNEntity::GetRotation() const { return mCurrentSprite->GetTransform()->GetRotation(); }
+	FlipAxis VNEntity::GetFlipAxis() const { return mCurrentSprite->GetTransform()->GetFlip(); }
 
 	void VNEntity::SetPos(float x, float y)
 	{
@@ -64,6 +66,16 @@ namespace wand
 	{
 		for (auto& sprite : mSprites)
 			sprite->GetTransform()->SetHeight(height);
+	}
+	void VNEntity::SetRotation(float rotation)
+	{
+		for (auto& sprite : mSprites)
+			sprite->GetTransform()->SetRotation(rotation);
+	}
+	void VNEntity::SetFlip(FlipAxis flipAxis)
+	{
+		for (auto& sprite : mSprites)
+			sprite->GetTransform()->SetFlip(flipAxis);
 	}
 
 	bool VNEntity::IsVisible() const { return mCurrentSprite->IsVisible(); }

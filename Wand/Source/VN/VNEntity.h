@@ -26,11 +26,15 @@ namespace wand
 		float GetLayer() const;
 		float GetWidth() const;
 		float GetHeight() const;
+		float GetRotation() const;
+		FlipAxis GetFlipAxis() const;
 		void SetPos(float x, float y);
 		void SetScale(float x, float y);
 		void SetLayer(float layer);
 		void SetWidth(float width);
 		void SetHeight(float height);
+		void SetRotation(float rotation);
+		void SetFlip(FlipAxis flipAxis);
 
 		/******************* UI-RELATED METHODS *************************/
 		/* Visibility methods set if the entity should be rendered or not */

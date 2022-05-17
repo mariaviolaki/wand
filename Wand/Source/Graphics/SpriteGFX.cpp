@@ -14,10 +14,10 @@ namespace wand
 
 	void SpriteGFX::SetTextureSlot(int slot) { mTexture->Bind(slot); }
 
-	unsigned int SpriteGFX::GetItemCount() const {	return 1; }
+	unsigned int SpriteGFX::GetItemCount() const { return 1; }
 
 	// Get the size in bytes for 1 sprite (= 4 vertices)
-	unsigned int SpriteGFX::GetBufferSize() const { return 4  * sizeof(Vertex); }
+	unsigned int SpriteGFX::GetBufferSize() const { return 4 * sizeof(Vertex); }
 
 	// Set the vertex data before submitting to the renderer
 	const std::vector<Vertex>& SpriteGFX::GetVertexData()
@@ -46,9 +46,10 @@ namespace wand
 	{
 		glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f }; // solid white for sprites
 		float isText = 0.0f;
+		Vector2 transformedPos = mTransform->GetTransformedPos(posX, posY);
 
 		Vertex v;
-		v.position = { posX, posY, 1.0f };
+		v.position = { transformedPos.x, transformedPos.y, 1.0f };
 		v.color = color;
 		v.texCoords = { texX, texY };
 		v.texSlot = (float)mTexture->GetTexSlot();
