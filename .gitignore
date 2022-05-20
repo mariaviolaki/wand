@@ -1,9 +1,7 @@
 .vs/
 *.vcxproj.user
-bin/
 bin-int/
 *.exe
 *.pdb
 *.idb
-*.lib
 log.txt

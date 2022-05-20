@@ -9,7 +9,7 @@ namespace wand
 	public:
 		AudioSource(const std::string& filepath, bool looping = false);
 		SoLoud::Wav& GetAudio() const;
-		bool GetLooping() const;
+		bool IsLooping() const;
 		void SetLooping(bool isLooping);
 		int GetHandle() const;
 		void SetHandle(int handle);

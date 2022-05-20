@@ -8,11 +8,11 @@ namespace wand
 		: mFonts()
 	{}
 
-	void FontManager::Add(std::string filepath, std::string name, unsigned int size)
+	void FontManager::Add(std::string filepath, std::string name)
 	{
-		// If the audio file exists, add an audio source to the map
+		// If the file exists, add a default-sized font to the list
 		if (std::filesystem::exists(filepath))
-			mFonts.emplace_back(std::unique_ptr<Font>(new Font(filepath, name, size)));
+			mFonts.emplace_back(std::unique_ptr<Font>(new Font(filepath, name, 20)));
 		else
 			Logger::EngineLog("FontManager", "Font not found in location: " + filepath + "\n");
 	}

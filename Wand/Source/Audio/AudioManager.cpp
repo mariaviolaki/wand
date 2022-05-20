@@ -20,11 +20,12 @@ namespace wand
 		mSoLoud->deinit();
 	}
 
-	void AudioManager::Add(std::string filepath, std::string name)
+	void AudioManager::Add(std::string filepath, std::string name, bool looping)
 	{
 		// If the audio file exists, add an audio source to the map
 		if (std::filesystem::exists(filepath))
-			mAudioSources.emplace(std::make_pair(name, std::unique_ptr<AudioSource>(new AudioSource(filepath))));
+			mAudioSources.emplace(
+				std::make_pair(name, std::unique_ptr<AudioSource>(new AudioSource(filepath, looping))));
 		else
 			Logger::EngineLog("AudioManager", "Audio file not found in location: " + filepath + "\n");
 	}
@@ -34,6 +35,12 @@ namespace wand
 		// Get the correct audio source from the map
 		AudioSource* audioSource = mAudioSources[name].get();
 		if (!audioSource)
+		{
+			Logger::EngineLog("AudioManager", "Cannot play '" + std::string(name) + "'. Audio file not found.\n");
+			return;
+		}
+		// Prevent the user from playing the same audio source if it hasn't stopped
+		if (audioSource->GetHandle() != -1 && audioSource->IsLooping())
 			return;
 
 		// Start the sound in paused state

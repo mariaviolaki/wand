@@ -13,7 +13,7 @@ namespace wand
 
 	SoLoud::Wav& AudioSource::GetAudio() const { return *mAudio.get(); }
 
-	bool AudioSource::GetLooping() const { return mIsLooping; }
+	bool AudioSource::IsLooping() const { return mIsLooping; }
 	void AudioSource::SetLooping(bool isLooping) { mIsLooping = isLooping; }
 
 	int AudioSource::GetHandle() const { return mHandle; }

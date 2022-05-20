@@ -10,7 +10,7 @@ namespace wand
 		FontManager();
 
 		// Save a new font
-		void Add(std::string filepath, std::string name, unsigned int size);
+		void Add(std::string filepath, std::string name);
 		// Use an existing font
 		Font* Get(const std::string& fontName, unsigned int fontSize);
 
