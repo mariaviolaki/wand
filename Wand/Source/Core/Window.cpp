@@ -1,14 +1,15 @@
 #include "WandPCH.h"
 #include "Window.h"
 #include "glad/glad.h"
+#include "stb/stb_image.h"
 #include "Utils/Logger.h"
 
 namespace wand
 {
-	Window::Window()
-		: mWindow(nullptr), mName("Wand Engine"), mBackgroundColor({ 0.1f, 0.1f, 0.1f, 0.1f }),
-		mStartDimens({ 960, 540 }), mAspectRatio({ 16.0f, 9.0f }), mData({ 960, 540, nullptr }),
-		mIsFullscreen(false), mPosition({ 0, 0 })
+	Window::Window(std::string name, unsigned int width, unsigned int height)
+		: mWindow(nullptr), mName(name), mBackgroundColor({ 0.1f, 0.1f, 0.1f, 1.0f }),
+		mStartDimens({ width, height }), mAspectRatio({ 16.0f, 9.0f }), mData({ width, height, nullptr }),
+		mIsFullscreen(false), mPosition({ 0, 0 }), mIcons()
 	{}
 
 	Window::~Window()
@@ -18,11 +19,14 @@ namespace wand
 			glfwDestroyWindow(mWindow);
 			glfwTerminate();
 		}
+		if (mIcons[0].pixels)
+			stbi_image_free(mIcons[0].pixels);
 	}
 
-	void Window::Init(std::function<void(Event* event)> eventCallback)
+	void Window::Init(std::function<void(Event* event)> eventCallback, std::function<void()> updateCallback)
 	{
 		mData.EventCallback = eventCallback;
+		mUpdateCallback = updateCallback;
 
 		if (!InitGLFW()) return;
 		if (!InitWindow()) return;
@@ -39,12 +43,21 @@ namespace wand
 	std::string Window::GetName() const { return mName; }
 	bool Window::IsFullscreen() const { return mIsFullscreen; }
 
-	void Window::SetAspectRatio(unsigned int numer, unsigned int denom) { mAspectRatio = glm::vec2(numer, denom); }
-	void Window::SetStartWidth(unsigned int width) { mStartDimens.x = width; }
-	void Window::SetStartHeight(unsigned int height) { mStartDimens.y = height; }
+	void Window::SetAspectRatio(unsigned int numer, unsigned int denom)
+	{
+		// Update the entities in the app before resizing
+		mUpdateCallback();
+		mAspectRatio = glm::vec2(numer, denom);
+		WindowResizeEvent* event = new WindowResizeEvent(mData.width, mData.height);
+		mData.EventCallback(event);
+	}
 	void Window::SetWidth(unsigned int width) { mData.width = width; }
 	void Window::SetHeight(unsigned int height) { mData.height = height; }
-	void Window::SetName(std::string name) { mName = name; }
+	void Window::SetName(std::string name)
+	{
+		mName = name;
+		glfwSetWindowTitle(mWindow, name.c_str());
+	}
 
 	void Window::SetFullscreen(bool fullscreen)
 	{
@@ -67,6 +80,17 @@ namespace wand
 				mPosition.x, mPosition.y, mStartDimens.x, mStartDimens.y, GLFW_DONT_CARE);
 		}
 		mIsFullscreen = fullscreen;
+	}
+
+	void Window::SetIcon(std::string imagePath)
+	{
+		// Free any previously loaded icons
+		if (mIcons[0].pixels)
+			stbi_image_free(mIcons[0].pixels);
+		// Flip the image vertically before loading
+		stbi_set_flip_vertically_on_load(0);
+		mIcons[0].pixels = stbi_load(imagePath.c_str(), &mIcons[0].width, &mIcons[0].height, 0, 4);
+		glfwSetWindowIcon(mWindow, 1, mIcons);
 	}
 
 	GLFWwindow* Window::GetGLFWWindow() const { return mWindow; }

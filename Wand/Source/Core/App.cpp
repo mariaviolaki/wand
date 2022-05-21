@@ -5,19 +5,23 @@
 
 namespace wand
 {
-	App::App()
-		: mWindow(std::make_shared<Window>()), mCursorManager(std::make_shared<CursorManager>()),
-		mInput(std::make_shared<Input>()), mRenderer(std::make_shared<Renderer>()),
-		mEntityManager(std::make_shared<EntityManager>()), mEventManager(std::make_shared<EventManager>()),
-		mStateManager(std::make_shared<StateManager>()), mInputManager(std::make_shared<InputManager>()),
-		mFontManager(std::make_shared<FontManager>()), mAudioManager(std::make_shared<AudioManager>()),
-		mFileManager(std::make_shared<FileManager>())
+	App::App(std::string name, unsigned int width, unsigned int height)
+		: mWindow(std::make_shared<Window>(name, width, height)),
+		mCursorManager(std::make_shared<CursorManager>()), mInput(std::make_shared<Input>()),
+		mRenderer(std::make_shared<Renderer>()), mEntityManager(std::make_shared<EntityManager>()),
+		mEventManager(std::make_shared<EventManager>()), mStateManager(std::make_shared<StateManager>()),
+		mInputManager(std::make_shared<InputManager>()), mFontManager(std::make_shared<FontManager>()),
+		mAudioManager(std::make_shared<AudioManager>()), mFileManager(std::make_shared<FileManager>())
 	{
 		// Initialize all subsystems
 		Logger::Init(mFileManager->GetRootFolder());
 		Random::Init();
 
-		mWindow->Init([this](Event* event) { this->OnEvent(event); });
+		mWindow->Init
+		(
+			[this](Event* event) { this->OnEvent(event); },
+			[this]() { this->Update(); }
+		);
 		mCursorManager->Init(mWindow->GetGLFWWindow());
 		mRenderer->Init(mWindow->GetWidth(), mWindow->GetHeight(), mFileManager->GetShaderPath());
 		mEntityManager->Init(mFontManager.get());

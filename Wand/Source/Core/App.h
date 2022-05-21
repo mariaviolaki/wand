@@ -18,7 +18,7 @@ namespace wand
 	class App
 	{
 	public:
-		App();
+		App(std::string name = "Wand Game", unsigned int width = 960, unsigned int height = 540);
 		~App();
 
 		void Clear() const;
@@ -36,7 +36,7 @@ namespace wand
 		FontManager* GetFontManager() const;
 		AudioManager* GetAudioManager() const;
 		FileManager* GetFileManager() const;
-		
+
 	private:
 		// Use shared pointers for each subsystem so that app can be copied
 		std::shared_ptr<Window> mWindow;

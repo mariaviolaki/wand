@@ -80,7 +80,11 @@ namespace wand
 
 	bool VNEntity::IsVisible() const { return mCurrentSprite->IsVisible(); }
 	void VNEntity::Show() { mCurrentSprite->Show(); }
-	void VNEntity::Hide() { mCurrentSprite->Hide(); }
+	void VNEntity::Hide()
+	{
+		for (auto& sprite : mSprites)
+			sprite->Hide();
+	}
 	bool VNEntity::IsEnabled() const { return mCurrentSprite->IsEnabled(); }
 	void VNEntity::Enable()
 	{

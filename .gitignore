@@ -1,6 +1,7 @@
 .vs/
 *.vcxproj.user
 bin-int/
+Game/Saves/
 *.exe
 *.pdb
 *.idb

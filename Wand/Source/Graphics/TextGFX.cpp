@@ -57,14 +57,22 @@ namespace wand
 		// Get font atlas dimensions
 		float atlasWidth = mFont->GetAtlasWidth();
 		float atlasHeight = mFont->GetAtlasHeight();
-		// Set the SPACE width to be equal to the width of a dot '.'
-		float spaceWidth = mFont->GetGlyphs().at('.')->width;
+		// Set the SPACE width to be equal to the width of a capital I 'I'
+		float spaceWidth = mFont->GetGlyphs().at('I')->width;
 		// Find the text's starting position
 		glm::vec2 pos = GetTextStartPos(spaceWidth);
 		pos.y -= mFontSize;
 
 		for (int i = 0; i < mText.size(); i++)
 		{
+			if (mText[i] == '\n')
+			{
+				// Start rendering glyphs on the next line
+				pos.x = mTransform->GetScale().x * mTransform->GetPos().x + mOffset.x - spaceWidth;
+				pos.y -= mFontSize;
+				continue;
+			}
+
 			// Find the correct ASCII glyph for the current character
 			int glyphIndex = (int)mText[i];
 			auto glyph = mFont->GetGlyphs().at(glyphIndex);
@@ -128,7 +136,7 @@ namespace wand
 	void TextGFX::UpdateGlyphPos(const int index, float& x, float& y, const float glyphAdvance) const
 	{
 		x += glyphAdvance;
-		float spaceWidth = mFont->GetGlyphs().at('.')->advanceX;
+		float spaceWidth = mFont->GetGlyphs().at('I')->advanceX;
 		// If the next character is a space
 		if (std::isspace(mText[index + 1]))
 		{
